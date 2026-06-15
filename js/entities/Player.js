@@ -180,6 +180,11 @@ export class Player {
     }
 
     updateCooldowns() {
+        if (this.godMode) {
+            this.shiftCooldown = 0;
+            this.spaceCooldown = 0;
+            return;
+        }
         if (this.shiftCooldown > 0) this.shiftCooldown--;
         if (this.spaceCooldown > 0) this.spaceCooldown--;
     }
@@ -248,7 +253,7 @@ export class Player {
     onDamage(gameEngine) {
         gameEngine.playerDies();
     }
-
+    
     updateAbilityCooldowns() {}
 
     respawn() {

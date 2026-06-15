@@ -60,6 +60,7 @@ export class InputManager {
                     return;
                 }
             }
+            if (e.target.closest('#adminPanel')) return;
             // Проверка звёзд и иконок способностей (классы)
             if (e.target.matches('.ability-stars span, .ability-icon')) {
                 return;
@@ -67,6 +68,7 @@ export class InputManager {
 
             // Проверка миникарты
             const canvas = document.getElementById('gameCanvas');
+            if (e.target.closest('#adminPanel')) return;
             if (canvas) {
                 const rect = canvas.getBoundingClientRect();
                 const clickX = e.clientX - rect.left;

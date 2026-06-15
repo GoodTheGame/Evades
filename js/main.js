@@ -13,6 +13,24 @@ const ctx = canvas.getContext('2d');
 canvas.width = CONFIG.CANVAS.WIDTH;
 canvas.height = CONFIG.CANVAS.HEIGHT;
 
+// В начале main.js после определения CONFIG
+CONFIG.HEROES.forEach(hero => {
+    if (localStorage.getItem(`hero_${hero.id}_unlocked`) === 'true') {
+        hero.locked = false;
+    }
+});
+
+// При создании карточек в меню
+CONFIG.HEROES.forEach(hero => {
+    if (hero.locked) {
+        // Карточка заблокированного героя – показываем замок
+        card.innerHTML = `<div class="hero-icon">🔒</div><div class="hero-name">???</div>`;
+        card.classList.add('locked');
+    } else {
+        // Обычная карточка
+    }
+});
+
 // Создание UI
 function createUI() {
     const ui = document.getElementById('uiLayer');
@@ -156,8 +174,8 @@ function startGame(heroId) {
     document.getElementById('upgradeRegen').addEventListener('click', () => game.upgradeStat('regen'));
     
     // Закрываем панель настроек при входе в игру
-    const settingsPanel = document.getElementById('settingsPanel');
-    if (settingsPanel) settingsPanel.style.display = 'none';
+const settingsPanel = document.getElementById('settingsPanel');
+if (settingsPanel) settingsPanel.style.display = 'none';
 
     game.start();
 }

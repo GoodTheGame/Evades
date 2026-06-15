@@ -1,7 +1,6 @@
 // js/engine/GameEngine.js
 import { InputManager } from './InputManager.js';
 import { Renderer } from './Renderer.js';
-import { CentralCoreUniverse } from '../arena/CentralCoreUniverse.js';
 import { HeroFactory } from '../heroes/HeroFactory.js';
 import { Camera } from '../Camera.js';
 import { MiniMap } from '../MiniMap.js';
@@ -9,9 +8,11 @@ import CONFIG from '../config.js';
 import { Portal } from '../Portal.js';
 import { UIManager } from '../ui/UIManager.js';
 import { HubArena } from '../arena/HubArena.js';
-
+import { UniverseUniversal } from '../arena/UniverseUniversal.js';
+import { Admin } from '../admin.js';
 export class GameEngine {
     constructor(ctx, width, height) {
+        this.admin = new Admin(this);
         this.input = new InputManager();
         this.renderer = new Renderer(ctx, width, height);
         this.canvasWidth = width;
@@ -36,8 +37,8 @@ export class GameEngine {
         this.uiManager = new UIManager();
         this.miniMap = new MiniMap();
 
-        this.currentUniverse = new HubArena();
-        this.areaNumber = 0;
+        this.areaNumber = 1;                                          // сначала задаём номер
+        this.currentUniverse = new UniverseUniversal(this.areaNumber); // потом создаём арену
         this.completedAreas = new Set();
 
         this.enemiesKilled = 0;
@@ -233,6 +234,7 @@ export class GameEngine {
     // ===================== КОЛЛИЗИИ =====================
     checkCollisions() {
         if (this.player.downed || this.player.invulnerable) return;
+        if (this.player.godMode) return;                // <-- бессмертие
         // Используем универсальный флаг, который включает и сферу игнорирования
         if (this.gameState.isPlayerInSafeZone) return;
 
@@ -241,8 +243,12 @@ export class GameEngine {
             if (dist < this.player.radius + enemy.radius) {
                 if (typeof this.player.onDamage === 'function') {
                     this.player.onDamage(this);
-                } else {
-                    this.playerDies();
+                } if (!this.player.godMode) {
+                    if (typeof this.player.onDamage === 'function') {
+                        this.player.onDamage(this);
+                    } else {
+                        this.playerDies();
+                    }
                 }
                 break;
             }
@@ -317,6 +323,8 @@ export class GameEngine {
     loadUniverse(universeName) {
         if (universeName === 'Hub') {
             this.currentUniverse = new HubArena();
+        } else if (universeName === 'Universal') {
+            this.currentUniverse = new UniverseUniversal(this.areaNumber);
         } else if (universeName === 'CentralCore') {
             this.currentUniverse = new CentralCoreUniverse();
         }
@@ -337,37 +345,79 @@ export class GameEngine {
     }
 
     nextArea() {
-        this.areaNumber++;
-        this.enemiesKilled = 0;
-        this.resetAreaState();
-        this.player.x = CONFIG.PORTAL.WIDTH + this.player.radius;
-        this.player.y = this.currentUniverse.height / 2;
-        this.player.teleportFreeze = 15;
+    this.areaNumber++;
+    this.enemiesKilled = 0;
+    this.resetAreaState();
 
-        if (!this.completedAreas.has(this.areaNumber - 1)) {
-            const areaXP = Math.floor(CONFIG.PROGRESSION.AREA_COMPLETION_XP *
-                Math.pow(CONFIG.PROGRESSION.AREA_XP_MULTIPLIER, this.areaNumber - 2));
-            this.player.addXP(areaXP);
-            this.completedAreas.add(this.areaNumber - 1);
-        }
-        this.currentUniverse.nextWave();
+    // --- Разблокировка героев ---
+    if (this.areaNumber === 41 && !localStorage.getItem('hero_frozen_unlocked')) {
+        this.unlockHero('frozen');
+        alert('Разблокирован: Frozen!');
+    } else if (this.areaNumber === 81 && !localStorage.getItem('hero_pulsar_unlocked')) {
+        this.unlockHero('pulsar');
+        alert('Разблокирован: Pulsar!');
     }
 
-    previousArea() {
-        if (this.areaNumber <= 1) return;
-        this.areaNumber--;
-        this.resetAreaState();
-        this.player.x = this.currentUniverse.width - CONFIG.PORTAL.WIDTH - this.player.radius;
-        this.player.y = this.currentUniverse.height / 2;
-        this.player.teleportFreeze = 15;
-        this.currentUniverse.nextWave();
+    // --- Создаём новую вселенную ---
+    this.currentUniverse = new UniverseUniversal(this.areaNumber);
+    this.gameState.width = this.currentUniverse.width;
+    this.gameState.height = this.currentUniverse.height;
+
+    // Позиция игрока у левой safe-зоны
+    this.player.x = CONFIG.PORTAL.WIDTH + this.player.radius;
+    this.player.y = this.currentUniverse.height / 2;
+    this.player.teleportFreeze = 15;
+
+    // Награда за завершение предыдущей области (кроме золотой)
+    if (!this.completedAreas.has(this.areaNumber - 1) && this.areaNumber !== 41 && this.areaNumber !== 81) {
+        const areaXP = Math.floor(CONFIG.PROGRESSION.AREA_COMPLETION_XP *
+            Math.pow(CONFIG.PROGRESSION.AREA_XP_MULTIPLIER, this.areaNumber - 2));
+        this.player.addXP(areaXP);
+        this.completedAreas.add(this.areaNumber - 1);
     }
+
+    // --- Спавним сразу 200 орбов ---
+    if (this.currentUniverse.spawnInitialXPOrbs) {
+        this.currentUniverse.spawnInitialXPOrbs(this.currentUniverse.maxOrbs || 200, this.gameState);
+    }
+
+    this.currentUniverse.nextWave();
+}
+
+previousArea() {
+    if (this.areaNumber <= 1) return;
+    this.areaNumber--;
+    this.resetAreaState();
+
+    this.currentUniverse = new UniverseUniversal(this.areaNumber);
+    this.gameState.width = this.currentUniverse.width;
+    this.gameState.height = this.currentUniverse.height;
+
+    this.player.x = this.currentUniverse.width - CONFIG.PORTAL.WIDTH - this.player.radius;
+    this.player.y = this.currentUniverse.height / 2;
+    this.player.teleportFreeze = 15;
+
+    // --- Спавним сразу 200 орбов ---
+    if (this.currentUniverse.spawnInitialXPOrbs) {
+        this.currentUniverse.spawnInitialXPOrbs(this.currentUniverse.maxOrbs || 200, this.gameState);
+    }
+
+    this.currentUniverse.nextWave();
+}
 
     resetAreaState() {
         this.gameState.enemies = [];
         this.gameState.xpOrbs = [];
     }
 
+    unlockHero(heroId) {
+    const heroConfig = CONFIG.HEROES.find(h => h.id === heroId);
+    if (heroConfig) {
+        heroConfig.locked = false;
+        // Сохраняем в localStorage, чтобы не сбрасывалось после обновления
+        localStorage.setItem(`hero_${heroId}_unlocked`, 'true');
+    }
+}
     // ===================== ПРОКАЧКА =====================
     upgradeStat(stat) {
         if (this.player.upgradeStat(stat))

@@ -571,3 +571,126 @@ body {
     85%  { color: #8800ff; }
     100% { color: #ff0000; }
 }
+
+/* Админ-панель – полукруглое кольцо с язычком */
+#adminPanel {
+    position: absolute;
+    right: -240px;            /* спрятано за экраном (ширина 300, видимая часть 60px язычка) */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 300px;
+    z-index: 500;
+    pointer-events: auto;
+    transition: right 0.3s ease;
+    clip-path: circle(50% at 100% 50%);   /* показываем только левую половину круга */
+}
+
+#adminPanel.open {
+    right: 0;
+}
+
+/* Внешнее кольцо с узором */
+.admin-ring-bg {
+    position: absolute;
+    left: 170px;                /* центр = 300, внешний радиус = 130 -> left = 300-130=170 */
+    top: 20px;                  /* 150 - 130 = 20 */
+    width: 260px;               /* 2*130 */
+    height: 260px;
+    border-radius: 50%;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            rgba(0, 217, 255, 0.12) 0px,
+            rgba(0, 217, 255, 0.12) 8px,
+            transparent 8px,
+            transparent 16px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(0, 217, 255, 0.12) 0px,
+            rgba(0, 217, 255, 0.12) 8px,
+            transparent 8px,
+            transparent 16px
+        );
+    background-color: rgba(0, 10, 25, 0.5);  /* полупрозрачный фон */
+    z-index: 0;
+}
+
+/* Внутренняя пустота – полностью прозрачная */
+.admin-ring-bg::after {
+    content: '';
+    position: absolute;
+    left: 30px;                 /* (260 - 200)/2 = 30 */
+    top: 30px;
+    width: 200px;               /* внутренний диаметр 200 */
+    height: 200px;
+    border-radius: 50%;
+    background: transparent;    /* теперь видна игра */
+    box-shadow: none;           /* убираем рамку */
+}
+
+/* Контейнер для кнопок */
+.admin-ring-inner {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+}
+
+/* Кнопки – увеличенные и центрированные */
+.admin-btn {
+    position: absolute;
+    width: 70px;
+    height: 42px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+    line-height: 42px;
+    text-shadow: 0 0 8px rgba(0, 217, 255, 0.8);
+    transition: color 0.2s, text-shadow 0.2s;
+    /* Ограничиваем выход за ободок */
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.admin-btn:hover {
+    color: #FFD700;
+    text-shadow: 0 0 14px #FFD700;
+}
+
+.god-btn {
+    color: #FFD700;
+    text-shadow: 0 0 10px #FFD700;
+}
+
+/* Язычок – кнопка открытия/закрытия */
+.admin-tab {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 217, 255, 0.2);
+    border: 2px solid #00d9ff;
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    color: #00d9ff;
+    font-size: 28px;
+    text-align: center;
+    line-height: 56px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 2;
+    transition: background 0.2s;
+    pointer-events: auto;
+}
+
+.admin-tab:hover {
+    background: rgba(0, 217, 255, 0.4);
+}

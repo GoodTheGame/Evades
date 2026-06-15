@@ -137,6 +137,7 @@ export class Frozen extends Player {
     }
 
     onDamage(gameEngine) {
+        if (this.godMode) return;
         if (this.shieldHealth > 0) {
             this.shieldHealth--;
             if (this.shieldHealth <= 0) {

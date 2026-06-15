@@ -31,10 +31,8 @@ export class Mirage extends Player {
         this.maxInvulnTime = invulnDurations[this.ability2Level - 1] || 2;
     }
 
-    // updateCooldowns больше не нужен – базовый Player сам уменьшает shiftCooldown/spaceCooldown
-
     update(input, gameState, arena = null) {
-        super.update(input, gameState, arena);   // здесь обновляются _lastGameState и кулдауны
+        super.update(input, gameState, arena);   // обновляет _lastGameState, кулдауны, движение
 
         // --- Обновление снаряда (всегда, даже если игрок мёртв) ---
         if (this.projectile) {
@@ -118,7 +116,7 @@ export class Mirage extends Player {
         if (this.downed) return;
         if (this.abilitiesBlocked) return;
 
-        // Способность 1 (Shift)
+        // Способность 1 (Shift) – телепорт в ПОСЛЕДНЮЮ safe-зону
         if (input.isDown('ShiftLeft') || input.isDown('ShiftRight')) {
             if (this.shiftCooldown <= 0 && this.energy >= CONFIG.ABILITIES.SHIFT_COST) {
                 this.useAbility1();
@@ -128,7 +126,7 @@ export class Mirage extends Player {
             }
         }
 
-        // Способность 2 (Space)
+        // Способность 2 (Space) – выстрел снарядом
         if (input.isDown('Space')) {
             if (this.spaceCooldown <= 0 && this.energy >= CONFIG.ABILITIES.SPACE_COST && !this.projectile) {
                 this.fireProjectile(input);
@@ -165,6 +163,7 @@ export class Mirage extends Player {
         };
     }
 
+    // Телепорт в последнюю safe‑зону (используем lastSafeZone)
     useAbility1() {
         if (this.shiftCooldown > 0 || this.energy < CONFIG.ABILITIES.SHIFT_COST) return;
         this.x = this.lastSafeZone.x;
@@ -172,6 +171,14 @@ export class Mirage extends Player {
         this.teleportFreeze = 15;
         this.energy -= CONFIG.ABILITIES.SHIFT_COST;
         this.downed = false;
+    }
+
+    // Авто‑респавн тоже должен быть в последнюю safe‑зону
+    respawn() {
+        super.respawn(); // восстанавливает состояние, но перемещает в стандартную точку
+        // Перемещаемся в последнюю safe‑зону
+        this.x = this.lastSafeZone.x;
+        this.y = this.lastSafeZone.y;
     }
 
     onAbility2Click() {
