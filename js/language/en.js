@@ -11,6 +11,8 @@ const LOCALE = {
     sp: 'SP',
     shift: 'Shift',
     space: 'Space',
+    reset: 'RES',
+    god: 'GOD',
 
     // Герои
     hero_mirage_name: 'Mirage',

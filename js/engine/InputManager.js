@@ -44,55 +44,53 @@ export class InputManager {
     }
 
     onMouseDown(e) {
-        if (e.button === 0) {
-            // Список ID элементов UI, по которым клик не должен переключать мышь
-            const uiIds = [
-                'upgradeSpeed', 'upgradeEnergy', 'upgradeRegen',
-                'statsPanel', 'areaInfo', 'levelInfo',
-                'energyBox', 'regenBox',
-                'settingsContainer',
-                'ability1Icon', 'ability2Icon'
-            ];
-            // Проверяем, не кликнули ли по одному из этих элементов (или его потомку)
-            for (const id of uiIds) {
-                const el = document.getElementById(id);
-                if (el && el.contains(e.target)) {
-                    return;
-                }
-            }
-            if (e.target.closest('#adminPanel')) return;
-            // Проверка звёзд и иконок способностей (классы)
-            if (e.target.matches('.ability-stars span, .ability-icon')) {
+    if (e.button === 0) {
+        // Список ID элементов UI, по которым клик не должен переключать мышь
+        const uiIds = [
+            'upgradeSpeed', 'upgradeEnergy', 'upgradeRegen',
+            'statsPanel', 'areaInfo', 'levelInfo',
+            'energyBox', 'regenBox',
+            'settingsContainer',
+            'ability1Icon', 'ability2Icon'
+        ];
+        for (const id of uiIds) {
+            const el = document.getElementById(id);
+            if (el && el.contains(e.target)) {
                 return;
             }
+        }
+        // Звёзды и иконки способностей
+        if (e.target.matches('.ability-stars span, .ability-icon')) {
+            return;
+        }
+        // Админ-панель и язычок
+        if (e.target.closest('#adminPanel') || e.target.closest('#adminTab')) return;
 
-            // Проверка миникарты
-            const canvas = document.getElementById('gameCanvas');
-            if (e.target.closest('#adminPanel')) return;
-            if (canvas) {
-                const rect = canvas.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const clickY = e.clientY - rect.top;
+        // Миникарта
+        const canvas = document.getElementById('gameCanvas');
+        if (canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
 
-                const mmX = CONFIG.MINIMAP.PADDING;
-                const mmY = CONFIG.MINIMAP.PADDING;
-                const mmWidth = CONFIG.MINIMAP.WIDTH;
-                const mmHeight = CONFIG.MINIMAP.HEIGHT;
+            const mmX = CONFIG.MINIMAP.PADDING;
+            const mmY = CONFIG.MINIMAP.PADDING;
+            const mmWidth = CONFIG.MINIMAP.WIDTH;
+            const mmHeight = CONFIG.MINIMAP.HEIGHT;
 
-                if (clickX >= mmX && clickX <= mmX + mmWidth &&
-                    clickY >= mmY && clickY <= mmY + mmHeight) {
-                    return;
-                }
-            }
-
-            // Переключаем режим мыши
-            this.mouseActive = !this.mouseActive;
-            if (this.mouseActive) {
-                this.keyboardActive = false;
-                this.lastMode = 'mouse';
+            if (clickX >= mmX && clickX <= mmX + mmWidth &&
+                clickY >= mmY && clickY <= mmY + mmHeight) {
+                return;
             }
         }
+
+        this.mouseActive = !this.mouseActive;
+        if (this.mouseActive) {
+            this.keyboardActive = false;
+            this.lastMode = 'mouse';
+        }
     }
+}
 
     isMovementKeyPressed() {
         return this.keys['KeyW'] || this.keys['KeyA'] || this.keys['KeyS'] || this.keys['KeyD'] ||

@@ -10,6 +10,8 @@ const LOCALE = {
     sp: 'ОП',
     shift: 'Shift',
     space: 'Space',
+    reset: 'СБРОС',
+    god: 'БОГ',
 
     hero_mirage_name: 'Мираж',
     hero_mirage_desc: 'Телепорт в сейв-зону, выстрел снарядом с телепортацией при попадании.',

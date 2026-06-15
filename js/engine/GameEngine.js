@@ -215,6 +215,9 @@ export class GameEngine {
             this.uiManager.update(this.player, this.currentUniverse, this.areaNumber);
             this.uiUpdateTimer = 0;
         }
+        if (this.admin && this.admin.enabled) {
+            this.admin.update();
+        }
     }
 
     spawnXpIfNeeded() {

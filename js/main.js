@@ -106,12 +106,18 @@ languageSelect.value = getCurrentLanguage();
 languageSelect.addEventListener('change', () => {
     const lang = languageSelect.value;
     const changed = setLanguage(lang);
-    if (changed && window.game && window.game.uiManager) {
-        window.game.uiManager.update(
-            window.game.player,
-            window.game.currentUniverse,
-            window.game.areaNumber
-        );
+    if (changed) {
+        if (window.game && window.game.uiManager) {
+            window.game.uiManager.update(
+                window.game.player,
+                window.game.currentUniverse,
+                window.game.areaNumber
+            );
+        }
+        // Обновить кнопки админ-панели
+        if (window.game && window.game.admin) {
+            window.game.admin.refreshLabels();
+        }
     }
 });
 
