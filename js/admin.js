@@ -24,14 +24,15 @@ export class Admin {
         this.panelHeight = 420;
         this.centerX = this.panelWidth / 2;   // 210
         this.centerY = this.panelHeight / 2;  // 210
-        this.outerRadius = 200;   // было 180
-        this.innerRadius = 110;   // без изменений
-        this.buttonRadius = 150;  // было 150
+        this.outerRadius = 200;
+        this.innerRadius = 110;
+        this.buttonRadius = 150;
 
-        // 9 функциональных кнопок
+        // Функциональные кнопки (9 штук)
         this.actions = [
             'areaUp1', 'areaUp5', 'areaUp10', 'resetArea',
-            'toggleGod',
+            'toggleGod',               // ← теперь здесь
+            'addExperience',
             'areaDown1', 'areaDown5', 'areaDown10'
         ];
 
@@ -101,7 +102,8 @@ export class Admin {
             case 'areaDown1': return `-1 ${loc.level || 'Lvl'}`;
             case 'areaDown5': return `-5 ${loc.level || 'Lvl'}`;
             case 'areaDown10': return `-10 ${loc.level || 'Lvl'}`;
-            case 'resetArea': return 'RES';
+            case 'resetArea': return loc.reset || 'RES';
+            case 'addExperience': return loc.exp || 'EXP';
             case 'toggleGod': return loc.god || 'GOD';
             default: return '';
         }
@@ -181,14 +183,24 @@ export class Admin {
             case 'areaDown5': this._changeArea(-5); break;
             case 'areaDown10': this._changeArea(-10); break;
             case 'resetArea': ge.loadUniverse('Universal'); break;
+            case 'addExperience': this._addExperience(); break;
             case 'toggleGod': this._toggleGodMode(); break;
         }
     }
 
     _changeArea(delta) {
-        const ge = this.gameEngine;
-        ge.areaNumber = Math.max(1, ge.areaNumber + delta);
-        ge.loadUniverse('Universal');
+    const ge = this.gameEngine;
+    ge.areaNumber = Math.max(1, ge.areaNumber + delta);
+    ge.loadUniverse('Universal');
+    // Мгновенно обновляем UI, чтобы название арены и другие данные сразу изменились
+    ge.uiManager.update(ge.player, ge.currentUniverse, ge.areaNumber);
+}
+
+    _addExperience() {
+        const player = this.gameEngine.player;
+        // Даём 200 000 опыта – этого точно хватит на 5+ уровней в любом диапазоне
+        player.addXP(200000);
+        this.gameEngine.uiManager.update(player, this.gameEngine.currentUniverse, this.gameEngine.areaNumber);
     }
 
     _toggleGodMode(forceOff = false) {

@@ -1,7 +1,8 @@
 // js/ui/UIManager.js
 import CONFIG from '../config.js';
 import { getLocale } from '../localization.js';
-import { makeRainbow, removeRainbow } from '../utils.js';
+import { makeWaveText, removeWaveText } from '../utils.js';
+
 export class UIManager {
     constructor() {
         this.levelCircle = document.getElementById('levelCircle');
@@ -20,6 +21,9 @@ export class UIManager {
         this.energyTooltip = document.getElementById('energyTooltip');
 
         this._starClickCallback = null;
+        
+        // Запоминаем последнее отображённое имя арены
+        this._lastDisplayName = null;
     }
 
     setStarClickCallback(callback) {
@@ -44,18 +48,26 @@ export class UIManager {
         if (this.speedValue) this.speedValue.textContent = player.speed.toFixed(1);
         if (this.energyValue) this.energyValue.textContent = Math.floor(player.maxEnergy);
         if (this.regenValue) this.regenValue.textContent = player.regen.toFixed(1);
-        if (this.areaName) {
-    removeRainbow(this.areaName); // сбрасываем, если был
-    if (universe.displayName) {
-            this.areaName.textContent = universe.displayName;
-            if (universe.displayName === 'Песочница') {
-                makeRainbow(this.areaName);
-            }
-        } else {
-            this.areaName.textContent = `${loc.area} ${areaNumber}`;
-        }
-    }
 
+        // ---------- НАЗВАНИЕ АРЕНЫ (работает надёжно) ----------
+        if (this.areaName) {
+            const newName = universe.displayName || `${loc.area} ${areaNumber}`;
+
+            // Обновляем DOM только если имя действительно изменилось
+            if (this._lastDisplayName !== newName) {
+                this._lastDisplayName = newName;
+
+                // Сначала ставим чистый текст
+                this.areaName.textContent = newName;
+
+                // Потом применяем или убираем эффект волны
+                if (universe.displayName) {
+                    makeWaveText(this.areaName, '#400080', '#ff66ff', 1,5);
+                } else {
+                    removeWaveText(this.areaName);
+                }
+            }
+        }
 
         this.updateAbilityUI('ability1', player.shiftCooldown, player.maxShiftCooldown, player.ability1Level, player.statPoints);
         this.updateAbilityUI('ability2', player.spaceCooldown, player.maxSpaceCooldown, player.ability2Level, player.statPoints);
@@ -89,6 +101,7 @@ export class UIManager {
         this.updateEnergyBar(player);
         this.updateUpgradeButtons(player);
     }
+
 
     updateAbilityUI(abilityName, cooldown, maxCooldown, level, statPoints) {
         const icon = document.getElementById(`${abilityName}Icon`);

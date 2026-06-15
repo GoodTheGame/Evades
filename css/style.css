@@ -714,3 +714,32 @@ body {
 #adminPanel, #adminTab {
     pointer-events: auto;
 }
+/* Космический переливающийся текст (по буквам) */
+.cosmic-char {
+    animation: cosmicShift 4s infinite alternate ease-in-out;
+    display: inline-block; /* чтобы работала задержка */
+}
+
+@keyframes cosmicShift {
+    0% { color: #00d9ff; text-shadow: 0 0 8px #00d9ff; }
+    50% { color: #6a0dad; text-shadow: 0 0 8px #6a0dad; }
+    100% { color: #800080; text-shadow: 0 0 8px #800080; }
+}
+/* Диодная волна – каждая буква отдельно */
+.wave-char {
+    display: inline-block;
+    animation: wavePulse infinite alternate ease-in-out;
+    color: var(--wave-base, #400080);
+    text-shadow: 0 0 6px var(--wave-base);
+}
+
+@keyframes wavePulse {
+    0% {
+        color: var(--wave-base, #400080);
+        text-shadow: 0 0 6px var(--wave-base);
+    }
+    100% {
+        color: var(--wave-bright, #ff66ff);
+        text-shadow: 0 0 12px var(--wave-bright);
+    }
+}

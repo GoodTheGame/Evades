@@ -1,41 +1,49 @@
 // js/utils.js
 
-/**
- * Делает текст элемента переливающимся радугой.
- * @param {HTMLElement} element
- */
 export function makeRainbow(element) {
     element.classList.add('rainbow-text');
 }
 
-/**
- * Убирает радужный эффект с элемента.
- * @param {HTMLElement} element
- */
 export function removeRainbow(element) {
     element.classList.remove('rainbow-text');
 }
 
-/**
- * Делает границу элемента радужной (вращающийся градиент).
- * @param {HTMLElement} element
- */
-export function makeRainbowBorder(element) {
-    element.style.borderImage = 'conic-gradient(red, yellow, lime, cyan, blue, magenta, red) 1';
-    element.style.borderWidth = '2px';
-    element.style.borderStyle = 'solid';
-    element.style.animation = 'rainbowSpin 4s linear infinite';
+export function makeWaveText(element, baseColor = '#400080', brightColor = '#ff66ff', speed = 3) {
+    const text = element.textContent;
+    if (element.dataset.originalText === text && element.querySelector('.wave-char')) {
+        return;
+    }
+    element.dataset.originalText = text;
+    element.innerHTML = '';
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.classList.add('wave-char');
+        span.style.animationDelay = `${(i / text.length) * speed}s`;
+        span.style.animationDuration = `${speed}s`;
+        span.style.setProperty('--wave-base', baseColor);
+        span.style.setProperty('--wave-bright', brightColor);
+
+        // Гарантируем, что пробелы не схлопнутся
+        if (char === ' ') {
+            span.style.whiteSpace = 'pre';
+        }
+
+        element.appendChild(span);
+    }
 }
 
-// Добавим keyframes в head, если ещё нет
-if (!document.getElementById('rainbow-keyframes')) {
-    const style = document.createElement('style');
-    style.id = 'rainbow-keyframes';
-    style.textContent = `
-        @keyframes rainbowSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+export function removeWaveText(element) {
+    // Восстанавливаем исходный текст, только если он отличается от сохранённого
+    if (element.dataset.originalText) {
+        if (element.textContent !== element.dataset.originalText) {
+            element.textContent = element.dataset.originalText;
         }
-    `;
-    document.head.appendChild(style);
+        delete element.dataset.originalText;
+    }
+    // Удаляем все спаны волны
+    const spans = element.querySelectorAll('.wave-char');
+    spans.forEach(span => span.remove());
 }

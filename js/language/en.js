@@ -13,6 +13,7 @@ const LOCALE = {
     space: 'Space',
     reset: 'RES',
     god: 'GOD',
+    exp: 'EXP', 
 
     // Герои
     hero_mirage_name: 'Mirage',

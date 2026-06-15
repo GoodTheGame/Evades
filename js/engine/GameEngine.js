@@ -345,6 +345,10 @@ export class GameEngine {
         this.areaNumber = this.currentUniverse.areaNumber || 0;
         this.completedAreas.clear();
         this.currentUniverse.resetWaves();
+        // Мгновенно заполняем орбы до лимита (200)
+        if (this.currentUniverse.spawnInitialXPOrbs) {
+            this.currentUniverse.spawnInitialXPOrbs(this.currentUniverse.maxOrbs || 200, this.gameState);
+        }
     }
 
     nextArea() {

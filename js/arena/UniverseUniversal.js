@@ -26,8 +26,7 @@ export class UniverseUniversal extends Arena {
             end: this.width
         };
 
-        this.displayName = `Универсальная Вселенная ${this.areaNumber}`;
-
+this.displayName = `Универсальная Вселенная ${this.areaNumber}`;
         // ---------- Инициализация ----------
         this.enemyTypes = [];
         this.enemyConfigs = {};
