@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00d9ff;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+        
+        .version-info {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .release {
+            background: rgba(0, 80, 150, 0.2);
+            border: 2px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        
+        .release-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+        }
+        
+        .release-title {
+            font-size: 24px;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+        
+        .release-date {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .change-group {
+            margin-bottom: 20px;
+        }
+        
+        .change-group-title {
+            font-size: 18px;
+            color: #FFD700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .change-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .change-list li {
+            padding: 8px 0;
+            color: #ddd;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .change-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+            font-size: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+        }
+        
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Changelog</h1>
+        <div class="version-info">История изменений проекта</div>
+        
+        <div id="changelog-content"></div>
+        
+        <a href="index.html" class="back-button">← Вернуться в главное меню</a>
+    </div>
+
+    <script type="module">
+        import { VERSION } from './js/version.js';
+        
+        function renderChangelog() {
+            const container = document.getElementById('changelog-content');
+            let html = '';
+            
+            for (const release of VERSION.changelog) {
+                html += `
+                    <div class="release">
+                        <div class="release-header">
+                            <div class="release-title">v${release.version} - ${release.name}</div>
+                            <div class="release-date">${release.date}</div>
+                        </div>
+                `;
+                
+                const grouped = {
+                    added: [],
+                    changed: [],
+                    fixed: [],
+                    removed: []
+                };
+                
+                for (const change of release.changes) {
+                    if (grouped[change.type]) {
+                        grouped[change.type].push(change.description);
+                    }
+                }
+                
+                const typeLabels = {
+                    added: { icon: '✨', title: 'Добавлено' },
+                    changed: { icon: '🔄', title: 'Изменено' },
+                    fixed: { icon: '🐛', title: 'Исправлено' },
+                    removed: { icon: '🗑️', title: 'Удалено' }
+                };
+                
+                for (const [type, items] of Object.entries(grouped)) {
+                    if (items.length > 0) {
+                        html += `
+                            <div class="change-group">
+                                <div class="change-group-title">
+                                    ${typeLabels[type].icon} ${typeLabels[type].title}
+                                </div>
+                                <ul class="change-list">
+                                    ${items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        renderChangelog();
+    </script>
+</body>
+</html>

@@ -1,0 +1,573 @@
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+/* ============================================
+   GAME CONTAINER & CANVAS
+   ============================================ */
+#gameContainer {
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 150, 255, 0.3);
+    overflow: hidden;
+}
+
+#gameCanvas {
+    background: #16213e;
+    display: block;
+    border: 3px solid #0f3460;
+    width: 1200px;
+    height: 700px;
+}
+
+#uiLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#upgradeSpeed,
+#upgradeEnergy,
+#upgradeRegen,
+.ability-stars span, /* Все звёзды способностей */
+.ability-icon      /* Оба иконки способностей */
+{
+    pointer-events: auto;
+}
+
+/* ============================================
+   AREA INFO (сверху по центру)
+   ============================================ */
+#areaInfo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.area-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.6);
+}
+
+/* ============================================
+   LEVEL INFO (слева внизу)
+   ============================================ */
+#levelInfo {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+}
+
+.level-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.xp-bar {
+    width: 150px;
+    height: 20px;
+    background: #1a1a2e;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #00d9ff;
+}
+
+.xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #00d9ff);
+    width: 0%;
+    transition: width 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.stat-points {
+    font-size: 14px;
+    color: #00d9ff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.xp-orb-icon {
+    color: #FFD700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* ============================================
+   STATS PANEL (внизу по центру)
+   ============================================ */
+#statsPanel {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.stat-box {
+    text-align: center;
+    background: rgba(0, 80, 150, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 80px;
+    border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #00d9ff;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 5px rgba(0, 217, 255, 0.5);
+}
+
+/* ============================================
+   UPGRADE BUTTONS
+   ============================================ */
+.upgrade-btn {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fff 0%, #00d9ff 100%);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+}
+
+.upgrade-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.upgrade-btn.maxed {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    width: 40px;
+    cursor: not-allowed;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.upgrade-btn.maxed:hover {
+    transform: none;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+/* ============================================
+   ENERGY & REGEN BOXES
+   ============================================ */
+#energyBox,
+#regenBox {
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.energy-tooltip {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.95);
+    color: #00d9ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #00d9ff;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+}
+
+.energy-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #00d9ff;
+}
+
+#regenBox:hover .energy-tooltip {
+    opacity: 1;
+}
+
+/* ============================================
+   ABILITY BOX
+   ============================================ */
+.ability-box {
+    position: relative;
+    min-width: 100px;
+}
+
+.ability-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    border-radius: 8px;
+    margin: 5px auto;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.ability-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 0, 0, 0.75);
+    transition: height 0.1s linear, opacity 0.1s;
+    pointer-events: none;
+}
+
+.ability-icon.ready .ability-overlay {
+    height: 0%;
+    opacity: 0;
+}
+
+.ability-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.ability-cost {
+    font-size: 10px;
+    color: #00d9ff;
+    text-align: center;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+/* ============================================
+   ABILITY STARS
+   ============================================ */
+.ability-stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 2px;
+    pointer-events: auto;
+}
+
+.ability-stars span {
+    font-size: 14px;
+    cursor: default;
+    transition: all 0.2s;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.ability-stars span.active {
+    color: var(--main-color);
+    text-shadow: 0 0 10px var(--main-color);
+}
+
+.ability-stars span.inactive {
+    color: var(--main-color-dark);
+    opacity: 0.4;
+}
+
+.ability-stars span.blink {
+    color: var(--main-color);
+    animation: blinkStar 4s infinite ease-in-out;
+    cursor: pointer;
+}
+
+.ability-stars span.blink:hover {
+    animation: none;
+    transform: scale(1.3);
+    text-shadow: 0 0 15px var(--main-color);
+    color: var(--main-color);
+}
+
+@keyframes blinkStar {
+    0%, 100% { 
+        opacity: 0.25; 
+        transform: scale(0.85);
+        text-shadow: 0 0 3px var(--main-color);
+    }
+    50% { 
+        opacity: 0.9;
+        transform: scale(1.05);
+        text-shadow: 0 0 12px var(--main-color);
+    }
+}
+/* Пульсация при отъёме энергии */
+#regenBox.draining {
+    animation: energyPulse 1s infinite ease-in-out;
+}
+
+@keyframes energyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Блокировка способностей */
+.ability-icon.blocked {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+/* Тема Миража */
+#gameContainer.theme-mirage {
+    --main-color: #00d9ff;
+    --main-color-dark: #0066cc;
+}
+
+#gameContainer.theme-pulsar {
+    --main-color: #800080;
+    --main-color-dark: #400060;
+}
+
+/* Тема Frozen */
+#gameContainer.theme-frozen {
+    --main-color: #3399ff;         /* ярко-синий */
+    --main-color-dark: #003366;    /* тёмно-синий */
+    --bg-dark: rgba(0, 20, 50, 0.9);   /* тёмный фон панелей */
+    --text-light: #e0f0ff;        /* светлый текст */
+}
+
+/* Используем переменные в нужных местах */
+#areaInfo, #levelInfo, #statsPanel {
+    border-color: var(--main-color);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+    background: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.stat-label, .stat-value, .ability-cost, .area-name {
+    color: var(--main-color);
+}
+
+.upgrade-btn {
+    background: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+}
+
+.energy-tooltip {
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.ability-icon {
+    background: linear-gradient(135deg, var(--main-color) 0%, var(--main-color-dark) 100%);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.ability-stars span.active, .ability-stars span.blink {
+    color: var(--main-color);
+}
+
+.ability-overlay,
+.ability-timer {
+    pointer-events: none;
+}
+/* Кастомный тултип для способностей */
+.ability-tooltip {
+    position: absolute;
+    bottom: 75px;               /* чуть выше иконки */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;               /* фиксированная ширина */
+    min-height: 60px;           /* минимальная высота */
+    background: rgba(0, 10, 25, 0.95);
+    border: 1px solid var(--main-color, #00d9ff);
+    border-radius: 8px;
+    padding: 8px 6px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #e0f0ff;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.ability-tooltip .tooltip-desc {
+    margin-bottom: 4px;
+}
+
+.ability-tooltip .tooltip-divider {
+    width: 80%;
+    height: 1px;
+    background: var(--main-color, #00d9ff);
+    margin: 4px auto;
+    opacity: 0.6;
+}
+
+.ability-tooltip .tooltip-stats {
+    font-size: 11px;
+    color: #aaddff;
+    word-wrap: break-word;
+}
+
+.ability-box:hover .ability-tooltip {
+    opacity: 1;
+}
+/* ============================================
+   КНОПКА НАСТРОЕК
+   ============================================ */
+#settingsContainer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 300;
+    pointer-events: auto;
+}
+
+#settingsButton {
+    width: 50px;
+    height: 50px;
+    font-size: 32px;
+    cursor: pointer;
+    user-select: none;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    text-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+}
+
+#settingsButton:hover {
+    transform: scale(1.15);
+}
+
+#settingsPanel {
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    background: rgba(0, 10, 25, 0.95);
+    border: 1px solid #00d9ff;
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: #00d9ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    min-width: 160px;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+    white-space: nowrap;
+}
+
+#settingsPanel label {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+#settingsPanel select {
+    background: #0a1a2a;
+    color: #00d9ff;
+    border: 1px solid #00d9ff;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    vertical-align: middle;
+    max-width: 100px;
+}
+
+/* Радужный текст */
+.rainbow-text {
+    animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+    0%   { color: #ff0000; }
+    14%  { color: #ff8800; }
+    28%  { color: #ffff00; }
+    42%  { color: #00ff00; }
+    57%  { color: #0088ff; }
+    71%  { color: #0000ff; }
+    85%  { color: #8800ff; }
+    100% { color: #ff0000; }
+}

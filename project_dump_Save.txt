@@ -1,0 +1,2422 @@
+
+
+=== ФАЙЛ: .\CHANGELOG.md ===
+# Changelog
+Все заметные изменения в этом проекте будут документироваться в этом файле.
+Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/),
+и этот проект придерживается [Semantic Versioning](https://semver.org/lang/ru/).
+
+## [0.1.1] - 2026-06-13
+### Исправления и Улучшения - Управление и UI
+Обновления, улучшающие плавность управления мышью и корректную работу UI.
+#### 🔄 Изменено
+- **Система управления мышью**: Реализована плавная кривая ускорения/замедления без `DEAD_ZONE`, имитирующая поведение Evades. Игрок всегда движется в направлении курсора, но скорость плавно изменяется в зависимости от расстояния.
+- **Параметры движения мыши**: Добавлена настройка `MIN_SPEED_FRACTION_AT_CENTER` для контроля минимальной скорости в центре.
+- **Блокировка кликов по UI**: Обновлена логика `InputManager.onMouseDown` для корректной блокировки переключения режима мыши при кликах по элементам UI (`#statsPanel`, кнопки, звёзды и т.д.).
+- **Блокировка кликов по миникарте**: Добавлена проверка в `InputManager.onMouseDown` для блокировки переключения режима мыши при клике на область миникарты, используя координаты из `CONFIG.MINIMAP`.
+- **CSS UI Layer**: Убрано правило `pointer-events: none;` у `#uiLayer`, добавлены правила `pointer-events: auto;` для интерактивных элементов UI.
+#### 🐛 Исправлено
+- Устранено "дрожание" и "взаимоперенаправляемое движение" шара в центре при управлении мышью.
+- Исправлена проблема, при которой клики по хотбару, кнопкам прокачки, звёздам способностей и миникарте переключали режим мыши.
+
+## [0.1.0] - 2026-06-13
+### Alpha - Foundation
+Первый альфа-релиз с базовой функциональностью игры.
+#### ✨ Добавлено
+- **Система движения игрока**
+- Управление через WASD и стрелки
+- Плавное движение с нормализацией диагонали
+- **Камера**
+- Плавное следование за игроком
+- Центрирование на игроке
+- **Мини-карта**
+- Отображение всей арены (1800x700 пикселей)
+- Показ позиций врагов, орбов XP и игрока
+- Зелёная рамка видимой области камеры
+- **Система порталов**
+- Правый портал для перехода на следующую арену
+- Левый портал для возврата на предыдущую арену (с Area 2+)
+- Визуальные индикаторы порталов
+- **Safe Zones**
+- Зоны безопасности с обеих сторон арены
+- Неуязвимость игрока в safe zone
+- Враги не могут заходить в safe zone
+- **Система врагов**
+- Normal враги (серые шары, случайное движение)
+- Wall враги (чёрные шары, горизонтальное движение)
+- Лимит врагов на арене (30 максимум)
+- Автоматическое поддержание лимита
+- **Система XP орбов**
+- Радужные цвета орбов
+- Магнит к игроку (радиус 150px)
+- Мгновенный спавн 50 орбов при старте
+- Постоянный спавн 1 орб в секунду
+- Максимум 100 орбов на арене
+- **Система прогрессии**
+- Уровни игрока (максимум 50)
+- Очки прокачки (SP) за каждый уровень
+- Экспоненциальный рост требуемого XP
+- Бонус XP за прохождение арены (одноразовый)
+- **Прокачка характеристик**
+- Speed (скорость): +0.2 за очко, максимум 7.0
+- Energy (запас маны): +5 за очко, максимум 150
+- Regen (регенерация маны): +0.1 за очко, максимум 3.0
+- Кнопка меняется на "MAX" при достижении лимита
+- **Система способностей**
+- Способность 1 (Shift): телепорт в последнюю safe zone
+- Стоимость: 5 маны
+- Кулдаун: 10/9/8/7/5 секунд (зависит от уровня)
+- Способность 2 (Space): телепорт к ближайшему врагу
+- Стоимость: 15 маны
+- Кулдаун: 20/18/16/14/12 секунд (зависит от уровня)
+- Неуязвимость: 2/2.5/3/3.5/4 секунды (зависит от уровня)
+- **Прокачка способностей**
+- 5 уровней для каждой способности
+- Прокачка через клик на мерцающую звезду
+- Визуальная обратная связь (мерцание, активные/неактивные звёзды)
+- **Пользовательский интерфейс**
+- Хотбар с характеристиками (Speed, Energy, Regen)
+- Отображение способностей с иконками и кулдаунами
+- Шкала XP с уровнем игрока
+- Индикатор очков прокачки (жёлтый шарик ×N)
+- Бар маны в ячейке Regen (визуальное заполнение)
+- Tooltip с точным значением маны при наведении
+- Таймер обратного отсчёта кулдаунов
+- **Визуальные эффекты**
+- Мерцающие звёзды для доступных улучшений (4 секунды цикл)
+- Анимация заполнения кулдаунов (снизу вверх)
+- Плавные переходы в UI
+- Glow-эффекты для активных элементов
+#### 🐛 Исправлено
+- Границы спавна врагов (теперь только в игровой зоне)
+- Система неуязвимости после телепорта
+- Отображение кулдаунов способностей (раздельные для каждой)
+- Дублирование методов в GameEngine
+- Проблемы с кликабельностью звёзд прокачки
+
+---
+## Типы изменений
+- **✨ Added** (Добавлено) - новые функции
+- **🔄 Changed** (Изменено) - изменения в существующей функциональности
+- **🐛 Fixed** (Исправлено) - исправления ошибок
+- **🗑️ Removed** (Удалено) - удалённые функции
+- **⚠️ Deprecated** (Устарело) - функции, которые будут удалены в будущих версиях
+- **🔒 Security** (Безопасность) - исправления уязвимостей
+
+---
+## Версионирование
+Проект использует [Semantic Versioning](https://semver.org/lang/ru/):
+- **MAJOR** версия (X.0.0) - несовместимые изменения API
+- **MINOR** версия (0.X.0) - добавление функциональности обратно совместимым способом
+- **PATCH** версия (0.0.X) - исправления ошибок обратно совместимым способом
+
+=== ФАЙЛ: .\index.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evades Prototype</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="uiLayer"></div>
+    </div>
+    
+    <!-- Подключаем главный файл как модуль -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
+
+=== ФАЙЛ: .\merge.py ===
+import os
+with open("project_dump.txt", "w", encoding="utf-8") as out:
+    for root, _, files in os.walk("."):
+        for file in files:
+            if file.endswith((".py", ".js", ".html", ".css", ".json", ".md")): # добавь свои расширения
+                path = os.path.join(root, file)
+                out.write(f"\n\n=== ФАЙЛ: {path} ===\n")
+                try:
+                    with open(path, "r", encoding="utf-8") as f:
+                        out.write(f.read())
+                except: pass
+
+=== ФАЙЛ: .\version.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00d9ff;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+        
+        .version-info {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .release {
+            background: rgba(0, 80, 150, 0.2);
+            border: 2px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        
+        .release-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+        }
+        
+        .release-title {
+            font-size: 24px;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+        
+        .release-date {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .change-group {
+            margin-bottom: 20px;
+        }
+        
+        .change-group-title {
+            font-size: 18px;
+            color: #FFD700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .change-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .change-list li {
+            padding: 8px 0;
+            color: #ddd;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .change-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+            font-size: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+        }
+        
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Changelog</h1>
+        <div class="version-info">История изменений проекта</div>
+        
+        <div id="changelog-content"></div>
+        
+        <a href="index.html" class="back-button">← Вернуться в главное меню</a>
+    </div>
+
+    <script type="module">
+        import { VERSION } from './js/version.js';
+        
+        function renderChangelog() {
+            const container = document.getElementById('changelog-content');
+            let html = '';
+            
+            for (const release of VERSION.changelog) {
+                html += `
+                    <div class="release">
+                        <div class="release-header">
+                            <div class="release-title">v${release.version} - ${release.name}</div>
+                            <div class="release-date">${release.date}</div>
+                        </div>
+                `;
+                
+                const grouped = {
+                    added: [],
+                    changed: [],
+                    fixed: [],
+                    removed: []
+                };
+                
+                for (const change of release.changes) {
+                    if (grouped[change.type]) {
+                        grouped[change.type].push(change.description);
+                    }
+                }
+                
+                const typeLabels = {
+                    added: { icon: '✨', title: 'Добавлено' },
+                    changed: { icon: '🔄', title: 'Изменено' },
+                    fixed: { icon: '🐛', title: 'Исправлено' },
+                    removed: { icon: '🗑️', title: 'Удалено' }
+                };
+                
+                for (const [type, items] of Object.entries(grouped)) {
+                    if (items.length > 0) {
+                        html += `
+                            <div class="change-group">
+                                <div class="change-group-title">
+                                    ${typeLabels[type].icon} ${typeLabels[type].title}
+                                </div>
+                                <ul class="change-list">
+                                    ${items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        renderChangelog();
+    </script>
+</body>
+</html>
+
+=== ФАЙЛ: .\css\style.css ===
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+/* ============================================
+   GAME CONTAINER & CANVAS
+   ============================================ */
+#gameContainer {
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 150, 255, 0.3);
+    overflow: hidden;
+}
+
+#gameCanvas {
+    background: #16213e;
+    display: block;
+    border: 3px solid #0f3460;
+    width: 1200px;
+    height: 700px;
+}
+
+#uiLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#upgradeSpeed,
+#upgradeEnergy,
+#upgradeRegen,
+.ability-stars span, /* Все звёзды способностей */
+.ability-icon      /* Оба иконки способностей */
+{
+    pointer-events: auto;
+}
+
+/* ============================================
+   AREA INFO (сверху по центру)
+   ============================================ */
+#areaInfo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.area-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.6);
+}
+
+/* ============================================
+   LEVEL INFO (слева внизу)
+   ============================================ */
+#levelInfo {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+}
+
+.level-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.xp-bar {
+    width: 150px;
+    height: 20px;
+    background: #1a1a2e;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #00d9ff;
+}
+
+.xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #00d9ff);
+    width: 0%;
+    transition: width 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.stat-points {
+    font-size: 14px;
+    color: #00d9ff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.xp-orb-icon {
+    color: #FFD700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* ============================================
+   STATS PANEL (внизу по центру)
+   ============================================ */
+#statsPanel {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.stat-box {
+    text-align: center;
+    background: rgba(0, 80, 150, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 80px;
+    border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #00d9ff;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 5px rgba(0, 217, 255, 0.5);
+}
+
+/* ============================================
+   UPGRADE BUTTONS
+   ============================================ */
+.upgrade-btn {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fff 0%, #00d9ff 100%);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+}
+
+.upgrade-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.upgrade-btn.maxed {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    width: 40px;
+    cursor: not-allowed;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.upgrade-btn.maxed:hover {
+    transform: none;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+/* ============================================
+   ENERGY & REGEN BOXES
+   ============================================ */
+#energyBox,
+#regenBox {
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.energy-tooltip {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.95);
+    color: #00d9ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #00d9ff;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+}
+
+.energy-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #00d9ff;
+}
+
+#regenBox:hover .energy-tooltip {
+    opacity: 1;
+}
+
+/* ============================================
+   ABILITY BOX
+   ============================================ */
+.ability-box {
+    position: relative;
+    min-width: 100px;
+}
+
+.ability-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    border-radius: 8px;
+    margin: 5px auto;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.ability-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 0, 0, 0.75);
+    transition: height 0.1s linear, opacity 0.1s;
+    pointer-events: none;
+}
+
+.ability-icon.ready .ability-overlay {
+    height: 0%;
+    opacity: 0;
+}
+
+.ability-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.ability-cost {
+    font-size: 10px;
+    color: #00d9ff;
+    text-align: center;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+/* ============================================
+   ABILITY STARS
+   ============================================ */
+.ability-stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 2px;
+    pointer-events: auto;
+}
+
+.ability-stars span {
+    font-size: 14px;
+    cursor: default;
+    transition: all 0.2s;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.ability-stars span.active {
+    color: #00d9ff;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+}
+
+.ability-stars span.inactive {
+    color: #2a4a6a;
+}
+
+.ability-stars span.blink {
+    animation: blinkStar 4s infinite ease-in-out;
+    cursor: pointer;
+    color: #00d9ff;
+}
+
+.ability-stars span.blink:hover {
+    animation: none;
+    transform: scale(1.3);
+    text-shadow: 0 0 15px rgba(0, 217, 255, 1);
+    color: #00d9ff;
+}
+
+@keyframes blinkStar {
+    0%, 100% { 
+        opacity: 0.25; 
+        transform: scale(0.85);
+        text-shadow: 0 0 3px rgba(0, 217, 255, 0.3);
+        color: #1a4a6a;
+    }
+    50% { 
+        opacity: 0.9;
+        transform: scale(1.05);
+        text-shadow: 0 0 12px rgba(0, 217, 255, 0.9);
+        color: #00d9ff;
+    }
+}
+
+=== ФАЙЛ: .\js\Camera.js ===
+export class Camera {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.x = 0;
+        this.y = 0;
+        this.smoothness = 0.2;
+    }
+
+    update(player, worldWidth, worldHeight) {
+        this.targetX = player.x - this.width / 2;
+        this.targetY = player.y - this.height / 2;
+
+        this.x += (this.targetX - this.x) * this.smoothness;
+        this.y += (this.targetY - this.y) * this.smoothness;
+    }
+
+    apply(ctx) {
+        ctx.save();
+        ctx.translate(-Math.floor(this.x), -Math.floor(this.y));
+    }
+
+    reset(ctx) {
+        ctx.restore();
+    }
+
+    worldToScreen(worldX, worldY) {
+        return { x: worldX - this.x, y: worldY - this.y };
+    }
+
+    screenToWorld(screenX, screenY) {
+        return { x: screenX + this.x, y: screenY + this.y };
+    }
+}
+
+=== ФАЙЛ: .\js\config.js ===
+const CONFIG = {
+    CANVAS: { WIDTH: 1200, HEIGHT: 700 },
+    WORLD: { WIDTH: 1800, HEIGHT: 700 },
+    VIEWPORT: { WIDTH: 1200, HEIGHT: 700 },
+    SAFE_ZONE: { WIDTH: 160 },
+    PORTAL: { WIDTH: 40 },
+    GRID: { SIZE: 40 },
+    MINIMAP: { WIDTH: 200, HEIGHT: 117, PADDING: 10 },
+    PROGRESSION: {
+        TOTAL_AREAS: 40,
+        AREA_COMPLETION_XP: 50,
+        AREA_XP_MULTIPLIER: 1.2
+    },
+    PLAYER_BASE: {
+        RADIUS: 12,
+        BASE_SPEED: 4, // ИЗМЕНИЛ С 3 НА 4
+        MAX_SPEED: 7,
+        MAX_ENERGY: 30,
+        MAX_ENERGY_CAP: 150,
+        ENERGY_REGEN: 1,
+        MAX_REGEN: 3
+    },
+    STATS: {
+        MAX_LEVEL: 50,
+        XP_PER_LEVEL_BASE: 5,
+        XP_MULTIPLIER: 1.5,
+        SPEED_PER_POINT: 0.2,
+        ENERGY_PER_POINT: 5,
+        REGEN_PER_POINT: 0.1,
+        ABILITY_MAX_LEVEL: 5
+    },
+    ENEMY_SPAWN: {
+        INITIAL_COUNT: 20,
+        MAX_ENEMIES: 30,
+        MIN_DISTANCE_FROM_PLAYER: 200
+    },
+    XP_SPAWN: {
+        INITIAL_AMOUNT: 50,
+        MAX_ORBS: 100,
+        SPAWN_RATE: 60
+    },
+    ABILITIES: {
+        MAX_LEVEL: 5,
+        XP_PER_ABILITY_LEVEL: 500,
+        SHIFT_COST: 5,
+        SPACE_COST: 15,
+        SHIFT_BASE_COOLDOWN: 10,
+        SPACE_BASE_COOLDOWN: 20
+    },
+    ENEMY_SPEED: {
+        NORMAL: { MIN: 0.5, MAX: 4, SCALE_PER_AREA: 0.03 },
+        WALL: { MIN: 0.3, MAX: 2, SCALE_PER_AREA: 0.02 }
+    }
+};
+
+export default CONFIG;
+
+=== ФАЙЛ: .\js\main.js ===
+import CONFIG from './config.js';
+import { GameEngine } from './engine/GameEngine.js';
+import { EnemyFactory } from './enemies/EnemyFactory.js';
+import { logVersion } from './version.js';
+
+// Логируем версию при старте
+logVersion();
+
+// Получаем canvas и контекст
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = CONFIG.CANVAS.WIDTH;
+canvas.height = CONFIG.CANVAS.HEIGHT;
+
+console.log("Canvas:", canvas.width, "x", canvas.height);
+console.log("World:", CONFIG.WORLD.WIDTH, "x", CONFIG.WORLD.HEIGHT);
+
+// Глобальный EnemyFactory
+window.EnemyFactory = EnemyFactory;
+
+// Создание UI
+function createUI() {
+    const ui = document.getElementById('uiLayer');
+    ui.innerHTML = `
+        <div id="areaInfo">
+            <div class="area-name" id="areaName">Area 1</div>
+        </div>
+        
+        <div id="levelInfo">
+            <div class="level-circle" id="levelCircle">1</div>
+            <div class="xp-bar">
+                <div class="xp-fill" id="xpFill"></div>
+            </div>
+            <div class="stat-points" id="statPoints">
+                <span class="xp-orb-icon">●</span> × <span id="pointsCount">0</span>
+            </div>
+        </div>
+        
+        <div id="statsPanel">
+            <div class="stat-box">
+                <div class="stat-label">Speed</div>
+                <div class="stat-value" id="speedValue">4.0</div>
+                <button class="upgrade-btn" id="upgradeSpeed">+</button>
+            </div>
+            <div class="stat-box energy-box" id="energyBox">
+                <div class="stat-label">Energy</div>
+                <div class="stat-value" id="energyValue">30</div>
+                <button class="upgrade-btn" id="upgradeEnergy">+</button>
+            </div>
+            <div class="stat-box energy-box" id="regenBox">
+                <div class="stat-label">Regen</div>
+                <div class="stat-value" id="regenValue">1.0</div>
+                <div class="energy-tooltip" id="energyTooltip">30/30</div>
+                <button class="upgrade-btn" id="upgradeRegen">+</button>
+            </div>
+            <div class="stat-box ability-box">
+                <div class="stat-label">Shift</div>
+                <div class="ability-icon" id="ability1Icon">
+                    <div class="ability-overlay" id="ability1Overlay"></div>
+                    <div class="ability-timer" id="ability1Timer"></div>
+                </div>
+                <div class="ability-stars" id="ability1Stars"></div>
+                <div class="ability-cost">Cost: ${CONFIG.ABILITIES.SHIFT_COST}</div>
+            </div>
+            <div class="stat-box ability-box">
+                <div class="stat-label">Space</div>
+                <div class="ability-icon" id="ability2Icon">
+                    <div class="ability-overlay" id="ability2Overlay"></div>
+                    <div class="ability-timer" id="ability2Timer"></div>
+                </div>
+                <div class="ability-stars" id="ability2Stars"></div>
+                <div class="ability-cost">Cost: ${CONFIG.ABILITIES.SPACE_COST}</div>
+            </div>
+        </div>
+    `;
+}
+
+createUI();
+
+// Создаём игру
+const game = new GameEngine(ctx, CONFIG.CANVAS.WIDTH, CONFIG.CANVAS.HEIGHT);
+
+// Привязка кнопок
+document.getElementById('upgradeSpeed').addEventListener('click', () => game.upgradeStat('speed'));
+document.getElementById('upgradeEnergy').addEventListener('click', () => game.upgradeStat('energy'));
+document.getElementById('upgradeRegen').addEventListener('click', () => game.upgradeStat('regen'));
+
+window.game = game;
+game.start();
+
+=== ФАЙЛ: .\js\MiniMap.js ===
+import CONFIG from './config.js';
+
+export class MiniMap {
+    constructor() {
+        this.width = CONFIG.MINIMAP.WIDTH;
+        this.height = CONFIG.MINIMAP.HEIGHT;
+        this.scaleX = this.width / CONFIG.WORLD.WIDTH;
+        this.scaleY = this.height / CONFIG.WORLD.HEIGHT;
+        this.x = 10;
+        this.y = 10;
+    }
+
+    render(ctx, camera, player, enemies, portals) {
+        const { width, height, scaleX, scaleY, x, y } = this;
+        
+        ctx.fillStyle = 'rgba(10, 15, 30, 0.95)';
+        ctx.fillRect(x, y, width, height);
+        ctx.strokeStyle = '#00d9ff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+        
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.5)';
+        ctx.fillRect(x, y + 2, (CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH) * scaleX, height - 4);
+        ctx.fillRect(
+            x + (CONFIG.WORLD.WIDTH - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH) * scaleX, 
+            y + 2, 
+            (CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH) * scaleX, 
+            height - 4
+        );
+        
+        ctx.fillStyle = '#FFD700';
+        if (portals.forward) {
+            ctx.fillRect(x + portals.forward.x * scaleX, y + 2, CONFIG.PORTAL.WIDTH * scaleX, height - 4);
+        }
+        if (portals.backward) {
+            ctx.fillRect(x + portals.backward.x * scaleX, y + 2, CONFIG.PORTAL.WIDTH * scaleX, height - 4);
+        }
+        
+        ctx.fillStyle = '#888';
+        for (let enemy of enemies) {
+            ctx.beginPath();
+            ctx.arc(x + enemy.x * scaleX, y + enemy.y * scaleY, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        ctx.fillStyle = '#00d9ff';
+        ctx.beginPath();
+        ctx.arc(x + player.x * scaleX, y + player.y * scaleY, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.strokeStyle = 'rgba(0, 255, 0, 0.5)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(
+            x + camera.x * scaleX,
+            y + camera.y * scaleY,
+            camera.width * scaleX,
+            camera.height * scaleY
+        );
+    }
+}
+
+=== ФАЙЛ: .\js\Portal.js ===
+import CONFIG from './config.js';
+
+export class Portal {
+    constructor(x, direction, targetArea) {
+        this.x = x;
+        this.width = CONFIG.PORTAL.WIDTH;
+        this.direction = direction;
+        this.targetArea = targetArea;
+        this.color = '#FFD700';
+        this.glowIntensity = 0;
+    }
+
+    update() {
+        this.glowIntensity = (this.glowIntensity + 0.05) % (Math.PI * 2);
+    }
+
+    render(ctx, canvasHeight) {
+        const glow = Math.sin(this.glowIntensity) * 10;
+        
+        ctx.fillStyle = `rgba(255, 215, 0, ${0.3 + Math.sin(this.glowIntensity) * 0.2})`;
+        ctx.fillRect(this.x - 5, 0, this.width + 10, canvasHeight);
+        
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, 0, this.width, canvasHeight);
+        
+        ctx.strokeStyle = '#FFA500';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(this.x, 0, this.width, canvasHeight);
+        
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 20px Arial';
+        const arrow = this.direction === 'forward' ? '►' : '◄';
+        ctx.fillText(arrow, this.x + 10, canvasHeight / 2);
+    }
+
+    checkPlayerCollision(player) {
+    const playerLeft = player.x - player.radius;
+    const playerRight = player.x + player.radius;
+    
+    // Триггер срабатывает при ЛЮБОМ касании портала
+    return playerRight > this.x && playerLeft < this.x + this.width;
+}
+}
+
+=== ФАЙЛ: .\js\version.js ===
+// js/version.js
+
+export const VERSION = {
+    number: '0.1.1', // Обновляем номер версии
+    name: 'Alpha - Mouse & UI Refinement', // Обновляем название
+    date: '2026-06-13', // Обновляем дату
+    changelog: [
+        {
+            version: '0.1.1',
+            date: '2026-06-13',
+            name: 'Alpha - Mouse & UI Refinement', // Название для новой версии
+            changes: [
+                {
+                    type: 'changed',
+                    description: 'Система управления мышью: реализована плавная кривая ускорения/замедления без DEAD_ZONE, имитирующая поведение Evades.'
+                },
+                {
+                    type: 'changed',
+                    description: 'Система управления мышью: добавлена настройка MIN_SPEED_FRACTION_AT_CENTER для контроля минимальной скорости в центре.'
+                },
+                {
+                    type: 'changed',
+                    description: 'Блокировка кликов по UI: обновлена логика InputManager.onMouseDown для корректной блокировки переключения режима мыши при кликах по элементам UI.'
+                },
+                {
+                    type: 'added',
+                    description: 'Блокировка кликов по миникарте: добавлена проверка в InputManager.onMouseDown для блокировки переключения режима мыши при клике на область миникарты.'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлено "дрожание" и "взаимоперенаправляемое движение" шара в центре при управлении мышью.'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлена проблема, при которой клики по хотбару, кнопкам прокачки, звёздам способностей и миникарте переключали режим мыши.'
+                }
+            ]
+        },
+        {
+            version: '0.1.0',
+            date: '2026-06-13',
+            name: 'Alpha - Foundation',
+            changes: [
+                {
+                    type: 'added',
+                    description: 'Базовая система движения игрока (WASD/стрелки)'
+                },
+                {
+                    type: 'added',
+                    description: 'Камера с плавным следованием за игроком'
+                },
+                {
+                    type: 'added',
+                    description: 'Мини-карта с отображением всей арены (1800x700)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система порталов для перехода между аренами'
+                },
+                {
+                    type: 'added',
+                    description: 'Safe zones с обеих сторон арены (неуязвимость)'
+                },
+                {
+                    type: 'added',
+                    description: 'Спавн врагов (Normal и Wall типы)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система XP орбов (радужные цвета, магнит к игроку)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система уровней игрока и очков прокачки (SP)'
+                },
+                {
+                    type: 'added',
+                    description: 'Прокачка характеристик: Speed, Energy, Regen'
+                },
+                {
+                    type: 'added',
+                    description: 'Система способностей с кулдаунами'
+                },
+                {
+                    type: 'added',
+                    description: 'Способность 1 (Shift): телепорт в safe zone'
+                },
+                {
+                    type: 'added',
+                    description: 'Способность 2 (Space): телепорт к врагу с неуязвимостью'
+                },
+                {
+                    type: 'added',
+                    description: 'Прокачка способностей через звёзды (5 уровней)'
+                },
+                {
+                    type: 'added',
+                    description: 'UI: хотбар с характеристиками и способностями'
+                },
+                {
+                    type: 'added',
+                    description: 'Визуальные индикаторы: кулдауны, мана, XP'
+                },
+                {
+                    type: 'added',
+                    description: 'Система мерцающих звёзд для прокачки'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлены границы спавна врагов (только в игровой зоне)'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлена система неуязвимости после телепорта'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлено отображение кулдаунов способностей'
+                }
+            ]
+        }
+    ]
+};
+
+// Утилита для отображения версии в консоли
+export function logVersion() {
+    console.log(`%c${VERSION.name} v${VERSION.number}`, 'color: #00d9ff; font-size: 20px; font-weight: bold;');
+    console.log(`%cReleased: ${VERSION.date}`, 'color: #888; font-size: 12px;');
+    console.log(`%cTotal changes: ${VERSION.changelog.reduce((sum, release) => sum + release.changes.length, 0)}`, 'color: #888; font-size: 12px;');
+}
+
+// Утилита для получения форматированного changelog
+export function getChangelogFormatted() {
+    let output = '';
+    for (const release of VERSION.changelog) {
+        output += `\n${'='.repeat(60)}\n`;
+        output += `Version ${release.version} - ${release.name}\n`;
+        output += `Released: ${release.date}\n`;
+        output += `${'='.repeat(60)}\n`;
+
+        const grouped = {
+            added: [],
+            changed: [],
+            fixed: [],
+            removed: []
+        };
+
+        for (const change of release.changes) {
+            if (grouped[change.type]) {
+                grouped[change.type].push(change.description);
+            }
+        }
+
+        if (grouped.added.length > 0) {
+            output += '✨ ADDED:\n';
+            grouped.added.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.changed.length > 0) {
+            output += '🔄 CHANGED:\n';
+            grouped.changed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.fixed.length > 0) {
+            output += '🐛 FIXED:\n';
+            grouped.fixed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.removed.length > 0) {
+            output += '🗑️  REMOVED:\n';
+            grouped.removed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+    }
+    return output;
+}
+
+=== ФАЙЛ: .\js\XPOrb.js ===
+export class XPOrb {
+    constructor(x, y, amount) {
+        this.x = x;
+        this.y = y;
+        this.amount = amount;
+        this.radius = 6;
+        const hue = (x * 0.1 + y * 0.1 + amount * 30) % 360;
+        this.color = `hsl(${hue}, 100%, 50%)`;
+        this.magnetized = false;
+        this.collected = false;
+        this.bobOffset = Math.random() * Math.PI * 2;
+    }
+
+    update(player) {
+        this.bobOffset += 0.05;
+        
+        const dist = Math.hypot(player.x - this.x, player.y - this.y);
+        if (dist < 150) {
+            this.magnetized = true;
+        }
+        
+        if (this.magnetized) {
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance > 0) {
+                const speed = Math.min(12, 8 + (150 - distance) * 0.05);
+                this.x += (dx / distance) * speed;
+                this.y += (dy / distance) * speed;
+            }
+        }
+    }
+
+    render(ctx) {
+        const bob = Math.sin(this.bobOffset) * 2;
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + bob, this.radius + 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + '40';
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + bob, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    isCollected(player) {
+        return Math.hypot(player.x - this.x, player.y - this.y) < player.radius + this.radius;
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\EnemyFactory.js ===
+import { NormalEnemy } from './NormalEnemy.js';
+import { WallEnemy } from './WallEnemy.js';
+
+export class EnemyFactory {
+    static createEnemy(type, x, y, areaLevel) {
+        switch(type) {
+            case 'normal':
+                return new NormalEnemy(x, y, areaLevel);
+            case 'wall':
+                return new WallEnemy(x, y, areaLevel);
+            default:
+                throw new Error(`Unknown enemy type: ${type}`);
+        }
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\EnemySpawner.js ===
+import { EnemyFactory } from './EnemyFactory.js';
+import CONFIG from '../config.js';
+
+export class EnemySpawner {
+    constructor() {
+        this.enemiesToSpawn = CONFIG.ENEMY_SPAWN.INITIAL_COUNT;
+        this.spawnedCount = 0;
+        this.waveNumber = 1;
+        this.isSpawning = true;
+        this.hasSpawnedInitial = false;
+    }
+
+    update(gameState, player) {
+        if (!this.isSpawning) return;
+
+        // Спавним всех врагов сразу на первом уровне
+        if (!this.hasSpawnedInitial && this.waveNumber === 1) {
+            for (let i = 0; i < this.enemiesToSpawn; i++) {
+                setTimeout(() => {
+                    this.spawnEnemy(gameState, player);
+                }, i * 100); // Небольшая задержка между спавнами для визуального эффекта
+            }
+            this.spawnedCount = this.enemiesToSpawn;
+            this.hasSpawnedInitial = true;
+            return;
+        }
+
+        // Для следующих волн - постепенный спавн
+        if (this.spawnedCount < this.enemiesToSpawn && gameState.enemies.length < CONFIG.ENEMY_SPAWN.MAX_ENEMIES) {
+            this.spawnEnemy(gameState, player);
+            this.spawnedCount++;
+        }
+    }
+
+    spawnEnemy(gameState, player) {
+        const minX = CONFIG.SAFE_ZONE.WIDTH + CONFIG.ENEMY_SPAWN.MIN_DISTANCE_FROM_PLAYER;
+        const maxX = gameState.width - CONFIG.SAFE_ZONE.WIDTH - CONFIG.ENEMY_SPAWN.MIN_DISTANCE_FROM_PLAYER;
+        
+        const x = minX + Math.random() * (maxX - minX);
+        const y = Math.random() * (gameState.height - 100) + 50;
+        
+        const type = Math.random() < 0.8 ? 'normal' : 'wall';
+        const enemy = EnemyFactory.createEnemy(type, x, y, this.waveNumber);
+        
+        gameState.enemies.push(enemy);
+    }
+
+    nextWave() {
+        this.waveNumber++;
+        this.enemiesToSpawn = 5 + Math.floor(this.waveNumber * 2);
+        this.spawnedCount = 0;
+        this.hasSpawnedInitial = false;
+        this.isSpawning = true;
+    }
+
+    reset() {
+        this.enemiesToSpawn = CONFIG.ENEMY_SPAWN.INITIAL_COUNT;
+        this.spawnedCount = 0;
+        this.waveNumber = 1;
+        this.isSpawning = true;
+        this.hasSpawnedInitial = false;
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\NormalEnemy.js ===
+import { Enemy } from '../entities/Enemy.js';
+import CONFIG from '../config.js';
+
+export class NormalEnemy extends Enemy {
+    constructor(x, y, areaLevel) {
+        const baseSpeed = 1 * (1 + areaLevel * 0.03);
+        const speed = Math.min(4, Math.max(0.5, baseSpeed));
+        
+        super(x, y, {
+            color: '#888888',
+            radius: 15 + Math.random() * 10,
+            speed: speed,
+            xp: 10
+        });
+        
+        const angle = Math.random() * Math.PI * 2;
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
+    }
+
+    update(safeZoneWidth, worldWidth, worldHeight) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        const leftBound = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightBound = worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+
+        if (this.x < leftBound + this.radius) {
+            this.vx = Math.abs(this.vx);
+            this.x = leftBound + this.radius;
+        }
+        if (this.x > rightBound - this.radius) {
+            this.vx = -Math.abs(this.vx);
+            this.x = rightBound - this.radius;
+        }
+        if (this.y < this.radius) {
+            this.vy = Math.abs(this.vy);
+            this.y = this.radius;
+        }
+        if (this.y > worldHeight - this.radius) {
+            this.vy = -Math.abs(this.vy);
+            this.y = worldHeight - this.radius;
+        }
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\WallEnemy.js ===
+import { Enemy } from '../entities/Enemy.js';
+import CONFIG from '../config.js';
+
+export class WallEnemy extends Enemy {
+    constructor(x, y, areaLevel) {
+        const baseSpeed = 1 * (1 + areaLevel * 0.02);
+        const speed = Math.min(2, Math.max(0.3, baseSpeed));
+        
+        super(x, y, {
+            color: '#000000',
+            radius: 20 + Math.random() * 10,
+            speed: speed,
+            xp: 15,
+            isWall: true
+        });
+        
+        this.vx = -Math.abs(speed);
+        this.vy = 0;
+    }
+
+    update(safeZoneWidth, worldWidth, worldHeight) {
+        this.x += this.vx;
+        
+        // Границы игровой зоны
+        const leftBound = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightBound = worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+
+        // Отскок от ЛЕВОЙ границы
+        if (this.x < leftBound + this.radius) {
+            this.vx = Math.abs(this.vx);
+            this.x = leftBound + this.radius;
+        }
+        // Отскок от ПРАВОЙ границы
+        if (this.x > rightBound - this.radius) {
+            this.vx = -Math.abs(this.vx);
+            this.x = rightBound - this.radius;
+        }
+    }
+}
+
+=== ФАЙЛ: .\js\engine\GameEngine.js ===
+import { InputManager } from './InputManager.js';
+import { Renderer } from './Renderer.js';
+import { HeroFactory } from '../heroes/HeroFactory.js';
+import { EnemySpawner } from '../enemies/EnemySpawner.js';
+import { EnemyFactory } from '../enemies/EnemyFactory.js';
+import { Portal } from '../Portal.js';
+import { XPOrb } from '../XPOrb.js';
+import { Camera } from '../Camera.js';
+import { MiniMap } from '../MiniMap.js';
+import CONFIG from '../config.js';
+
+export class GameEngine {
+    constructor(ctx, width, height) {
+        this.input = new InputManager();
+        this.renderer = new Renderer(ctx, width, height);
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+        this.worldWidth = CONFIG.WORLD.WIDTH;
+        this.worldHeight = CONFIG.WORLD.HEIGHT;
+        this.isRunning = false;
+
+        this.gameState = {
+            width: this.worldWidth,
+            height: this.worldHeight,
+            enemies: [],
+            xpOrbs: []
+        };
+
+        this.player = HeroFactory.createHero(
+            'Mirage',
+            CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2,
+            this.worldHeight / 2
+        );
+        this.spawner = new EnemySpawner();
+        
+        this.camera = new Camera(CONFIG.VIEWPORT.WIDTH, CONFIG.VIEWPORT.HEIGHT);
+        this.miniMap = new MiniMap();
+        
+        this.backwardPortal = null;
+        this.forwardPortal = new Portal(this.worldWidth - CONFIG.PORTAL.WIDTH, 'forward', null);
+        
+        this.areaNumber = 1;
+        this.enemiesKilled = 0;
+        this.portalUnlocked = false;
+        this.uiUpdateTimer = 0;
+        this.frameCount = 0;
+        this.completedAreas = new Set();
+        
+        this.xpSpawnTimer = 0;
+    }
+
+    // ============================================
+    // ИНИЦИАЛИЗАЦИЯ
+    // ============================================
+    
+    start() {
+        this.isRunning = true;
+        
+        for (let i = 0; i < CONFIG.XP_SPAWN.INITIAL_AMOUNT; i++) {
+            setTimeout(() => this.spawnRandomXPOrb(), i * 10);
+        }
+        
+        setTimeout(() => this.fillEnemiesToLimit(), 500);
+        
+        this.loop();
+    }
+
+    stop() {
+        this.isRunning = false;
+    }
+
+    // ============================================
+    // СПАВН
+    // ============================================
+    
+    fillEnemiesToLimit() {
+        while (this.gameState.enemies.length < CONFIG.ENEMY_SPAWN.MAX_ENEMIES) {
+            this.spawnRandomEnemy();
+        }
+    }
+
+    spawnRandomEnemy() {
+        const types = ['normal', 'wall'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        
+        const minX = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH + 50;
+        const maxX = this.worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH - 50;
+        const x = minX + Math.random() * (maxX - minX);
+        const y = 100 + Math.random() * (this.worldHeight - 200);
+        
+        const enemy = EnemyFactory.createEnemy(type, x, y, this.areaNumber);
+        this.gameState.enemies.push(enemy);
+    }
+
+    spawnRandomXPOrb() {
+        if (this.gameState.xpOrbs.length >= CONFIG.XP_SPAWN.MAX_ORBS) return;
+        
+        const minX = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH + 50;
+        const maxX = this.worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH - 50;
+        const x = minX + Math.random() * (maxX - minX);
+        const y = 100 + Math.random() * (this.worldHeight - 200);
+        
+        this.gameState.xpOrbs.push(new XPOrb(x, y, 1));
+    }
+
+    spawnXPOrb(x, y, amount) {
+        this.gameState.xpOrbs.push(new XPOrb(x, y, amount));
+    }
+
+    // ============================================
+    // ОБНОВЛЕНИЕ ИГРЫ
+    // ============================================
+    
+    update() {
+    this.frameCount++;
+    
+    // Обновляем позицию мыши с учётом камеры
+    if (this.input.mouseActive) {
+        const worldMouse = this.camera.screenToWorld(this.input.mouseX, this.input.mouseY);
+        this.input.mouseWorldX = worldMouse.x;
+        this.input.mouseWorldY = worldMouse.y;
+    }
+    
+    this.player.update(this.input, this.gameState);
+    this.camera.update(this.player, this.worldWidth, this.worldHeight);
+    
+    // Спавн XP
+    this.xpSpawnTimer++;
+    if (this.xpSpawnTimer >= CONFIG.XP_SPAWN.SPAWN_RATE) {
+        this.spawnRandomXPOrb();
+        this.xpSpawnTimer = 0;
+    }
+    
+    // Поддержание лимита врагов
+    if (this.gameState.enemies.length < CONFIG.ENEMY_SPAWN.MAX_ENEMIES) {
+        this.fillEnemiesToLimit();
+    }
+    
+    this.spawner.update(this.gameState, this.player);
+
+    // ВАЖНО: обновляем ВСЕХ врагов
+    for (let enemy of this.gameState.enemies) {
+        enemy.update(CONFIG.SAFE_ZONE.WIDTH, this.worldWidth, this.worldHeight);
+    }
+
+    // ВАЖНО: обновляем ВСЕ орбы
+    for (let orb of this.gameState.xpOrbs) {
+        orb.update(this.player);
+    }
+
+    this.forwardPortal.update();
+    if (this.backwardPortal) this.backwardPortal.update();
+
+    this.checkCollisions();
+    this.checkPortalCollisions();
+    this.checkXPCollection();
+    this.checkPortalUnlock();
+
+    // Удаляем собранные орбы
+    this.gameState.xpOrbs = this.gameState.xpOrbs.filter(o => !o.collected);
+
+    this.uiUpdateTimer++;
+    if (this.uiUpdateTimer >= 10) {
+        this.updateUI();
+        this.uiUpdateTimer = 0;
+    }
+}
+
+    checkCollisions() {
+        if (this.player.downed || this.player.invulnerable) return;
+
+        const leftSafeStart = CONFIG.PORTAL.WIDTH;
+        const leftSafeEnd = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeStart = this.worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeEnd = this.worldWidth - CONFIG.PORTAL.WIDTH;
+
+        const playerLeft = this.player.x - this.player.radius;
+        const playerRight = this.player.x + this.player.radius;
+
+        const fullyInLeftSafe = playerLeft >= leftSafeStart && playerRight <= leftSafeEnd;
+        const fullyInRightSafe = playerLeft >= rightSafeStart && playerRight <= rightSafeEnd;
+        
+        if (fullyInLeftSafe || fullyInRightSafe) return;
+
+        for (let enemy of this.gameState.enemies) {
+            const dist = Math.hypot(this.player.x - enemy.x, this.player.y - enemy.y);
+            if (dist < this.player.radius + enemy.radius) {
+                this.playerDies();
+                break;
+            }
+        }
+    }
+
+    checkPortalCollisions() {
+        const playerLeft = this.player.x - this.player.radius;
+        const playerRight = this.player.x + this.player.radius;
+
+        if (playerRight > this.forwardPortal.x && playerLeft < this.forwardPortal.x + this.forwardPortal.width) {
+            this.nextArea();
+            return;
+        }
+
+        if (this.backwardPortal) {
+            if (playerLeft < this.backwardPortal.x + this.backwardPortal.width && playerRight > this.backwardPortal.x) {
+                this.previousArea();
+                return;
+            }
+        }
+    }
+
+    checkXPCollection() {
+        for (let orb of this.gameState.xpOrbs) {
+            if (orb.isCollected(this.player)) {
+                this.player.addXP(orb.amount);
+                orb.collected = true;
+            }
+        }
+    }
+
+    checkPortalUnlock() {
+        if (this.portalUnlocked) return;
+        if (this.spawner.spawnedCount >= this.spawner.enemiesToSpawn && this.gameState.enemies.length === 0) {
+            this.portalUnlocked = true;
+        }
+    }
+
+    // ============================================
+    // СОСТОЯНИЕ ИГРОКА
+    // ============================================
+    
+    playerDies() {
+        this.player.downed = true;
+        this.player.invulnerable = true;
+        this.player.invulnerableTime = 120;
+        setTimeout(() => {
+            if (this.player.downed) this.player.respawn();
+        }, 2000);
+    }
+
+    nextArea() {
+        this.areaNumber++;
+        this.enemiesKilled = 0;
+        this.portalUnlocked = false;
+        this.spawner.nextWave();
+        this.gameState.enemies = [];
+        this.gameState.xpOrbs = [];
+        
+        this.player.x = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2;
+        this.player.y = this.worldHeight / 2;
+        
+        if (!this.completedAreas.has(this.areaNumber - 1)) {
+            const areaXP = Math.floor(CONFIG.PROGRESSION.AREA_COMPLETION_XP * 
+                             Math.pow(CONFIG.PROGRESSION.AREA_XP_MULTIPLIER, this.areaNumber - 2));
+            this.player.addXP(areaXP);
+            this.completedAreas.add(this.areaNumber - 1);
+        }
+        
+        if (this.areaNumber >= 2 && !this.backwardPortal) {
+            this.backwardPortal = new Portal(0, 'backward', this.areaNumber - 1);
+        }
+        
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => this.spawnRandomXPOrb(), i * 10);
+        }
+        setTimeout(() => this.fillEnemiesToLimit(), 500);
+    }
+
+    previousArea() {
+        if (this.areaNumber <= 1) return;
+        this.areaNumber--;
+        this.portalUnlocked = false;
+        this.spawner.waveNumber = this.areaNumber;
+        this.spawner.enemiesToSpawn = 5 + Math.floor(this.areaNumber * 2);
+        this.spawner.spawnedCount = 0;
+        this.gameState.enemies = [];
+        this.gameState.xpOrbs = [];
+        
+        this.player.x = this.worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH / 2;
+        this.player.y = this.worldHeight / 2;
+        
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => this.spawnRandomXPOrb(), i * 10);
+        }
+        setTimeout(() => this.fillEnemiesToLimit(), 500);
+    }
+
+    killEnemy(enemy) {
+        const idx = this.gameState.enemies.indexOf(enemy);
+        if (idx > -1) {
+            this.gameState.enemies.splice(idx, 1);
+            this.enemiesKilled++;
+            this.spawnXPOrb(enemy.x, enemy.y, enemy.xp);
+        }
+    }
+
+    // ============================================
+    // ПРОКАЧКА
+    // ============================================
+    
+    upgradeStat(stat) {
+        if (this.player.upgradeStat(stat)) this.updateUI();
+    }
+
+    upgradeAbility(abilityNum) {
+        if (this.player.statPoints <= 0) return false;
+        
+        if (abilityNum === 1 && this.player.ability1Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+            this.player.ability1Level++;
+            this.player.updateAbilityCooldowns();
+            this.player.statPoints--;
+            this.updateUI();
+            return true;
+        } else if (abilityNum === 2 && this.player.ability2Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+            this.player.ability2Level++;
+            this.player.updateAbilityCooldowns();
+            this.player.statPoints--;
+            this.updateUI();
+            return true;
+        }
+        
+        return false;
+    }
+
+    // ============================================
+    // РЕНДЕРИНГ
+    // ============================================
+    
+    render() {
+        this.renderer.clear();
+        this.camera.apply(this.renderer.ctx);
+        this.renderGrid();
+        
+        this.renderer.ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
+        this.renderer.ctx.fillRect(0, 0, CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH, this.worldHeight);
+        this.renderer.ctx.fillRect(this.worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH, 0, CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH, this.worldHeight);
+        
+        this.forwardPortal.render(this.renderer.ctx, this.worldHeight);
+        if (this.backwardPortal) {
+            this.backwardPortal.render(this.renderer.ctx, this.worldHeight);
+        }
+        
+        for (let orb of this.gameState.xpOrbs) orb.render(this.renderer.ctx);
+        for (let enemy of this.gameState.enemies) enemy.render(this.renderer.ctx);
+
+        this.player.render(this.renderer.ctx);
+        
+        this.camera.reset(this.renderer.ctx);
+        
+        this.miniMap.render(this.renderer.ctx, this.camera, this.player, this.gameState.enemies, { forward: this.forwardPortal, backward: this.backwardPortal });
+    }
+
+    renderGrid() {
+        const ctx = this.renderer.ctx;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        const gridSize = CONFIG.GRID.SIZE;
+        for (let x = 0; x <= this.worldWidth; x += gridSize) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, this.worldHeight); ctx.stroke();
+        }
+        for (let y = 0; y <= this.worldHeight; y += gridSize) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(this.worldWidth, y); ctx.stroke();
+        }
+    }
+
+    // ============================================
+    // UI
+    // ============================================
+    
+    updateUI() {
+        const levelCircle = document.getElementById('levelCircle');
+        const xpFill = document.getElementById('xpFill');
+        const pointsCount = document.getElementById('pointsCount');
+        
+        if (levelCircle) levelCircle.textContent = this.player.level;
+        if (xpFill) xpFill.style.width = `${(this.player.xp / this.player.xpToNextLevel) * 100}%`;
+        if (pointsCount) pointsCount.textContent = this.player.statPoints;
+        
+        const speedValue = document.getElementById('speedValue');
+        const energyValue = document.getElementById('energyValue');
+        const regenValue = document.getElementById('regenValue');
+        
+        if (speedValue) speedValue.textContent = this.player.speed.toFixed(1);
+        if (energyValue) energyValue.textContent = Math.floor(this.player.maxEnergy);
+        if (regenValue) regenValue.textContent = this.player.regen.toFixed(1);
+        
+        const areaName = document.getElementById('areaName');
+        if (areaName) areaName.textContent = `Area ${this.areaNumber}`;
+        
+        this.updateAbilityUI('ability1', this.player.shiftCooldown, this.player.maxShiftCooldown, this.player.ability1Level);
+        this.updateAbilityUI('ability2', this.player.spaceCooldown, this.player.maxSpaceCooldown, this.player.ability2Level);
+        
+        this.updateEnergyBar();
+        
+        this.updateUpgradeButton('upgradeSpeed', this.player.speed >= CONFIG.PLAYER_BASE.MAX_SPEED);
+        this.updateUpgradeButton('upgradeEnergy', this.player.maxEnergy >= CONFIG.PLAYER_BASE.MAX_ENERGY_CAP);
+        this.updateUpgradeButton('upgradeRegen', this.player.regen >= CONFIG.PLAYER_BASE.MAX_REGEN);
+    }
+
+    updateUpgradeButton(buttonId, isMaxed) {
+        const btn = document.getElementById(buttonId);
+        if (!btn) return;
+        
+        if (isMaxed) {
+            btn.textContent = 'MAX';
+            btn.disabled = true;
+            btn.classList.add('maxed');
+        } else {
+            btn.textContent = '+';
+            btn.disabled = this.player.statPoints <= 0;
+            btn.classList.remove('maxed');
+        }
+    }
+
+    updateEnergyBar() {
+        const regenBox = document.getElementById('regenBox');
+        const tooltip = document.getElementById('energyTooltip');
+        
+        if (!regenBox) return;
+        
+        const energyPercent = (this.player.energy / this.player.maxEnergy) * 100;
+        
+        regenBox.style.background = `linear-gradient(to right, 
+            rgba(0, 217, 255, 0.4) ${energyPercent}%, 
+            rgba(0, 80, 150, 0.3) ${energyPercent}%)`;
+        
+        if (tooltip) {
+            tooltip.textContent = `${Math.floor(this.player.energy)}/${this.player.maxEnergy}`;
+        }
+    }
+
+    updateAbilityUI(abilityName, cooldown, maxCooldown, level) {
+        const icon = document.getElementById(`${abilityName}Icon`);
+        const overlay = document.getElementById(`${abilityName}Overlay`);
+        const timer = document.getElementById(`${abilityName}Timer`);
+        const starsContainer = document.getElementById(`${abilityName}Stars`);
+        
+        if (!icon || !overlay || !timer || !starsContainer) {
+            console.error(`[GameEngine] Missing UI elements for ${abilityName}`);
+            return;
+        }
+        
+        const hasSP = this.player.statPoints > 0;
+        const abilityNum = abilityName === 'ability1' ? 1 : 2;
+        
+        if (starsContainer.children.length === 0) {
+            for (let i = 0; i < CONFIG.STATS.ABILITY_MAX_LEVEL; i++) {
+                const star = document.createElement('span');
+                star.textContent = '★';
+                star.dataset.index = i;
+                star.dataset.ability = abilityName;
+                
+                star.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(e.target.dataset.index);
+                    const ability = e.target.dataset.ability;
+                    const currentLevel = this.player[`${ability}Level`];
+                    
+                    if (idx === currentLevel && this.player.statPoints > 0) {
+                        const abilityNum = ability === 'ability1' ? 1 : 2;
+                        this.upgradeAbility(abilityNum);
+                    }
+                });
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        for (let i = 0; i < starsContainer.children.length; i++) {
+            const star = starsContainer.children[i];
+            star.className = '';
+            
+            if (i < level) {
+                star.classList.add('active');
+            } else if (i === level && hasSP) {
+                star.classList.add('blink');
+            } else {
+                star.classList.add('inactive');
+            }
+        }
+        
+        if (cooldown > 0) {
+            icon.classList.remove('ready');
+            const seconds = (cooldown / 60).toFixed(1);
+            timer.textContent = seconds;
+            const progress = (cooldown / maxCooldown) * 100;
+            overlay.style.height = `${progress}%`;
+            overlay.style.opacity = '1';
+        } else {
+            icon.classList.add('ready');
+            timer.textContent = '';
+            overlay.style.height = '0%';
+            overlay.style.opacity = '0';
+        }
+    }
+
+    // ============================================
+    // GAME LOOP
+    // ============================================
+    
+    loop() {
+        if (!this.isRunning) return;
+        this.update();
+        this.render();
+        requestAnimationFrame(() => this.loop());
+    }
+}
+
+=== ФАЙЛ: .\js\engine\InputManager.js ===
+import CONFIG from '../config.js';
+
+export class InputManager {
+    constructor() {
+        this.keys = {};
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.mouseWorldX = 0;
+        this.mouseWorldY = 0;
+        this.mouseActive = false;
+        this.keyboardActive = false;
+        this.lastMode = 'keyboard';
+
+        this.MAX_SPEED_AT_DISTANCE = 100;
+        this.MIN_SPEED_FRACTION_AT_CENTER = 0.05;
+
+        window.addEventListener('keydown', (e) => this.onKeyDown(e));
+        window.addEventListener('keyup', (e) => this.onKeyUp(e));
+        window.addEventListener('mousemove', (e) => this.onMouseMove(e));
+        window.addEventListener('mousedown', (e) => this.onMouseDown(e));
+    }
+
+    onKeyDown(e) {
+        this.keys[e.code] = true;
+        if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+            this.keyboardActive = true;
+            this.mouseActive = false;
+            this.lastMode = 'keyboard';
+        }
+    }
+
+    onKeyUp(e) {
+        this.keys[e.code] = false;
+        if (!this.isMovementKeyPressed()) {
+            this.keyboardActive = false;
+        }
+    }
+
+    onMouseMove(e) {
+        const canvas = document.getElementById('gameCanvas');
+        const rect = canvas.getBoundingClientRect();
+        this.mouseX = e.clientX - rect.left;
+        this.mouseY = e.clientY - rect.top;
+    }
+
+    onMouseDown(e) {
+        if (e.button === 0) {
+            const interactiveUISelectors = [
+                '#upgradeSpeed', '#upgradeEnergy', '#upgradeRegen',
+                '.ability-stars span',
+                '.ability-icon',
+                '#statsPanel',
+                '#areaInfo',
+                '#levelInfo',
+                '#energyBox', '#regenBox'
+            ];
+
+            const isClickOnInteractiveUI = interactiveUISelectors.some(selector => {
+                if (e.target.matches(selector)) {
+                    return true;
+                }
+                return e.target.closest(selector) !== null;
+            });
+
+            if (isClickOnInteractiveUI) {
+                return;
+            }
+
+            const canvas = document.getElementById('gameCanvas');
+            if (canvas) {
+                const rect = canvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                const mmX = CONFIG.MINIMAP.PADDING;
+                const mmY = CONFIG.MINIMAP.PADDING;
+                const mmWidth = CONFIG.MINIMAP.WIDTH;
+                const mmHeight = CONFIG.MINIMAP.HEIGHT;
+
+                if (clickX >= mmX && clickX <= mmX + mmWidth &&
+                    clickY >= mmY && clickY <= mmY + mmHeight) {
+                    return;
+                }
+            }
+
+            this.mouseActive = !this.mouseActive;
+            if (this.mouseActive) {
+                this.keyboardActive = false;
+                this.lastMode = 'mouse';
+            }
+        }
+    }
+
+    isMovementKeyPressed() {
+        return this.keys['KeyW'] || this.keys['KeyA'] || this.keys['KeyS'] || this.keys['KeyD'] ||
+               this.keys['ArrowUp'] || this.keys['ArrowDown'] || this.keys['ArrowLeft'] || this.keys['ArrowRight'];
+    }
+
+    isDown(code) {
+        return this.keys[code] === true;
+    }
+
+    getMouseDirection(playerX, playerY) {
+        if (!this.mouseActive) return { dx: 0, dy: 0, distance: 0 };
+
+        const dx = this.mouseWorldX - playerX;
+        const dy = this.mouseWorldY - playerY;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance > 0) {
+            const normalizedDx = dx / distance;
+            const normalizedDy = dy / distance;
+            return { dx: normalizedDx, dy: normalizedDy, distance };
+        } else {
+            return { dx: 0, dy: 0, distance: 0 };
+        }
+    }
+
+    getMouseSpeed(distance, maxSpeed) {
+        const maxDist = this.MAX_SPEED_AT_DISTANCE;
+        const minFrac = this.MIN_SPEED_FRACTION_AT_CENTER;
+
+        let t = distance / maxDist;
+        t = Math.min(t, 1.0);
+
+        let easedT = 1 - Math.pow(1 - t, 3);
+
+        const speedFraction = minFrac + (1.0 - minFrac) * easedT;
+
+        return maxSpeed * speedFraction;
+    }
+}
+
+=== ФАЙЛ: .\js\engine\Renderer.js ===
+export class Renderer {
+    constructor(ctx, width, height) {
+        this.ctx = ctx;
+        this.width = width;
+        this.height = height;
+    }
+
+    clear() {
+        this.ctx.fillStyle = '#16213e';
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+
+    // В будущем добавим сюда методы для отрисовки кругов, сетки и т.д.
+}
+
+=== ФАЙЛ: .\js\entities\Enemy.js ===
+import CONFIG from '../config.js';
+
+export class Enemy {
+    constructor(x, y, config) {
+        this.x = x;
+        this.y = y;
+        this.radius = config.radius || 15;
+        this.color = config.color || '#888888';
+        this.speed = config.speed || 1;
+        this.vx = config.vx || (Math.random() - 0.5) * this.speed;
+        this.vy = config.vy || (Math.random() - 0.5) * this.speed;
+        this.xp = config.xp || 10;
+        this.isWall = config.isWall || false;
+        this.aura = config.aura || false;
+        this.auraColor = config.auraColor || null;
+    }
+
+    update(safeZoneWidth, worldWidth, worldHeight) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Границы игровой зоны (между ОБЕИМИ safe zones)
+        const leftBound = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightBound = worldWidth - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+
+        // Отскок от ЛЕВОЙ границы
+        if (this.x < leftBound + this.radius) {
+            this.vx = Math.abs(this.vx);
+            this.x = leftBound + this.radius;
+        }
+        // Отскок от ПРАВОЙ границы
+        if (this.x > rightBound - this.radius) {
+            this.vx = -Math.abs(this.vx);
+            this.x = rightBound - this.radius;
+        }
+        // Отскок от верха
+        if (this.y < this.radius) {
+            this.vy = Math.abs(this.vy);
+            this.y = this.radius;
+        }
+        // Отскок от низа
+        if (this.y > worldHeight - this.radius) {
+            this.vy = -Math.abs(this.vy);
+            this.y = worldHeight - this.radius;
+        }
+    }
+
+    render(ctx) {
+        if (this.aura && this.auraColor) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius + 20, 0, Math.PI * 2);
+            ctx.fillStyle = this.auraColor;
+            ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+}
+
+=== ФАЙЛ: .\js\entities\Player.js ===
+import CONFIG from '../config.js';
+
+export class Player {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = CONFIG.PLAYER_BASE.RADIUS;
+        
+        this.speed = CONFIG.PLAYER_BASE.BASE_SPEED;
+        this.maxEnergy = CONFIG.PLAYER_BASE.MAX_ENERGY;
+        this.regen = CONFIG.PLAYER_BASE.ENERGY_REGEN;
+        this.energy = this.maxEnergy;
+        
+        this.level = 1;
+        this.xp = 0;
+        this.xpToNextLevel = CONFIG.STATS.XP_PER_LEVEL_BASE;
+        this.statPoints = 0;
+        
+        this.ability1Level = 1;
+        this.ability2Level = 1;
+        
+        this.downed = false;
+        this.invulnerable = false;
+        this.invulnerableTime = 0;
+        this.lastSafeZone = { x: CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2, y: 350 };
+        
+        this.width = CONFIG.WORLD.WIDTH;
+        this.height = CONFIG.WORLD.HEIGHT;
+    }
+
+    update(input, gameState) {
+        if (this.downed) return;
+        
+        let dx = 0, dy = 0;
+        
+        // Приоритет: клавиатура > мышь
+        if (input.keyboardActive || input.isMovementKeyPressed()) {
+            // Режим клавиатуры
+            if (input.isDown('KeyW') || input.isDown('ArrowUp')) dy = -1;
+            if (input.isDown('KeyS') || input.isDown('ArrowDown')) dy = 1;
+            if (input.isDown('KeyA') || input.isDown('ArrowLeft')) dx = -1;
+            if (input.isDown('KeyD') || input.isDown('ArrowRight')) dx = 1;
+            
+            // Нормализация диагонали
+            if (dx !== 0 && dy !== 0) {
+                dx *= 0.707;
+                dy *= 0.707;
+            }
+            
+            this.x += dx * this.speed;
+            this.y += dy * this.speed;
+        } else if (input.mouseActive) {
+            // Режим мыши
+            const direction = input.getMouseDirection(this.x, this.y);
+            const mouseSpeed = input.getMouseSpeed(direction.distance, this.speed);
+            
+            if (mouseSpeed > 0) {
+                this.x += direction.dx * mouseSpeed;
+                this.y += direction.dy * mouseSpeed;
+            }
+        }
+        
+        // Ограничение границами мира
+        this.x = Math.max(this.radius, Math.min(gameState.width - this.radius, this.x));
+        this.y = Math.max(this.radius, Math.min(gameState.height - this.radius, this.y));
+        
+        // Обновление lastSafeZone
+        const leftSafeStart = CONFIG.PORTAL.WIDTH;
+        const leftSafeEnd = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeStart = gameState.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeEnd = gameState.width - CONFIG.PORTAL.WIDTH;
+        
+        if ((this.x >= leftSafeStart && this.x <= leftSafeEnd) || 
+            (this.x >= rightSafeStart && this.x <= rightSafeEnd)) {
+            this.lastSafeZone = { x: this.x, y: this.y };
+        }
+        
+        // Регенерация энергии
+        if (this.energy < this.maxEnergy) {
+            this.energy = Math.min(this.maxEnergy, this.energy + this.regen / 60);
+        }
+        
+        // Неуязвимость
+        if (this.invulnerable) {
+            this.invulnerableTime--;
+            if (this.invulnerableTime <= 0) this.invulnerable = false;
+        }
+    }
+
+    addXP(amount) {
+        this.xp += amount;
+        while (this.xp >= this.xpToNextLevel && this.level < CONFIG.STATS.MAX_LEVEL) {
+            this.levelUp();
+        }
+    }
+
+    levelUp() {
+        this.xp -= this.xpToNextLevel;
+        this.level++;
+        this.xpToNextLevel = Math.floor(this.xpToNextLevel * CONFIG.STATS.XP_MULTIPLIER);
+        this.statPoints++;
+    }
+
+    upgradeStat(stat) {
+        if (this.statPoints <= 0) return false;
+        
+        switch(stat) {
+            case 'speed':
+                if (this.speed >= CONFIG.PLAYER_BASE.MAX_SPEED) return false;
+                this.speed += CONFIG.STATS.SPEED_PER_POINT;
+                break;
+            case 'energy':
+                if (this.maxEnergy >= CONFIG.PLAYER_BASE.MAX_ENERGY_CAP) return false;
+                this.maxEnergy += CONFIG.STATS.ENERGY_PER_POINT;
+                break;
+            case 'regen':
+                if (this.regen >= CONFIG.PLAYER_BASE.MAX_REGEN) return false;
+                this.regen += CONFIG.STATS.REGEN_PER_POINT;
+                break;
+            default:
+                return false;
+        }
+        this.statPoints--;
+        return true;
+    }
+
+    respawn() {
+        const leftSafeEnd = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeStart = this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+
+        if (this.x < leftSafeEnd) {
+            this.x = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2;
+        } else if (this.x > rightSafeStart) {
+            this.x = this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH / 2;
+        } else {
+            this.x = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2;
+        }
+        
+        this.y = this.height / 2;
+        this.downed = false;
+        this.invulnerable = true;
+        this.invulnerableTime = 120;
+    }
+
+    render(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.invulnerable ? `rgba(255, 255, 255, 0.8)` : '#00d9ff';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+
+    useAbility1(input, gameState) { throw new Error("Ability1 not implemented"); }
+    useAbility2(input, gameState) { throw new Error("Ability2 not implemented"); }
+}
+
+=== ФАЙЛ: .\js\heroes\HeroFactory.js ===
+import { Mirage } from './Mirage.js';
+
+export class HeroFactory {
+    static createHero(heroName, x, y) {
+        switch(heroName.toLowerCase()) {
+            case 'mirage':
+                return new Mirage(x, y);
+            default:
+                throw new Error(`Unknown hero: ${heroName}`);
+        }
+    }
+}
+
+=== ФАЙЛ: .\js\heroes\Mirage.js ===
+import { Player } from '../entities/Player.js';
+import CONFIG from '../config.js';
+
+export class Mirage extends Player {
+    constructor(x, y) {
+        super(x, y);
+        
+        this.shiftCooldown = 0;
+        this.spaceCooldown = 0;
+        
+        this.updateAbilityCooldowns();
+    }
+
+    updateAbilityCooldowns() {
+        // Shift: 10/9/8/7/5 сек
+        const shiftCooldowns = [10, 9, 8, 7, 5];
+        this.maxShiftCooldown = (shiftCooldowns[this.ability1Level - 1] || 10) * 60;
+        
+        // Space: 20/18/16/14/12 сек
+        const spaceCooldowns = [20, 18, 16, 14, 12];
+        this.maxSpaceCooldown = (spaceCooldowns[this.ability2Level - 1] || 20) * 60;
+    }
+
+    update(input, gameState) {
+        super.update(input, gameState);
+        
+        if (this.shiftCooldown > 0) this.shiftCooldown--;
+        if (this.spaceCooldown > 0) this.spaceCooldown--;
+        
+        if (input.isDown('ShiftLeft') || input.isDown('ShiftRight')) {
+            this.useAbility1();
+            input.keys['ShiftLeft'] = false;
+            input.keys['ShiftRight'] = false;
+        }
+        if (input.isDown('Space')) {
+            this.useAbility2(gameState);
+            input.keys['Space'] = false;
+        }
+    }
+
+    useAbility1() {
+        if (this.shiftCooldown > 0 || this.energy < CONFIG.ABILITIES.SHIFT_COST) return;
+        
+        this.x = this.lastSafeZone.x;
+        this.y = this.lastSafeZone.y;
+        this.energy -= CONFIG.ABILITIES.SHIFT_COST;
+        this.shiftCooldown = this.maxShiftCooldown;
+        this.downed = false;
+    }
+
+    useAbility2(gameState) {
+        if (this.spaceCooldown > 0 || this.energy < CONFIG.ABILITIES.SPACE_COST) return;
+        
+        let nearest = null;
+        let minDist = 640;
+        
+        for (let e of gameState.enemies) {
+            let d = Math.hypot(e.x - this.x, e.y - this.y);
+            if (d < minDist) {
+                minDist = d;
+                nearest = e;
+            }
+        }
+        
+        if (nearest) {
+            this.x = nearest.x;
+            this.y = nearest.y;
+            this.invulnerable = true;
+            // Неуязвимость зависит от уровня навыка 2: 2/2.5/3/3.5/4 сек
+            const invulnerabilityDurations = [2, 2.5, 3, 3.5, 4];
+            const duration = invulnerabilityDurations[this.ability2Level - 1] || 2;
+            this.invulnerableTime = Math.floor(duration * 60);
+            this.energy -= CONFIG.ABILITIES.SPACE_COST;
+            this.spaceCooldown = this.maxSpaceCooldown;
+        }
+    }
+
+    upgradeAbility(abilityNum) {
+    console.log(`upgradeAbility called: abilityNum=${abilityNum}, SP=${this.statPoints}`);
+    console.log(`Current: ability1=${this.ability1Level}, ability2=${this.ability2Level}`);
+    
+    if (this.statPoints <= 0) {
+        console.log('No SP!');
+        return false;
+    }
+    
+    if (abilityNum === 1 && this.ability1Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+        this.ability1Level++;
+        this.updateAbilityCooldowns();
+        this.statPoints--;
+        console.log(`✓ Ability 1 upgraded to ${this.ability1Level}`);
+        return true;
+    } else if (abilityNum === 2 && this.ability2Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+        this.ability2Level++;
+        this.updateAbilityCooldowns();
+        this.statPoints--;
+        console.log(`✓ Ability 2 upgraded to ${this.ability2Level}`);
+        return true;
+    }
+    
+    console.log('✗ Cannot upgrade');
+    return false;
+}
+}

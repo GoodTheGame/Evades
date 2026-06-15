@@ -1,0 +1,3446 @@
+
+
+=== ФАЙЛ: .\CHANGELOG.md ===
+# Changelog
+Все заметные изменения в этом проекте будут документироваться в этом файле.
+Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/),
+и этот проект придерживается [Semantic Versioning](https://semver.org/lang/ru/).
+{
+    version: '1.1',
+    date: '2026-06-13',
+    name: 'Beta - First Release',
+    changes: [
+        {
+            type: 'added',
+            description: 'Подключение к GitHub, репозиторий опубликован'
+        },
+        {
+            type: 'changed',
+            description: 'Номер версии обновлён до 1.1'
+        }
+    ]
+},
+## [0.1.1] - 2026-06-13
+### Исправления и Улучшения - Управление и UI
+Обновления, улучшающие плавность управления мышью и корректную работу UI.
+#### 🔄 Изменено
+- **Система управления мышью**: Реализована плавная кривая ускорения/замедления без `DEAD_ZONE`, имитирующая поведение Evades. Игрок всегда движется в направлении курсора, но скорость плавно изменяется в зависимости от расстояния.
+- **Параметры движения мыши**: Добавлена настройка `MIN_SPEED_FRACTION_AT_CENTER` для контроля минимальной скорости в центре.
+- **Блокировка кликов по UI**: Обновлена логика `InputManager.onMouseDown` для корректной блокировки переключения режима мыши при кликах по элементам UI (`#statsPanel`, кнопки, звёзды и т.д.).
+- **Блокировка кликов по миникарте**: Добавлена проверка в `InputManager.onMouseDown` для блокировки переключения режима мыши при клике на область миникарты, используя координаты из `CONFIG.MINIMAP`.
+- **CSS UI Layer**: Убрано правило `pointer-events: none;` у `#uiLayer`, добавлены правила `pointer-events: auto;` для интерактивных элементов UI.
+#### 🐛 Исправлено
+- Устранено "дрожание" и "взаимоперенаправляемое движение" шара в центре при управлении мышью.
+- Исправлена проблема, при которой клики по хотбару, кнопкам прокачки, звёздам способностей и миникарте переключали режим мыши.
+
+## [0.1.0] - 2026-06-13
+### Alpha - Foundation
+Первый альфа-релиз с базовой функциональностью игры.
+#### ✨ Добавлено
+- **Система движения игрока**
+- Управление через WASD и стрелки
+- Плавное движение с нормализацией диагонали
+- **Камера**
+- Плавное следование за игроком
+- Центрирование на игроке
+- **Мини-карта**
+- Отображение всей арены (1800x700 пикселей)
+- Показ позиций врагов, орбов XP и игрока
+- Зелёная рамка видимой области камеры
+- **Система порталов**
+- Правый портал для перехода на следующую арену
+- Левый портал для возврата на предыдущую арену (с Area 2+)
+- Визуальные индикаторы порталов
+- **Safe Zones**
+- Зоны безопасности с обеих сторон арены
+- Неуязвимость игрока в safe zone
+- Враги не могут заходить в safe zone
+- **Система врагов**
+- Normal враги (серые шары, случайное движение)
+- Wall враги (чёрные шары, горизонтальное движение)
+- Лимит врагов на арене (30 максимум)
+- Автоматическое поддержание лимита
+- **Система XP орбов**
+- Радужные цвета орбов
+- Магнит к игроку (радиус 150px)
+- Мгновенный спавн 50 орбов при старте
+- Постоянный спавн 1 орб в секунду
+- Максимум 100 орбов на арене
+- **Система прогрессии**
+- Уровни игрока (максимум 50)
+- Очки прокачки (SP) за каждый уровень
+- Экспоненциальный рост требуемого XP
+- Бонус XP за прохождение арены (одноразовый)
+- **Прокачка характеристик**
+- Speed (скорость): +0.2 за очко, максимум 7.0
+- Energy (запас маны): +5 за очко, максимум 150
+- Regen (регенерация маны): +0.1 за очко, максимум 3.0
+- Кнопка меняется на "MAX" при достижении лимита
+- **Система способностей**
+- Способность 1 (Shift): телепорт в последнюю safe zone
+- Стоимость: 5 маны
+- Кулдаун: 10/9/8/7/5 секунд (зависит от уровня)
+- Способность 2 (Space): телепорт к ближайшему врагу
+- Стоимость: 15 маны
+- Кулдаун: 20/18/16/14/12 секунд (зависит от уровня)
+- Неуязвимость: 2/2.5/3/3.5/4 секунды (зависит от уровня)
+- **Прокачка способностей**
+- 5 уровней для каждой способности
+- Прокачка через клик на мерцающую звезду
+- Визуальная обратная связь (мерцание, активные/неактивные звёзды)
+- **Пользовательский интерфейс**
+- Хотбар с характеристиками (Speed, Energy, Regen)
+- Отображение способностей с иконками и кулдаунами
+- Шкала XP с уровнем игрока
+- Индикатор очков прокачки (жёлтый шарик ×N)
+- Бар маны в ячейке Regen (визуальное заполнение)
+- Tooltip с точным значением маны при наведении
+- Таймер обратного отсчёта кулдаунов
+- **Визуальные эффекты**
+- Мерцающие звёзды для доступных улучшений (4 секунды цикл)
+- Анимация заполнения кулдаунов (снизу вверх)
+- Плавные переходы в UI
+- Glow-эффекты для активных элементов
+#### 🐛 Исправлено
+- Границы спавна врагов (теперь только в игровой зоне)
+- Система неуязвимости после телепорта
+- Отображение кулдаунов способностей (раздельные для каждой)
+- Дублирование методов в GameEngine
+- Проблемы с кликабельностью звёзд прокачки
+
+---
+## Типы изменений
+- **✨ Added** (Добавлено) - новые функции
+- **🔄 Changed** (Изменено) - изменения в существующей функциональности
+- **🐛 Fixed** (Исправлено) - исправления ошибок
+- **🗑️ Removed** (Удалено) - удалённые функции
+- **⚠️ Deprecated** (Устарело) - функции, которые будут удалены в будущих версиях
+- **🔒 Security** (Безопасность) - исправления уязвимостей
+
+---
+## Версионирование
+Проект использует [Semantic Versioning](https://semver.org/lang/ru/):
+- **MAJOR** версия (X.0.0) - несовместимые изменения API
+- **MINOR** версия (0.X.0) - добавление функциональности обратно совместимым способом
+- **PATCH** версия (0.0.X) - исправления ошибок обратно совместимым способом
+
+=== ФАЙЛ: .\index.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evades Prototype</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="uiLayer"></div>
+    </div>
+    
+    <!-- Подключаем главный файл как модуль -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
+
+=== ФАЙЛ: .\merge.py ===
+import os
+with open("project_dump.txt", "w", encoding="utf-8") as out:
+    for root, _, files in os.walk("."):
+        for file in files:
+            if file.endswith((".py", ".js", ".html", ".css", ".json", ".md")): # добавь свои расширения
+                path = os.path.join(root, file)
+                out.write(f"\n\n=== ФАЙЛ: {path} ===\n")
+                try:
+                    with open(path, "r", encoding="utf-8") as f:
+                        out.write(f.read())
+                except: pass
+
+=== ФАЙЛ: .\version.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #00d9ff;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+        
+        .version-info {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        
+        .release {
+            background: rgba(0, 80, 150, 0.2);
+            border: 2px solid #00d9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        
+        .release-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+        }
+        
+        .release-title {
+            font-size: 24px;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+        
+        .release-date {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .change-group {
+            margin-bottom: 20px;
+        }
+        
+        .change-group-title {
+            font-size: 18px;
+            color: #FFD700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .change-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .change-list li {
+            padding: 8px 0;
+            color: #ddd;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .change-list li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #00d9ff;
+            font-size: 20px;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+        }
+        
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 217, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Changelog</h1>
+        <div class="version-info">История изменений проекта</div>
+        
+        <div id="changelog-content"></div>
+        
+        <a href="index.html" class="back-button">← Вернуться в главное меню</a>
+    </div>
+
+    <script type="module">
+        import { VERSION } from './js/version.js';
+        
+        function renderChangelog() {
+            const container = document.getElementById('changelog-content');
+            let html = '';
+            
+            for (const release of VERSION.changelog) {
+                html += `
+                    <div class="release">
+                        <div class="release-header">
+                            <div class="release-title">v${release.version} - ${release.name}</div>
+                            <div class="release-date">${release.date}</div>
+                        </div>
+                `;
+                
+                const grouped = {
+                    added: [],
+                    changed: [],
+                    fixed: [],
+                    removed: []
+                };
+                
+                for (const change of release.changes) {
+                    if (grouped[change.type]) {
+                        grouped[change.type].push(change.description);
+                    }
+                }
+                
+                const typeLabels = {
+                    added: { icon: '✨', title: 'Добавлено' },
+                    changed: { icon: '🔄', title: 'Изменено' },
+                    fixed: { icon: '🐛', title: 'Исправлено' },
+                    removed: { icon: '🗑️', title: 'Удалено' }
+                };
+                
+                for (const [type, items] of Object.entries(grouped)) {
+                    if (items.length > 0) {
+                        html += `
+                            <div class="change-group">
+                                <div class="change-group-title">
+                                    ${typeLabels[type].icon} ${typeLabels[type].title}
+                                </div>
+                                <ul class="change-list">
+                                    ${items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                }
+                
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        renderChangelog();
+    </script>
+</body>
+</html>
+
+=== ФАЙЛ: .\css\style.css ===
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+/* ============================================
+   GAME CONTAINER & CANVAS
+   ============================================ */
+#gameContainer {
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 150, 255, 0.3);
+    overflow: hidden;
+}
+
+#gameCanvas {
+    background: #16213e;
+    display: block;
+    border: 3px solid #0f3460;
+    width: 1200px;
+    height: 700px;
+}
+
+#uiLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#upgradeSpeed,
+#upgradeEnergy,
+#upgradeRegen,
+.ability-stars span, /* Все звёзды способностей */
+.ability-icon      /* Оба иконки способностей */
+{
+    pointer-events: auto;
+}
+
+/* ============================================
+   AREA INFO (сверху по центру)
+   ============================================ */
+#areaInfo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.area-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.6);
+}
+
+/* ============================================
+   LEVEL INFO (слева внизу)
+   ============================================ */
+#levelInfo {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+}
+
+.level-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.xp-bar {
+    width: 150px;
+    height: 20px;
+    background: #1a1a2e;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #00d9ff;
+}
+
+.xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff88, #00d9ff);
+    width: 0%;
+    transition: width 0.3s;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+}
+
+.stat-points {
+    font-size: 14px;
+    color: #00d9ff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.xp-orb-icon {
+    color: #FFD700;
+    font-size: 16px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* ============================================
+   STATS PANEL (внизу по центру)
+   ============================================ */
+#statsPanel {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 20, 40, 0.9);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 2px solid #00d9ff;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.stat-box {
+    text-align: center;
+    background: rgba(0, 80, 150, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 80px;
+    border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #00d9ff;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00d9ff;
+    text-shadow: 0 0 5px rgba(0, 217, 255, 0.5);
+}
+
+/* ============================================
+   UPGRADE BUTTONS
+   ============================================ */
+.upgrade-btn {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #fff 0%, #00d9ff 100%);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+}
+
+.upgrade-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.upgrade-btn.maxed {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #000;
+    font-size: 10px;
+    font-weight: bold;
+    width: 40px;
+    cursor: not-allowed;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.upgrade-btn.maxed:hover {
+    transform: none;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+/* ============================================
+   ENERGY & REGEN BOXES
+   ============================================ */
+#energyBox,
+#regenBox {
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+.energy-tooltip {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 20, 40, 0.95);
+    color: #00d9ff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #00d9ff;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 100;
+}
+
+.energy-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #00d9ff;
+}
+
+#regenBox:hover .energy-tooltip {
+    opacity: 1;
+}
+
+/* ============================================
+   ABILITY BOX
+   ============================================ */
+.ability-box {
+    position: relative;
+    min-width: 100px;
+}
+
+.ability-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #00d9ff 0%, #0066cc 100%);
+    border-radius: 8px;
+    margin: 5px auto;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+}
+
+.ability-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 0, 0, 0.75);
+    transition: height 0.1s linear, opacity 0.1s;
+    pointer-events: none;
+}
+
+.ability-icon.ready .ability-overlay {
+    height: 0%;
+    opacity: 0;
+}
+
+.ability-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    z-index: 1;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+.ability-cost {
+    font-size: 10px;
+    color: #00d9ff;
+    text-align: center;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+/* ============================================
+   ABILITY STARS
+   ============================================ */
+.ability-stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 2px;
+    pointer-events: auto;
+}
+
+.ability-stars span {
+    font-size: 14px;
+    cursor: default;
+    transition: all 0.2s;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.ability-stars span.active {
+    color: #00d9ff;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+}
+
+.ability-stars span.inactive {
+    color: #2a4a6a;
+}
+
+.ability-stars span.blink {
+    animation: blinkStar 4s infinite ease-in-out;
+    cursor: pointer;
+    color: #00d9ff;
+}
+
+.ability-stars span.blink:hover {
+    animation: none;
+    transform: scale(1.3);
+    text-shadow: 0 0 15px rgba(0, 217, 255, 1);
+    color: #00d9ff;
+}
+
+@keyframes blinkStar {
+    0%, 100% { 
+        opacity: 0.25; 
+        transform: scale(0.85);
+        text-shadow: 0 0 3px rgba(0, 217, 255, 0.3);
+        color: #1a4a6a;
+    }
+    50% { 
+        opacity: 0.9;
+        transform: scale(1.05);
+        text-shadow: 0 0 12px rgba(0, 217, 255, 0.9);
+        color: #00d9ff;
+    }
+}
+/* Пульсация при отъёме энергии */
+#regenBox.draining {
+    animation: energyPulse 1s infinite ease-in-out;
+}
+
+@keyframes energyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Блокировка способностей */
+.ability-icon.blocked {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+=== ФАЙЛ: .\js\Camera.js ===
+export class Camera {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.x = 0;
+        this.y = 0;
+        this.smoothness = 0.2;
+    }
+
+    update(player, worldWidth, worldHeight) {
+        this.targetX = player.x - this.width / 2;
+        this.targetY = player.y - this.height / 2;
+
+        this.x += (this.targetX - this.x) * this.smoothness;
+        this.y += (this.targetY - this.y) * this.smoothness;
+    }
+
+    apply(ctx) {
+        ctx.save();
+        ctx.translate(-Math.floor(this.x), -Math.floor(this.y));
+    }
+
+    reset(ctx) {
+        ctx.restore();
+    }
+
+    worldToScreen(worldX, worldY) {
+        return { x: worldX - this.x, y: worldY - this.y };
+    }
+
+    screenToWorld(screenX, screenY) {
+        return { x: screenX + this.x, y: screenY + this.y };
+    }
+}
+
+
+=== ФАЙЛ: .\js\config.js ===
+const CONFIG = {
+    CANVAS: { WIDTH: 1200, HEIGHT: 700 },
+    WORLD: { WIDTH: 1800, HEIGHT: 700 },
+    VIEWPORT: { WIDTH: 1200, HEIGHT: 700 },
+    SAFE_ZONE: { WIDTH: 160 },
+    PORTAL: { WIDTH: 40 },
+    GRID: { SIZE: 40 },
+    MINIMAP: { WIDTH: 200, HEIGHT: 117, PADDING: 10 },
+    PROGRESSION: {
+        TOTAL_AREAS: 40,
+        AREA_COMPLETION_XP: 50,
+        AREA_XP_MULTIPLIER: 1.2
+    },
+    PLAYER_BASE: {
+        RADIUS: 12,
+        BASE_SPEED: 4, // ИЗМЕНИЛ С 3 НА 4
+        MAX_SPEED: 7,
+        MAX_ENERGY: 30,
+        MAX_ENERGY_CAP: 150,
+        ENERGY_REGEN: 1,
+        MAX_REGEN: 3
+    },
+    STATS: {
+        MAX_LEVEL: 50,
+        XP_PER_LEVEL_BASE: 5,
+        XP_MULTIPLIER: 1.5,
+        SPEED_PER_POINT: 0.2,
+        ENERGY_PER_POINT: 5,
+        REGEN_PER_POINT: 0.1,
+        ABILITY_MAX_LEVEL: 5
+    },
+    ENEMY_SPAWN: {
+        INITIAL_COUNT: 20,
+        MAX_ENEMIES: 30,
+        MIN_DISTANCE_FROM_PLAYER: 200
+    },
+    XP_SPAWN: {
+        INITIAL_AMOUNT: 50,
+        MAX_ORBS: 100,
+        SPAWN_RATE: 60
+    },
+    ABILITIES: {
+        MAX_LEVEL: 5,
+        XP_PER_ABILITY_LEVEL: 500,
+        SHIFT_COST: 5,
+        SPACE_COST: 15,
+        SHIFT_BASE_COOLDOWN: 10,
+        SPACE_BASE_COOLDOWN: 20
+    },
+    ENEMY_SPEED: {
+        NORMAL: { MIN: 0.5, MAX: 4, SCALE_PER_AREA: 0.03 },
+        WALL: { MIN: 0.3, MAX: 2, SCALE_PER_AREA: 0.02 }
+    }
+};
+
+export default CONFIG;
+
+=== ФАЙЛ: .\js\main.js ===
+import CONFIG from './config.js';
+import { GameEngine } from './engine/GameEngine.js';
+import { logVersion } from './version.js';
+
+// Логируем версию при старте
+logVersion();
+
+// Получаем canvas и контекст
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = CONFIG.CANVAS.WIDTH;
+canvas.height = CONFIG.CANVAS.HEIGHT;
+
+console.log("Canvas:", canvas.width, "x", canvas.height);
+console.log("World:", CONFIG.WORLD.WIDTH, "x", CONFIG.WORLD.HEIGHT);
+
+// Создание UI
+function createUI() {
+    const ui = document.getElementById('uiLayer');
+    ui.innerHTML = `
+        <div id="areaInfo">
+            <div class="area-name" id="areaName">Area 1</div>
+        </div>
+        
+        <div id="levelInfo">
+            <div class="level-circle" id="levelCircle">1</div>
+            <div class="xp-bar">
+                <div class="xp-fill" id="xpFill"></div>
+            </div>
+            <div class="stat-points" id="statPoints">
+                <span class="xp-orb-icon">●</span> × <span id="pointsCount">0</span>
+            </div>
+        </div>
+        
+        <div id="statsPanel">
+            <div class="stat-box">
+                <div class="stat-label">Speed</div>
+                <div class="stat-value" id="speedValue">4.0</div>
+                <button class="upgrade-btn" id="upgradeSpeed">+</button>
+            </div>
+            <div class="stat-box energy-box" id="energyBox">
+                <div class="stat-label">Energy</div>
+                <div class="stat-value" id="energyValue">30</div>
+                <button class="upgrade-btn" id="upgradeEnergy">+</button>
+            </div>
+            <div class="stat-box energy-box" id="regenBox">
+                <div class="stat-label">Regen</div>
+                <div class="stat-value" id="regenValue">1.0</div>
+                <div class="energy-tooltip" id="energyTooltip">30/30</div>
+                <button class="upgrade-btn" id="upgradeRegen">+</button>
+            </div>
+            <div class="stat-box ability-box">
+                <div class="stat-label">Shift</div>
+                <div class="ability-icon" id="ability1Icon">
+                    <div class="ability-overlay" id="ability1Overlay"></div>
+                    <div class="ability-timer" id="ability1Timer"></div>
+                </div>
+                <div class="ability-stars" id="ability1Stars"></div>
+                <div class="ability-cost">Cost: ${CONFIG.ABILITIES.SHIFT_COST}</div>
+            </div>
+            <div class="stat-box ability-box">
+                <div class="stat-label">Space</div>
+                <div class="ability-icon" id="ability2Icon">
+                    <div class="ability-overlay" id="ability2Overlay"></div>
+                    <div class="ability-timer" id="ability2Timer"></div>
+                </div>
+                <div class="ability-stars" id="ability2Stars"></div>
+                <div class="ability-cost">Cost: ${CONFIG.ABILITIES.SPACE_COST}</div>
+            </div>
+        </div>
+    `;
+}
+
+createUI();
+
+// Создаём игру
+const game = new GameEngine(ctx, CONFIG.CANVAS.WIDTH, CONFIG.CANVAS.HEIGHT);
+
+// Привязка кнопок
+document.getElementById('upgradeSpeed').addEventListener('click', () => game.upgradeStat('speed'));
+document.getElementById('upgradeEnergy').addEventListener('click', () => game.upgradeStat('energy'));
+document.getElementById('upgradeRegen').addEventListener('click', () => game.upgradeStat('regen'));
+
+window.game = game;
+game.start();
+
+=== ФАЙЛ: .\js\MiniMap.js ===
+import CONFIG from './config.js';
+
+export class MiniMap {
+    constructor() {
+        this.width = CONFIG.MINIMAP.WIDTH;
+        this.height = CONFIG.MINIMAP.HEIGHT;
+        this.scaleX = this.width / CONFIG.WORLD.WIDTH;
+        this.scaleY = this.height / CONFIG.WORLD.HEIGHT;
+        this.x = 10;
+        this.y = 10;
+    }
+
+    render(ctx, camera, player, enemies, portals) {
+        const { width, height, scaleX, scaleY, x, y } = this;
+        
+        ctx.fillStyle = 'rgba(10, 15, 30, 0.95)';
+        ctx.fillRect(x, y, width, height);
+        ctx.strokeStyle = '#00d9ff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+        
+        ctx.fillStyle = 'rgba(255, 215, 0, 0.5)';
+        ctx.fillRect(x, y + 2, (CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH) * scaleX, height - 4);
+        ctx.fillRect(
+            x + (CONFIG.WORLD.WIDTH - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH) * scaleX, 
+            y + 2, 
+            (CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH) * scaleX, 
+            height - 4
+        );
+        
+        ctx.fillStyle = '#FFD700';
+        if (portals.forward) {
+            ctx.fillRect(x + portals.forward.x * scaleX, y + 2, CONFIG.PORTAL.WIDTH * scaleX, height - 4);
+        }
+        if (portals.backward) {
+            ctx.fillRect(x + portals.backward.x * scaleX, y + 2, CONFIG.PORTAL.WIDTH * scaleX, height - 4);
+        }
+        
+        ctx.fillStyle = '#888';
+        for (let enemy of enemies) {
+            ctx.beginPath();
+            ctx.arc(x + enemy.x * scaleX, y + enemy.y * scaleY, 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        ctx.fillStyle = '#00d9ff';
+        ctx.beginPath();
+        ctx.arc(x + player.x * scaleX, y + player.y * scaleY, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.strokeStyle = 'rgba(0, 255, 0, 0.5)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(
+            x + camera.x * scaleX,
+            y + camera.y * scaleY,
+            camera.width * scaleX,
+            camera.height * scaleY
+        );
+    }
+}
+
+=== ФАЙЛ: .\js\Portal.js ===
+// js/Portal.js
+import CONFIG from './config.js';
+
+export class Portal {
+    constructor(x, y = 0, portalType = 'forward', options = {}) {
+        this.x = x;
+        this.y = y; // если высота не на весь мир
+        this.width = options.width || CONFIG.PORTAL.WIDTH;
+        this.height = options.height || null; // null = на всю высоту мира (будет задано при render)
+        this.portalType = portalType; // 'forward', 'backward', 'dungeon', 'shop'...
+        this.onEnter = options.onEnter || null; // функция, вызываемая при касании
+        this.color = options.color || '#FFD700';
+        this.glowIntensity = 0;
+    }
+
+    update() {
+        this.glowIntensity = (this.glowIntensity + 0.05) % (Math.PI * 2);
+    }
+
+    render(ctx, worldHeight) {
+        const h = this.height || worldHeight;
+        const glow = Math.sin(this.glowIntensity) * 10;
+
+        ctx.fillStyle = `rgba(255, 215, 0, ${0.3 + Math.sin(this.glowIntensity) * 0.2})`;
+        ctx.fillRect(this.x - 5, this.y, this.width + 10, h);
+
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, h);
+
+        ctx.strokeStyle = '#FFA500';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(this.x, this.y, this.width, h);
+
+        // Стрелка или символ
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 20px Arial';
+        let arrow = '►';
+        if (this.portalType === 'backward') arrow = '◄';
+        else if (this.portalType === 'dungeon') arrow = '▼';
+        else if (this.portalType === 'shop') arrow = '$';
+        // Можно задать своё
+        ctx.fillText(arrow, this.x + this.width / 2 - 8, this.y + h / 2 + 7);
+    }
+
+    checkPlayerCollision(player) {
+        const playerLeft = player.x - player.radius;
+        const playerRight = player.x + player.radius;
+        const h = this.height || Infinity; // если null — считаем, что по всей высоте
+        const playerTop = player.y - player.radius;
+        const playerBottom = player.y + player.radius;
+
+        return (
+            playerRight > this.x &&
+            playerLeft < this.x + this.width &&
+            playerBottom > this.y &&
+            playerTop < this.y + h
+        );
+    }
+}
+
+=== ФАЙЛ: .\js\version.js ===
+// js/version.js
+
+export const VERSION = {
+    number: '1.1', // Обновляем номер версии
+    name: 'Beta - First Release',
+    date: '2026-06-13',
+    changelog: [
+        {
+            version: '0.1.1',
+            date: '2026-06-13',
+            name: 'Alpha - Mouse & UI Refinement', // Название для новой версии
+            changes: [
+                {
+                    type: 'changed',
+                    description: 'Система управления мышью: реализована плавная кривая ускорения/замедления без DEAD_ZONE, имитирующая поведение Evades.'
+                },
+                {
+                    type: 'changed',
+                    description: 'Система управления мышью: добавлена настройка MIN_SPEED_FRACTION_AT_CENTER для контроля минимальной скорости в центре.'
+                },
+                {
+                    type: 'changed',
+                    description: 'Блокировка кликов по UI: обновлена логика InputManager.onMouseDown для корректной блокировки переключения режима мыши при кликах по элементам UI.'
+                },
+                {
+                    type: 'added',
+                    description: 'Блокировка кликов по миникарте: добавлена проверка в InputManager.onMouseDown для блокировки переключения режима мыши при клике на область миникарты.'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлено "дрожание" и "взаимоперенаправляемое движение" шара в центре при управлении мышью.'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлена проблема, при которой клики по хотбару, кнопкам прокачки, звёздам способностей и миникарте переключали режим мыши.'
+                }
+            ]
+        },
+        {
+            version: '0.1.0',
+            date: '2026-06-13',
+            name: 'Alpha - Foundation',
+            changes: [
+                {
+                    type: 'added',
+                    description: 'Базовая система движения игрока (WASD/стрелки)'
+                },
+                {
+                    type: 'added',
+                    description: 'Камера с плавным следованием за игроком'
+                },
+                {
+                    type: 'added',
+                    description: 'Мини-карта с отображением всей арены (1800x700)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система порталов для перехода между аренами'
+                },
+                {
+                    type: 'added',
+                    description: 'Safe zones с обеих сторон арены (неуязвимость)'
+                },
+                {
+                    type: 'added',
+                    description: 'Спавн врагов (Normal и Wall типы)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система XP орбов (радужные цвета, магнит к игроку)'
+                },
+                {
+                    type: 'added',
+                    description: 'Система уровней игрока и очков прокачки (SP)'
+                },
+                {
+                    type: 'added',
+                    description: 'Прокачка характеристик: Speed, Energy, Regen'
+                },
+                {
+                    type: 'added',
+                    description: 'Система способностей с кулдаунами'
+                },
+                {
+                    type: 'added',
+                    description: 'Способность 1 (Shift): телепорт в safe zone'
+                },
+                {
+                    type: 'added',
+                    description: 'Способность 2 (Space): телепорт к врагу с неуязвимостью'
+                },
+                {
+                    type: 'added',
+                    description: 'Прокачка способностей через звёзды (5 уровней)'
+                },
+                {
+                    type: 'added',
+                    description: 'UI: хотбар с характеристиками и способностями'
+                },
+                {
+                    type: 'added',
+                    description: 'Визуальные индикаторы: кулдауны, мана, XP'
+                },
+                {
+                    type: 'added',
+                    description: 'Система мерцающих звёзд для прокачки'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлены границы спавна врагов (только в игровой зоне)'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлена система неуязвимости после телепорта'
+                },
+                {
+                    type: 'fixed',
+                    description: 'Исправлено отображение кулдаунов способностей'
+                }
+            ]
+        }
+    ]
+};
+
+// Утилита для отображения версии в консоли
+export function logVersion() {
+    console.log(`%c${VERSION.name} v${VERSION.number}`, 'color: #00d9ff; font-size: 20px; font-weight: bold;');
+    console.log(`%cReleased: ${VERSION.date}`, 'color: #888; font-size: 12px;');
+    console.log(`%cTotal changes: ${VERSION.changelog.reduce((sum, release) => sum + release.changes.length, 0)}`, 'color: #888; font-size: 12px;');
+}
+
+// Утилита для получения форматированного changelog
+export function getChangelogFormatted() {
+    let output = '';
+    for (const release of VERSION.changelog) {
+        output += `\n${'='.repeat(60)}\n`;
+        output += `Version ${release.version} - ${release.name}\n`;
+        output += `Released: ${release.date}\n`;
+        output += `${'='.repeat(60)}\n`;
+
+        const grouped = {
+            added: [],
+            changed: [],
+            fixed: [],
+            removed: []
+        };
+
+        for (const change of release.changes) {
+            if (grouped[change.type]) {
+                grouped[change.type].push(change.description);
+            }
+        }
+
+        if (grouped.added.length > 0) {
+            output += '✨ ADDED:\n';
+            grouped.added.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.changed.length > 0) {
+            output += '🔄 CHANGED:\n';
+            grouped.changed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.fixed.length > 0) {
+            output += '🐛 FIXED:\n';
+            grouped.fixed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+        if (grouped.removed.length > 0) {
+            output += '🗑️  REMOVED:\n';
+            grouped.removed.forEach(item => output += `  • ${item}\n`);
+            output += '\n';
+        }
+    }
+    return output;
+}
+
+=== ФАЙЛ: .\js\XPOrb.js ===
+export class XPOrb {
+    constructor(x, y, amount) {
+        this.x = x;
+        this.y = y;
+        this.amount = amount;
+        this.radius = 6;
+        const hue = (x * 0.1 + y * 0.1 + amount * 30) % 360;
+        this.color = `hsl(${hue}, 100%, 50%)`;
+        this.magnetized = false;
+        this.collected = false;
+        this.bobOffset = Math.random() * Math.PI * 2;
+    }
+
+    update(player) {
+        this.bobOffset += 0.05;
+        
+        const dist = Math.hypot(player.x - this.x, player.y - this.y);
+        if (dist < 150) {
+            this.magnetized = true;
+        }
+        
+        if (this.magnetized) {
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance > 0) {
+                const speed = Math.min(12, 8 + (150 - distance) * 0.05);
+                this.x += (dx / distance) * speed;
+                this.y += (dy / distance) * speed;
+            }
+        }
+    }
+
+    render(ctx) {
+        const bob = Math.sin(this.bobOffset) * 2;
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + bob, this.radius + 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + '40';
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y + bob, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    isCollected(player) {
+return Math.hypot(player.x - this.x, player.y - this.y) < player.radius + this.radius;    }
+}
+
+=== ФАЙЛ: .\js\arena\Arena.js ===
+// js/arena/Arena.js
+import CONFIG from '../config.js';
+import { Portal } from '../Portal.js';
+import { XPOrb } from '../XPOrb.js';
+import {
+    Asteroid, AsterBlack, AsterSniper, AsterChaser, AsterDash,
+    AsterSlow, AsterCripple, AsterDrain, AsterSilence, AsterSaw
+} from '../enemies/Asteroids.js';
+
+export class Arena {
+    constructor(areaNumber) {
+        this.areaNumber = areaNumber;
+        this.width = CONFIG.WORLD.WIDTH;
+        this.height = CONFIG.WORLD.HEIGHT;
+
+        this.leftSafeZone = {
+            start: 0,
+            end: CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH
+        };
+        this.rightSafeZone = {
+            start: this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH,
+            end: this.width
+        };
+
+        this.displayName = 'Неизвестная вселенная';
+        this.requiredResource = null;
+        this.rewardTechnology = null;
+        this.enemyModifiers = [];
+        this.enemyTypes = [];
+        this.enemyConfigs = {};
+
+        // Профили пил: [{ count: 10, config: { direction: 'cw', speed: 2.5 } }, ...]
+        this.sawProfiles = [];
+
+        // Порталы
+        this.portals = [];
+
+        // Волны
+        this.waveNumber = 1;
+        this.waveComplete = false;
+
+        // ----------------- Новые поля для счётчиков пил -----------------
+        this._sawCounters = [];               // массив счётчиков для каждого профиля
+        this._sawEnemies = [];                // плоский массив всех созданных пил
+        this._sawPositionsReady = false;
+        this._sawProfilesGenerated = false;
+        // -----------------------------------------------------------------
+    }
+
+    // ============================================
+    // ПОРТАЛЫ
+    // ============================================
+    setPortals(forwardPortal, backwardPortal) {
+        this.portals = [];
+        if (forwardPortal) this.portals.push(forwardPortal);
+        if (backwardPortal) this.portals.push(backwardPortal);
+    }
+
+    getPortalByType(type) {
+        return this.portals.find(p => p.portalType === type);
+    }
+
+    // ============================================
+    // SAFE ZONES
+    // ============================================
+    isInSafeZone(x, y, playerRadius = 0) {
+    // для обычных арен безопасные зоны только по X
+    const playerLeft = x - playerRadius;
+    const playerRight = x + playerRadius;
+    return (
+        (playerLeft >= this.leftSafeZone.start && playerRight <= this.leftSafeZone.end) ||
+        (playerLeft >= this.rightSafeZone.start && playerRight <= this.rightSafeZone.end)
+    );
+}
+    enforceSafeZoneForEnemy(enemy) {
+        // Базовая реализация — ничего не делаем.
+        // Стандартные арены не имеют препятствий внутри игровой зоны.
+    }
+    getEnemyMovementBounds() {
+        return {
+            minX: CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH,
+            maxX: this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH,
+            minY: 0,
+            maxY: this.height
+        };
+    }
+
+    getRespawnPoint(currentX) {
+        const distToLeft = Math.abs(currentX - (this.leftSafeZone.start + this.leftSafeZone.end) / 2);
+        const distToRight = Math.abs(currentX - (this.rightSafeZone.start + this.rightSafeZone.end) / 2);
+        if (distToLeft <= distToRight) {
+            return { x: (this.leftSafeZone.start + this.leftSafeZone.end) / 2, y: this.height / 2 };
+        } else {
+            return { x: (this.rightSafeZone.start + this.rightSafeZone.end) / 2, y: this.height / 2 };
+        }
+    }
+
+    // ============================================
+    // ГРАНИЦЫ ДЛЯ СПАВНА ОБЫЧНЫХ ВРАГОВ / ОРБОВ
+    // ============================================
+    getEnemySpawnBounds() {
+        return {
+            minX: this.leftSafeZone.end + 50,
+            maxX: this.rightSafeZone.start - 50,
+            minY: 50,
+            maxY: this.height - 50
+        };
+    }
+    getSawBounds() {
+    return {
+        left: CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH,
+        right: this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH,
+        top: 0,
+        bottom: this.height
+    };
+}
+    renderSafeZones(ctx) {
+    ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
+    const leftW = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+    const rightX = this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+    ctx.fillRect(0, 0, leftW, this.height);
+    ctx.fillRect(rightX, 0, leftW, this.height);
+}
+
+    // ============================================
+    // XP-ОРБЫ
+    // ============================================
+    spawnInitialXPOrbs(count, gameState) {
+        for (let i = 0; i < count; i++) {
+            this.spawnRandomXPOrb(gameState);
+        }
+    }
+
+    spawnRandomXPOrb(gameState) {
+        if (gameState.xpOrbs.length >= CONFIG.XP_SPAWN.MAX_ORBS) return;
+        const bounds = this.getEnemySpawnBounds();
+        const x = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+        const y = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+        gameState.xpOrbs.push(new XPOrb(x, y, 1));
+    }
+
+    spawnXPOrbAt(x, y, amount, gameState) {
+        gameState.xpOrbs.push(new XPOrb(x, y, amount));
+    }
+
+    // ============================================
+    // СИСТЕМА ПИЛ (единый счётчик периметра)
+    // ============================================
+
+    _initSawCounters() {
+        this._sawCounters = [];
+        this._sawEnemies = [];
+
+        for (const profile of this.sawProfiles) {
+            const speed = profile.config.speed || this.enemyConfigs['astersaw']?.speed || 2;
+            const direction = profile.config.direction || 'cw';
+            const radius = profile.config.radius || this.enemyConfigs['astersaw']?.radius || 20;
+            this._sawCounters.push({
+                totalDistance: 0,
+                speed,
+                direction,
+                count: profile.count,
+                radius
+            });
+        }
+        this._sawPositionsReady = true;
+        this._sawProfilesGenerated = false;
+    }
+
+    _spawnAllSaws(gameState) {
+        gameState.enemies = gameState.enemies.filter(e => e.type !== 'astersaw');
+        this._sawEnemies = [];
+
+        // Границы, по которым ездят ЦЕНТРЫ пил (с отступом на радиус)
+            const bounds = this.getSawBounds();
+            const left = bounds.left;
+            const right = bounds.right;
+            const top = bounds.top;
+            const bottom = bounds.bottom;
+
+        for (let cIdx = 0; cIdx < this._sawCounters.length; cIdx++) {
+            const counter = this._sawCounters[cIdx];
+            const r = counter.radius;
+            const innerLeft = left + r;
+            const innerRight = right - r;
+            const innerTop = top + r;
+            const innerBottom = bottom - r;
+
+            const hLen = innerRight - innerLeft;
+            const vLen = innerBottom - innerTop;
+            const perimeter = 2 * (hLen + vLen);
+            const step = perimeter / counter.count;
+            counter.totalDistance = 0;
+
+            for (let i = 0; i < counter.count; i++) {
+                const dist = (i * step) % perimeter;
+                const point = this._getPointOnPerimeter(dist, innerLeft, innerRight, innerTop, innerBottom);
+                const config = {
+                    startX: point.x,
+                    startY: point.y,
+                    startVX: 0,
+                    startVY: 0,
+                    ...this.enemyConfigs['astersaw'],
+                    radius: r,
+                    speed: counter.speed,
+                    direction: counter.direction
+                };
+                const saw = new AsterSaw(point.x, point.y, config);
+                saw._sawCounterIndex = cIdx;
+                saw._sawIndexInCounter = i;
+                this._sawEnemies.push(saw);
+                gameState.enemies.push(saw);
+            }
+        }
+        this._sawProfilesGenerated = true;
+    }
+
+    _updateSaws() {
+        if (!this._sawPositionsReady || this._sawCounters.length === 0) return;
+        if (!this._sawProfilesGenerated) return;
+
+            const bounds = this.getSawBounds();
+            const left = bounds.left;
+            const right = bounds.right;
+            const top = bounds.top;
+            const bottom = bounds.bottom;
+
+        // Обновляем счётчики
+        for (const counter of this._sawCounters) {
+            const r = counter.radius;
+            const innerLeft = left + r;
+            const innerRight = right - r;
+            const innerTop = top + r;
+            const innerBottom = bottom - r;
+            const hLen = innerRight - innerLeft;
+            const vLen = innerBottom - innerTop;
+            const perimeter = 2 * (hLen + vLen);
+
+            if (counter.direction === 'cw') {
+                counter.totalDistance = (counter.totalDistance + counter.speed) % perimeter;
+            } else {
+                counter.totalDistance = (counter.totalDistance - counter.speed + perimeter) % perimeter;
+            }
+        }
+
+        // Расставляем пилы
+        for (const saw of this._sawEnemies) {
+            const counter = this._sawCounters[saw._sawCounterIndex];
+            if (!counter) continue;
+            const r = counter.radius;
+            const innerLeft = left + r;
+            const innerRight = right - r;
+            const innerTop = top + r;
+            const innerBottom = bottom - r;
+            const hLen = innerRight - innerLeft;
+            const vLen = innerBottom - innerTop;
+            const perimeter = 2 * (hLen + vLen);
+            const step = perimeter / counter.count;
+            const dist = (counter.totalDistance + saw._sawIndexInCounter * step) % perimeter;
+            const point = this._getPointOnPerimeter(dist, innerLeft, innerRight, innerTop, innerBottom);
+            saw.x = point.x;
+            saw.y = point.y;
+        }
+    }
+
+    // Перевод расстояния по внутреннему периметру в координаты центра пилы
+    _getPointOnPerimeter(dist, innerLeft, innerRight, innerTop, innerBottom) {
+        const dTop = innerRight - innerLeft;
+        const dRight = innerBottom - innerTop;
+        const dBottom = innerRight - innerLeft;
+
+        if (dist < dTop) {
+            // Верхняя сторона (слева направо)
+            const x = innerLeft + dist;
+            const y = innerTop;
+            return { x, y };
+        }
+        dist -= dTop;
+        if (dist < dRight) {
+            // Правая сторона (сверху вниз)
+            const x = innerRight;
+            const y = innerTop + dist;
+            return { x, y };
+        }
+        dist -= dRight;
+        if (dist < dBottom) {
+            // Нижняя сторона (справа налево)
+            const x = innerRight - dist;
+            const y = innerBottom;
+            return { x, y };
+        }
+        dist -= dBottom;
+        // Левая сторона (снизу вверх)
+        const x = innerLeft;
+        const y = innerBottom - dist;
+        return { x, y };
+    }
+
+    // ============================================
+    // СПАВН ВРАГОВ
+    // ============================================
+
+    spawnEnemyOfType(type, gameState, areaLevel = 1) {
+        const bounds = this.getEnemySpawnBounds();
+        const x = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+        const y = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+
+        let enemy;
+        switch (type) {
+            case 'asterdefault':
+                enemy = new Asteroid(x, y);
+                break;
+            case 'asterblack':
+                enemy = new AsterBlack(x, y);
+                break;
+            case 'astersniper':
+                enemy = new AsterSniper(x, y);
+                break;
+            case 'asterchaser':
+                enemy = new AsterChaser(x, y);
+                break;
+            case 'asterdash':
+                enemy = new AsterDash(x, y);
+                break;
+            case 'asterslow':
+                enemy = new AsterSlow(x, y);
+                break;
+            case 'astercripple':
+                enemy = new AsterCripple(x, y);
+                break;
+            case 'asterdrain':
+                enemy = new AsterDrain(x, y);
+                break;
+            case 'astersilence':
+                enemy = new AsterSilence(x, y);
+                break;
+            case 'astersaw':
+                return null;
+            default:
+                console.warn(`Unknown enemy type: ${type}`);
+                return null;
+        }
+
+        if (enemy && this.enemyConfigs[type]) {
+            const oldSpeed = enemy.speed;
+            Object.assign(enemy, this.enemyConfigs[type]);
+            if (enemy.speed !== oldSpeed && enemy.speed > 0) {
+                const currentAngle = Math.atan2(enemy.vy, enemy.vx);
+                enemy.vx = Math.cos(currentAngle) * enemy.speed;
+                enemy.vy = Math.sin(currentAngle) * enemy.speed;
+            }
+        }
+
+        if (enemy) {
+            gameState.enemies.push(enemy);
+        }
+        return enemy;
+    }
+
+    // ============================================
+    // ЗАПОЛНЕНИЕ ВРАГОВ ДО ЛИМИТА
+    // ============================================
+
+    fillEnemiesToLimit(gameState, areaLevel = 1) {
+        if (!this.enemyTypes || this.enemyTypes.length === 0) return;
+
+        for (const typeConfig of this.enemyTypes) {
+            const currentCount = gameState.enemies.filter(e => e.type === typeConfig.type).length;
+            const need = typeConfig.max - currentCount;
+            if (need <= 0) continue;
+
+            if (typeConfig.type === 'astersaw') {
+                if (!this._sawProfilesGenerated) {
+                    this._spawnAllSaws(gameState);
+                }
+            } else {
+                for (let i = 0; i < need; i++) {
+                    this.spawnEnemyOfType(typeConfig.type, gameState, areaLevel);
+                }
+                break;
+            }
+        }
+    }
+
+    // ============================================
+    // ВОЛНЫ
+    // ============================================
+
+    nextWave() {
+        this.waveNumber++;
+        this.waveComplete = false;
+        this._sawProfilesGenerated = false;
+        this._initSawCounters();
+    }
+
+    resetWaves() {
+        this.waveNumber = 1;
+        this.waveComplete = false;
+        this._sawProfilesGenerated = false;
+        this._initSawCounters();
+    }
+
+    updateSpawning(gameState, areaLevel) {
+        if (this.waveComplete) return;
+
+        if (this.sawProfiles.length > 0 && !this._sawPositionsReady) {
+            this._initSawCounters();
+        }
+
+        this.fillEnemiesToLimit(gameState, areaLevel);
+        this._updateSaws();
+
+        if (gameState.enemies.length === 0) {
+            this.waveComplete = true;
+        }
+    }
+}
+
+=== ФАЙЛ: .\js\arena\CentralCoreUniverse.js ===
+// js/arena/CentralCoreUniverse.js
+import { Arena } from './Arena.js';
+import { Portal } from '../Portal.js';
+import CONFIG from '../config.js';
+
+export class CentralCoreUniverse extends Arena {
+    constructor() {
+        super(1);
+        this.displayName = 'Ядро Системы';
+        this.rewardTechnology = 'Ионные двигатели';
+
+        // Лимиты врагов для этой вселенной
+        // Профили пил: 10 по часовой, 10 против часовой
+        this.sawProfiles = [
+            { count: 10, config: { direction: 'cw', speed: 4 } },
+            { count: 10, config: { direction: 'ccw', speed: 4 } },
+            { count: 5, config: { direction: 'cw', speed: 2.5, radius: 60 } },
+            { count: 10, config: { direction: 'ccw', speed: 6, radius: 12 } }
+        ];
+        
+        this.enemyTypes = [
+            { type: 'asterdefault', max: 0, weight: 1 },
+            { type: 'asterblack', max: 0, weight: 1 },
+            { type: 'astersniper', max: 0, weight: 1 },
+            { type: 'asterchaser', max: 0, weight: 1 },
+            { type: 'asterdash', max: 0, weight: 1 },
+            { type: 'asterslow',    max: 0, weight: 1 },
+            { type: 'asterdrain',   max: 0, weight: 1 },
+            { type: 'astercripple', max: 0, weight: 1 },
+            { type: 'astersilence', max: 0, weight: 1 },
+            { type: 'astersaw', max: 35, weight: 1 }
+        ];
+
+        // Кастомные параметры врагов (переопределяем свойства)
+        this.enemyConfigs = {
+            'astersniper': { radius: 6, }, // ещё мельче, чем по умолчанию 8
+            'asterdrain': { auraValue: 3 },
+            // можно также менять speed, xp, color и др.
+        };
+
+        const forwardPortal = new Portal(
+            this.width - CONFIG.PORTAL.WIDTH,
+            0,
+            'forward'
+        );
+        const toHub = new Portal(
+            0, // x = 0, левая сторона
+            0,
+            'backward', // тип
+            {
+                width: CONFIG.PORTAL.WIDTH,
+                height: this.height, // на всю высоту
+                color: '#0000FF', // синий
+                onEnter: (gameEngine) => {
+                    gameEngine.loadUniverse('Hub');
+                }
+            }
+        );
+        this.portals.push(toHub);
+        this.portals = [forwardPortal];
+    }
+}
+
+=== ФАЙЛ: .\js\arena\HubArena.js ===
+// js/arena/HubArena.js (оставляем без метода enforceSafeZoneForEnemy)
+import { Arena } from './Arena.js';
+import { Portal } from '../Portal.js';
+import CONFIG from '../config.js';
+import { XPOrb } from '../XPOrb.js';
+import {
+    Asteroid, AsterBlack, AsterSniper, AsterChaser, AsterDash,
+    AsterSlow, AsterCripple, AsterDrain, AsterSilence
+} from '../enemies/Asteroids.js';
+
+export class HubArena extends Arena {
+    constructor() {
+        super(0);
+        this.displayName = 'Хаб (тестовая зона)';
+        this.width = 1000;
+        this.height = 1000;
+
+        const cx = this.width / 2;
+        const cy = this.height / 2;
+        const half = 125;
+        this.hubSafeZone = {
+            left: cx - half,
+            right: cx + half,
+            top: cy - half,
+            bottom: cy + half
+        };
+
+        this.sawProfiles = [
+            { count: 10, config: { direction: 'cw', speed: 4 } },
+            { count: 10, config: { direction: 'ccw', speed: 4 } },
+            { count: 5, config: { direction: 'cw', speed: 2.5, radius: 60 } },
+            { count: 10, config: { direction: 'ccw', speed: 6, radius: 12 } }
+        ];
+        
+        this.enemyTypes = [
+            { type: 'asterdefault', max: 10, weight: 1 },
+            { type: 'asterblack', max: 0, weight: 1 },
+            { type: 'astersniper', max: 0, weight: 1 },
+            { type: 'asterchaser', max: 5, weight: 1 },
+            { type: 'asterdash', max: 0, weight: 1 },
+            { type: 'asterslow',    max: 0, weight: 1 },
+            { type: 'asterdrain',   max: 10, weight: 1 },
+            { type: 'astercripple', max: 0, weight: 1 },
+            { type: 'astersilence', max: 0, weight: 1 },
+            { type: 'astersaw', max: 35, weight: 1 }
+        ];
+
+        this.enemyConfigs = {
+            'astersniper': { radius: 6, },
+            'asterdrain': { auraValue: 3 },
+        };
+
+        const portalWidth = 50;
+        const portalHeight = 50;
+        const portalX = (this.hubSafeZone.left + this.hubSafeZone.right) / 2 - portalWidth / 2;
+        const portalY = this.hubSafeZone.top + 10;
+        const toCore = new Portal(
+            portalX,
+            portalY,
+            'forward',
+            {
+                width: portalWidth,
+                height: portalHeight,
+                color: '#888888',
+                onEnter: (gameEngine) => {
+                    gameEngine.loadUniverse('CentralCore');
+                }
+            }
+        );
+        this.portals = [toCore];
+    }
+
+    isInSafeZone(x, y, playerRadius = 0) {
+        return (
+            x > this.hubSafeZone.left &&
+            x < this.hubSafeZone.right &&
+            y > this.hubSafeZone.top &&
+            y < this.hubSafeZone.bottom
+        );
+    }
+
+    renderSafeZones(ctx) {
+        const width = this.hubSafeZone.right - this.hubSafeZone.left;
+        const height = this.hubSafeZone.bottom - this.hubSafeZone.top;
+        ctx.fillStyle = 'rgba(0, 255, 0, 0.2)';
+        ctx.fillRect(this.hubSafeZone.left, this.hubSafeZone.top, width, height);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.hubSafeZone.left, this.hubSafeZone.top, width, height);
+    }
+
+    getRespawnPoint(currentX) {
+        const centerX = (this.hubSafeZone.left + this.hubSafeZone.right) / 2;
+        const centerY = (this.hubSafeZone.top + this.hubSafeZone.bottom) / 2;
+        return { x: centerX, y: centerY };
+    }
+
+    getEnemySpawnBounds() {
+        return { minX: 0, maxX: this.width, minY: 0, maxY: this.height };
+    }
+    getEnemyMovementBounds() {
+        return { minX: 0, maxX: this.width, minY: 0, maxY: this.height };
+    }
+    getSawBounds() {
+        return { left: 0, right: this.width, top: 0, bottom: this.height };
+    }
+
+    // метод enforceSafeZoneForEnemy полностью удалён
+
+    spawnEnemyOfType(type, gameState, areaLevel = 1) {
+        const bounds = this.getEnemySpawnBounds();
+        let x, y;
+        let attempts = 0;
+        const maxAttempts = 100;
+        do {
+            x = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+            y = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+            attempts++;
+        } while (this.isInSafeZone(x, y, 1) && attempts < maxAttempts);
+        if (attempts >= maxAttempts) return null;
+
+        let enemy;
+        switch (type) {
+            case 'asterdefault': enemy = new Asteroid(x, y); break;
+            case 'asterblack': enemy = new AsterBlack(x, y); break;
+            case 'astersniper': enemy = new AsterSniper(x, y); break;
+            case 'asterchaser': enemy = new AsterChaser(x, y); break;
+            case 'asterdash': enemy = new AsterDash(x, y); break;
+            case 'asterslow': enemy = new AsterSlow(x, y); break;
+            case 'astercripple': enemy = new AsterCripple(x, y); break;
+            case 'asterdrain': enemy = new AsterDrain(x, y); break;
+            case 'astersilence': enemy = new AsterSilence(x, y); break;
+            default: return null;
+        }
+        if (enemy && this.enemyConfigs[type]) {
+            const oldSpeed = enemy.speed;
+            Object.assign(enemy, this.enemyConfigs[type]);
+            if (enemy.speed !== oldSpeed && enemy.speed > 0) {
+                const currentAngle = Math.atan2(enemy.vy, enemy.vx);
+                enemy.vx = Math.cos(currentAngle) * enemy.speed;
+                enemy.vy = Math.sin(currentAngle) * enemy.speed;
+            }
+        }
+        gameState.enemies.push(enemy);
+        return enemy;
+    }
+
+    spawnRandomXPOrb(gameState) {
+        if (gameState.xpOrbs.length >= CONFIG.XP_SPAWN.MAX_ORBS) return;
+        const bounds = this.getEnemySpawnBounds();
+        let x, y;
+        let attempts = 0;
+        const maxAttempts = 100;
+        do {
+            x = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+            y = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+            attempts++;
+        } while (this.isInSafeZone(x, y, 1) && attempts < maxAttempts);
+        if (attempts >= maxAttempts) return;
+        gameState.xpOrbs.push(new XPOrb(x, y, 1));
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\Asteroids.js ===
+// js/enemies/Asteroids.js
+import { Enemy } from '../entities/Enemy.js';
+import CONFIG from '../config.js';
+
+// Обычный серый астероид
+export class Asteroid extends Enemy {
+    constructor(x, y) {
+        super(x, y, {
+            color: '#888888',
+            radius: 14,
+            speed: 1,
+            xp: 10,
+            type: 'asterdefault'
+        });
+        const angle = Math.random() * Math.PI * 2;
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
+    }
+}
+
+// Чёрный астероид, иммунный к способностям
+export class AsterBlack extends Asteroid {
+    constructor(x, y) {
+        super(x, y);
+        this.color = '#000000';
+        this.type = 'asterblack';
+        this.immuneToAbilities = true;
+    }
+}
+
+// Базовый класс для врагов с аурой
+export class AsterAura extends Asteroid {
+    constructor(x, y, auraConfig = {}) {
+        super(x, y);
+        this.auraRadiusBase = auraConfig.radius || 120;
+        this.auraColor = auraConfig.color || '#FF0000';
+        this.auraEffect = auraConfig.effect || 'slow';
+        this.auraValue = auraConfig.value || 0.5;
+        this.auraDisabled = false;
+        this.auraDisableTimer = 0;
+        this.baseRadius = this.radius;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        super.update(bounds, worldWidth, worldHeight, gameState);
+
+        if (!gameState) return;
+        if (gameState.areEnemiesDisabled) return;
+        if (this.auraDisabled) {
+            this.auraDisableTimer--;
+            if (this.auraDisableTimer <= 0) this.auraDisabled = false;
+            return;
+        }
+
+        const player = gameState.player;
+        if (!player) return;
+        if (gameState.isPlayerInSafeZone || gameState.isPlayerUnavailable) return;
+
+        const scale = this.radius / this.baseRadius;
+        const currentAuraRadius = this.auraRadiusBase * scale;
+
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist <= currentAuraRadius) {
+            this.applyEffect(player);
+        }
+    }
+
+    applyEffect(player) {
+        switch (this.auraEffect) {
+            case 'slow':
+                if (this.auraValue < player.slowFactor) {
+                    player.slowFactor = this.auraValue;
+                }
+                break;
+            case 'drain':
+                player.energyDrainRate = Math.max(player.energyDrainRate || 0, this.auraValue);
+                break;
+            case 'silence':
+                player.abilitiesBlocked = true;
+                break;
+        }
+    }
+
+    disableAura(seconds) {
+        this.auraDisabled = true;
+        this.auraDisableTimer = seconds * 60;
+    }
+
+    render(ctx) {
+        const scale = this.radius / this.baseRadius;
+        const currentAuraRadius = this.auraRadiusBase * scale;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, currentAuraRadius, 0, Math.PI * 2);
+        ctx.fillStyle = this.auraColor + '33';
+        ctx.fill();
+        super.render(ctx);
+    }
+}
+
+// Красный шар – замедление (слабое)
+export class AsterSlow extends AsterAura {
+    constructor(x, y) {
+        super(x, y, {
+            color: '#FF0000',
+            radius: 120,
+            effect: 'slow',
+            value: 0.5
+        });
+        this.color = '#FF0000';
+        this.type = 'asterslow';
+    }
+}
+
+// Тёмно-красный шар – сильное замедление (80%)
+export class AsterCripple extends AsterAura {
+    constructor(x, y) {
+        super(x, y, {
+            color: '#8B0000',
+            radius: 120,
+            effect: 'slow',
+            value: 0.2
+        });
+        this.color = '#8B0000';
+        this.type = 'astercripple';
+    }
+}
+
+// Синий шар – отнимает энергию (0.25 ед./сек по умолчанию)
+export class AsterDrain extends AsterAura {
+    constructor(x, y) {
+        super(x, y, {
+            color: '#0000FF',
+            radius: 120,
+            effect: 'drain',
+            value: 0.25
+        });
+        this.color = '#0000FF';
+        this.type = 'asterdrain';
+    }
+}
+
+// Салатовый шар – блокирует способности (№1 и №2)
+export class AsterSilence extends AsterAura {
+    constructor(x, y) {
+        super(x, y, {
+            color: '#7FFF00',
+            radius: 120,
+            effect: 'silence',
+            value: true
+        });
+        this.color = '#7FFF00';
+        this.type = 'astersilence';
+    }
+}
+
+// Снайпер с задержкой прицеливания
+export class AsterSniper extends Asteroid {
+    constructor(x, y) {
+        super(x, y);
+        this.baseColor = '#CD7F32';
+        this.aimColor = '#FF8C00';
+        this.color = this.baseColor;
+        this.type = 'astersniper';
+        this.radius = 8;
+        this.baseRadius = this.radius;
+
+        this.shootCooldown = 0;
+        this.shootCooldownMax = 120;
+        this.aimDelay = 36;
+        this.aimTimer = 0;
+        this.bulletSpeed = 6;
+        this.sightRadius = 1000;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        if (!gameState) {
+            super.update(bounds, worldWidth, worldHeight, gameState);
+            return;
+        }
+
+        const player = gameState.player;
+        const canSee = player &&
+            !gameState.isPlayerInSafeZone &&
+            !gameState.isPlayerUnavailable;
+
+        if (this.shootCooldown > 0) {
+            this.shootCooldown--;
+        }
+
+        const canShoot = this.shootCooldown <= 0;
+
+        if (canSee) {
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist <= this.sightRadius) {
+                if (canShoot) {
+                    this.aimTimer++;
+                    this.color = this.aimColor;
+                    this.radius = this.baseRadius * 1.2;
+
+                    if (this.aimTimer >= this.aimDelay) {
+                        this.shoot(gameState, player);
+                        this.aimTimer = 0;
+                        this.shootCooldown = this.shootCooldownMax;
+                        this.color = this.baseColor;
+                        this.radius = this.baseRadius;
+                    }
+                }
+            } else {
+                this.aimTimer = 0;
+                this.color = this.baseColor;
+                this.radius = this.baseRadius;
+            }
+        } else {
+            this.aimTimer = 0;
+            this.color = this.baseColor;
+            this.radius = this.baseRadius;
+        }
+
+        super.update(bounds, worldWidth, worldHeight, gameState);
+    }
+
+    shoot(gameState, player) {
+        const dx = player.x - this.x;
+        const dy = player.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return;
+
+        const bullet = {
+            x: this.x,
+            y: this.y,
+            vx: (dx / dist) * this.bulletSpeed,
+            vy: (dy / dist) * this.bulletSpeed,
+            radius: 4,
+            life: 180,
+            color: '#FF8C00'
+        };
+        gameState.bullets.push(bullet);
+    }
+}
+
+// Преследователь (коричневый) – простой, без внутреннего обхода
+export class AsterChaser extends Asteroid {
+    constructor(x, y) {
+        super(x, y);
+        this.color = '#8B4513';
+        this.type = 'asterchaser';
+        this.sightRadius = 1000;
+        this.radius = 12;
+        this._wasChasing = false;
+        this.speed = 2;
+        const angle = Math.atan2(this.vy, this.vx);
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        if (!gameState) {
+            super.update(bounds, worldWidth, worldHeight, gameState);
+            return;
+        }
+
+        const player = gameState.player;
+        const canSee = player &&
+            !gameState.isPlayerInSafeZone &&
+            !gameState.isPlayerUnavailable;
+
+        if (canSee) {
+            const dx = player.x - this.x;
+            const dy = player.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist <= this.sightRadius && dist > 0) {
+                this.vx = (dx / dist) * this.speed;
+                this.vy = (dy / dist) * this.speed;
+                this._wasChasing = true;
+            }
+        } else {
+            // Потеря цели – случайное движение
+            if (this._wasChasing) {
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * this.speed;
+                this.vy = Math.sin(angle) * this.speed;
+                this._wasChasing = false;
+            }
+        }
+
+        super.update(bounds, worldWidth, worldHeight, gameState);
+    }
+}
+// Синий ускоритель: замирает, потом рывок 4x
+export class AsterDash extends Asteroid {
+    constructor(x, y) {
+        super(x, y);
+        this.color = '#3498db';
+        this.type = 'asterdash';
+        this.baseSpeed = 1;
+        this.speed = this.baseSpeed;
+        this.radius = 12;
+        this.dashSpeed = 12;
+
+        this.dashCooldown = 120;
+        this.warningTimer = 0;
+        this.boostTimer = 0;
+        this.warningDuration = 60;
+        this.boostDuration = 180;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        if (this.warningTimer > 0) {
+            this.speed = 0;
+            this.vx = 0;
+            this.vy = 0;
+            const pulse = Math.sin(this.warningTimer * 0.2) * 2;
+            this.radius = (this.baseRadius || 12) + pulse;
+            this.warningTimer--;
+            if (this.warningTimer === 0) {
+                this.speed = this.dashSpeed;
+                this.boostTimer = this.boostDuration;
+                this._updateVelocity();
+            }
+            return;
+        } else if (this.boostTimer > 0) {
+            this.boostTimer--;
+            if (this.boostTimer === 0) {
+                this.speed = this.baseSpeed;
+                this._updateVelocity();
+            }
+            super.update(bounds, worldWidth, worldHeight, gameState);
+            return;
+        }
+
+        this.dashCooldown--;
+        if (this.dashCooldown <= 0) {
+            this._savedAngle = Math.atan2(this.vy, this.vx);
+            this.speed = 0;
+            this.vx = 0;
+            this.vy = 0;
+            this.warningTimer = this.warningDuration;
+            this.dashCooldown = 120;
+            return;
+        }
+
+        super.update(bounds, worldWidth, worldHeight, gameState);
+    }
+
+    _updateVelocity() {
+        const angle = this._savedAngle ?? Math.atan2(this.vy, this.vx);
+        this.vx = Math.cos(angle) * this.speed;
+        this.vy = Math.sin(angle) * this.speed;
+        this._savedAngle = null;
+    }
+}
+
+// Пила (полностью управляется ареной через setPosition)
+export class AsterSaw extends Enemy {
+    constructor(x, y, config = {}) {
+        super(x, y, {
+            color: config.color || '#000000',
+            radius: config.radius || 20,
+            speed: config.speed || 2,
+            xp: 15,
+            type: 'astersaw',
+            immuneToAbilities: true
+        });
+    }
+
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        // Ничего не делаем – движение полностью управляется из Arena._updateSaws()
+    }
+}
+
+=== ФАЙЛ: .\js\enemies\modifiers\ImmunityModifier.js ===
+// js/enemies/modifiers/ImmunityModifier.js
+
+export class ImmunityModifier {
+    constructor(enemy) {
+        this.enemy = enemy;
+    }
+
+    update() {
+        // Nothing much to do here for pure immunity, just set the flag
+        this.enemy.immuneToAbilities = true;
+    }
+}
+
+=== ФАЙЛ: .\js\engine\GameEngine.js ===
+// js/engine/GameEngine.js
+import { InputManager } from './InputManager.js';
+import { Renderer } from './Renderer.js';
+import { CentralCoreUniverse } from '../arena/CentralCoreUniverse.js';
+import { HeroFactory } from '../heroes/HeroFactory.js';
+import { Camera } from '../Camera.js';
+import { MiniMap } from '../MiniMap.js';
+import CONFIG from '../config.js';
+import { Portal } from '../Portal.js';
+import { UIManager } from '../ui/UIManager.js';
+import { HubArena } from '../arena/HubArena.js';
+
+export class GameEngine {
+    constructor(ctx, width, height) {
+        this.input = new InputManager();
+        this.renderer = new Renderer(ctx, width, height);
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+        this.isRunning = false;
+
+        this.gameState = {
+            width: 0,
+            height: 0,
+            enemies: [],
+            xpOrbs: [],
+            bullets: []
+        };
+
+        this.player = HeroFactory.createHero('Mirage', 0, 0);
+        this.camera = new Camera(CONFIG.VIEWPORT.WIDTH, CONFIG.VIEWPORT.HEIGHT);
+        this.uiManager = new UIManager();
+        this.miniMap = new MiniMap();
+
+        this.currentUniverse = new HubArena();
+        this.areaNumber = 0;
+        this.completedAreas = new Set();
+
+        this.enemiesKilled = 0;
+        this.uiUpdateTimer = 0;
+        this.frameCount = 0;
+        this.xpSpawnTimer = 0;
+
+        this.gameState.width = this.currentUniverse.width;
+        this.gameState.height = this.currentUniverse.height;
+        const spawn = this.currentUniverse.getRespawnPoint(this.player.x);
+        this.player.x = spawn.x;
+        this.player.y = spawn.y;
+    }
+
+    start() {
+        this.isRunning = true;
+
+        this.uiManager.setStarClickCallback((abilityNum, starIndex) => {
+            const currentLevel = this.player[`ability${abilityNum}Level`];
+            if (starIndex === currentLevel && this.player.statPoints > 0) {
+                this.upgradeAbility(abilityNum);
+            }
+        });
+
+        if (this.currentUniverse) {
+            this.currentUniverse.spawnInitialXPOrbs(CONFIG.XP_SPAWN.INITIAL_AMOUNT, this.gameState);
+            this.currentUniverse.resetWaves();
+        }
+
+        this.loop();
+    }
+
+    stop() {
+        this.isRunning = false;
+    }
+
+    // ===================== ОСНОВНОЙ ЦИКЛ =====================
+    update() {
+        this.frameCount++;
+
+        if (this.input.mouseActive) {
+            const worldMouse = this.camera.screenToWorld(this.input.mouseX, this.input.mouseY);
+            this.input.mouseWorldX = worldMouse.x;
+            this.input.mouseWorldY = worldMouse.y;
+        }
+
+        const w = this.currentUniverse.width;
+        const h = this.currentUniverse.height;
+        this.gameState.width = w;
+        this.gameState.height = h;
+
+        this.player.slowFactor = 1.0;
+        this.player.energyDrainRate = 0;
+        this.player.abilitiesBlocked = false;
+
+        this.gameState.player = this.player;
+        this.gameState.arena = this.currentUniverse;
+        this.gameState.isPlayerInSafeZone = this.currentUniverse.isInSafeZone(
+            this.player.x, this.player.y, this.player.radius
+        );
+        this.gameState.isPlayerUnavailable = this.player.downed || this.player.invulnerable;
+
+        if (this.currentUniverse) {
+            this.currentUniverse.updateSpawning(this.gameState, this.areaNumber);
+            this.spawnXpIfNeeded();
+            this.updatePortals();
+        }
+
+        const bounds = this.currentUniverse.getEnemyMovementBounds();
+for (let enemy of this.gameState.enemies) {
+    enemy.update(bounds, w, h, this.gameState);
+}
+
+// ========== ЖЁСТКИЙ ОТСКОК ДЛЯ ВСЕХ ВРАГОВ ==========
+if (this.currentUniverse.hubSafeZone) {
+    const zone = this.currentUniverse.hubSafeZone;
+    for (let enemy of this.gameState.enemies) {
+        // Пилы не трогаем
+        if (enemy._sawCounterIndex !== undefined) continue;
+
+        const r = enemy.radius;
+        const left = zone.left - r;
+        const right = zone.right + r;
+        const top = zone.top - r;
+        const bottom = zone.bottom + r;
+
+        if (enemy.x > left && enemy.x < right && enemy.y > top && enemy.y < bottom) {
+            // Выталкиваем и ИНВЕРТИРУЕМ скорость (без скольжения)
+            const distLeft = enemy.x - left;
+            const distRight = right - enemy.x;
+            const distTop = enemy.y - top;
+            const distBottom = bottom - enemy.y;
+
+            if (Math.min(distLeft, distRight) < Math.min(distTop, distBottom)) {
+                if (distLeft < distRight) {
+                    enemy.x = left;
+                    enemy.vx = Math.abs(enemy.vx);
+                } else {
+                    enemy.x = right;
+                    enemy.vx = -Math.abs(enemy.vx);
+                }
+            } else {
+                if (distTop < distBottom) {
+                    enemy.y = top;
+                    enemy.vy = Math.abs(enemy.vy);
+                } else {
+                    enemy.y = bottom;
+                    enemy.vy = -Math.abs(enemy.vy);
+                }
+            }
+        }
+    }
+}
+        
+        
+        
+
+        this.player.update(this.input, this.gameState, this.currentUniverse);
+        this.camera.update(this.player, w, h);
+
+        for (let orb of this.gameState.xpOrbs) orb.update(this.player);
+
+        // пули
+        for (let i = this.gameState.bullets.length - 1; i >= 0; i--) {
+            const bullet = this.gameState.bullets[i];
+            bullet.x += bullet.vx;
+            bullet.y += bullet.vy;
+            bullet.life--;
+
+            if (!this.gameState.isPlayerUnavailable) {
+                const dx = this.player.x - bullet.x;
+                const dy = this.player.y - bullet.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < this.player.radius + bullet.radius) {
+                    this.playerDies();
+                    this.gameState.bullets.splice(i, 1);
+                    continue;
+                }
+            }
+
+            if (this.currentUniverse.isInSafeZone(bullet.x, bullet.y, bullet.radius)) {
+                this.gameState.bullets.splice(i, 1);
+                continue;
+            }
+
+            if (bullet.life <= 0 || bullet.x < 0 || bullet.x > w || bullet.y < 0 || bullet.y > h) {
+                this.gameState.bullets.splice(i, 1);
+            }
+        }
+
+        this.checkCollisions();
+        this.checkPortalCollisions();
+        this.checkXPCollection();
+
+        this.gameState.xpOrbs = this.gameState.xpOrbs.filter(o => !o.collected);
+
+        this.uiUpdateTimer++;
+        if (this.uiUpdateTimer >= 10) {
+            this.uiManager.update(this.player, this.currentUniverse, this.areaNumber);
+            this.uiUpdateTimer = 0;
+        }
+    }
+
+    spawnXpIfNeeded() {
+        this.xpSpawnTimer++;
+        if (this.xpSpawnTimer >= CONFIG.XP_SPAWN.SPAWN_RATE) {
+            this.currentUniverse.spawnRandomXPOrb(this.gameState);
+            this.xpSpawnTimer = 0;
+        }
+    }
+
+    updatePortals() {
+        if (this.currentUniverse.portals) {
+            for (let portal of this.currentUniverse.portals) portal.update();
+        }
+    }
+
+    // ===================== КОЛЛИЗИИ =====================
+    checkCollisions() {
+        if (this.player.downed || this.player.invulnerable) return;
+        if (this.currentUniverse.isInSafeZone(this.player.x, this.player.y, this.player.radius)) return;
+
+        for (let enemy of this.gameState.enemies) {
+            const dist = Math.hypot(this.player.x - enemy.x, this.player.y - enemy.y);
+            if (dist < this.player.radius + enemy.radius) {
+                this.playerDies();
+                break;
+            }
+        }
+    }
+
+    checkPortalCollisions() {
+        if (!this.currentUniverse.portals) return;
+        const pl = this.player.x - this.player.radius;
+        const pr = this.player.x + this.player.radius;
+        const pt = this.player.y - this.player.radius;
+        const pb = this.player.y + this.player.radius;
+
+        for (let portal of this.currentUniverse.portals) {
+            const ph = portal.height || this.currentUniverse.height;
+            if (pr > portal.x && pl < portal.x + portal.width && pb > portal.y && pt < portal.y + ph) {
+                if (portal.onEnter) {
+                    portal.onEnter(this);
+                } else if (portal.portalType === 'forward') {
+                    this.nextArea();
+                } else if (portal.portalType === 'backward') {
+                    this.previousArea();
+                }
+                return;
+            }
+        }
+    }
+
+    checkXPCollection() {
+        for (let orb of this.gameState.xpOrbs) {
+            if (orb.isCollected(this.player)) {
+                this.player.addXP(orb.amount);
+                orb.collected = true;
+            }
+        }
+    }
+
+    // ===================== СОСТОЯНИЕ ИГРОКА =====================
+    playerDies() {
+        this.player.downed = true;
+        this.player.invulnerable = true;
+        this.player.invulnerableTime = 120;
+        setTimeout(() => {
+            if (this.player.downed) {
+                this.player.respawn();
+                const spawn = this.currentUniverse.getRespawnPoint(this.player.x);
+                this.player.x = spawn.x;
+                this.player.y = spawn.y;
+                this.player.teleportFreeze = 30;
+            }
+        }, 2000);
+    }
+
+    killEnemy(enemy) {
+        const idx = this.gameState.enemies.indexOf(enemy);
+        if (idx > -1) {
+            this.gameState.enemies.splice(idx, 1);
+            this.enemiesKilled++;
+            if (this.currentUniverse) {
+                this.currentUniverse.spawnXPOrbAt(enemy.x, enemy.y, enemy.xp, this.gameState);
+            }
+        }
+    }
+
+    // ===================== ПЕРЕХОДЫ МЕЖДУ ВСЕЛЕННЫМИ =====================
+    loadUniverse(universeName) {
+        if (universeName === 'Hub') {
+            this.currentUniverse = new HubArena();
+        } else if (universeName === 'CentralCore') {
+            this.currentUniverse = new CentralCoreUniverse();
+        }
+
+        this.gameState.enemies = [];
+        this.gameState.xpOrbs = [];
+        this.gameState.bullets = [];
+        this.gameState.width = this.currentUniverse.width;
+        this.gameState.height = this.currentUniverse.height;
+
+        const spawn = this.currentUniverse.getRespawnPoint(this.player.x);
+        this.player.x = spawn.x;
+        this.player.y = spawn.y;
+        this.player.teleportFreeze = 30;
+        this.areaNumber = this.currentUniverse.areaNumber || 0;
+        this.completedAreas.clear();
+        this.currentUniverse.resetWaves();
+    }
+
+    nextArea() {
+        this.areaNumber++;
+        this.enemiesKilled = 0;
+        this.resetAreaState();
+        this.player.x = CONFIG.PORTAL.WIDTH + this.player.radius;
+        this.player.y = this.currentUniverse.height / 2;
+        this.player.teleportFreeze = 15;
+
+        if (!this.completedAreas.has(this.areaNumber - 1)) {
+            const areaXP = Math.floor(CONFIG.PROGRESSION.AREA_COMPLETION_XP *
+                Math.pow(CONFIG.PROGRESSION.AREA_XP_MULTIPLIER, this.areaNumber - 2));
+            this.player.addXP(areaXP);
+            this.completedAreas.add(this.areaNumber - 1);
+        }
+        this.currentUniverse.nextWave();
+    }
+
+    previousArea() {
+        if (this.areaNumber <= 1) return;
+        this.areaNumber--;
+        this.resetAreaState();
+        this.player.x = this.currentUniverse.width - CONFIG.PORTAL.WIDTH - this.player.radius;
+        this.player.y = this.currentUniverse.height / 2;
+        this.player.teleportFreeze = 15;
+        this.currentUniverse.nextWave();
+    }
+
+    resetAreaState() {
+        this.gameState.enemies = [];
+        this.gameState.xpOrbs = [];
+    }
+
+    // ===================== ПРОКАЧКА =====================
+    upgradeStat(stat) {
+        if (this.player.upgradeStat(stat))
+            this.uiManager.update(this.player, this.currentUniverse, this.areaNumber);
+    }
+
+    upgradeAbility(abilityNum) {
+        if (this.player.statPoints <= 0) return false;
+        const maxLevel = CONFIG.STATS.ABILITY_MAX_LEVEL;
+        if (abilityNum === 1 && this.player.ability1Level < maxLevel) {
+            this.player.ability1Level++;
+        } else if (abilityNum === 2 && this.player.ability2Level < maxLevel) {
+            this.player.ability2Level++;
+        } else {
+            return false;
+        }
+        this.player.updateAbilityCooldowns();
+        this.player.statPoints--;
+        this.uiManager.update(this.player, this.currentUniverse, this.areaNumber);
+        return true;
+    }
+
+    // ===================== РЕНДЕРИНГ =====================
+    render() {
+        this.renderer.clear();
+        this.camera.apply(this.renderer.ctx);
+
+        this.renderGrid();
+        this.currentUniverse.renderSafeZones(this.renderer.ctx);
+
+        if (this.currentUniverse.portals) {
+            for (let portal of this.currentUniverse.portals) {
+                portal.render(this.renderer.ctx, this.currentUniverse.height);
+            }
+        }
+
+        for (let orb of this.gameState.xpOrbs) orb.render(this.renderer.ctx);
+        for (let enemy of this.gameState.enemies) enemy.render(this.renderer.ctx);
+        for (let bullet of this.gameState.bullets) {
+            this.renderer.ctx.beginPath();
+            this.renderer.ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2);
+            this.renderer.ctx.fillStyle = bullet.color;
+            this.renderer.ctx.fill();
+        }
+
+        this.player.render(this.renderer.ctx);
+        this.camera.reset(this.renderer.ctx);
+
+        if (!(this.currentUniverse instanceof HubArena)) {
+            this.miniMap.render(
+                this.renderer.ctx,
+                this.camera,
+                this.player,
+                this.gameState.enemies,
+                {
+                    forward: this.currentUniverse.getPortalByType('forward'),
+                    backward: this.currentUniverse.getPortalByType('backward')
+                }
+            );
+        }
+    }
+
+    renderGrid() {
+        const ctx = this.renderer.ctx;
+        const w = this.currentUniverse.width;
+        const h = this.currentUniverse.height;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.lineWidth = 1;
+        const gs = CONFIG.GRID.SIZE;
+        for (let x = 0; x <= w; x += gs) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y <= h; y += gs) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+    }
+
+    // ===================== ГЛАВНЫЙ ЦИКЛ =====================
+    loop() {
+        if (!this.isRunning) return;
+        this.update();
+        this.render();
+        requestAnimationFrame(() => this.loop());
+    }
+}
+
+=== ФАЙЛ: .\js\engine\InputManager.js ===
+import CONFIG from '../config.js';
+
+export class InputManager {
+    constructor() {
+        this.keys = {};
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.mouseWorldX = 0;
+        this.mouseWorldY = 0;
+        this.mouseActive = false;
+        this.keyboardActive = false;
+        this.lastMode = 'keyboard';
+
+        this.MAX_SPEED_AT_DISTANCE = 100;
+        this.MIN_SPEED_FRACTION_AT_CENTER = 0.05;
+
+        window.addEventListener('keydown', (e) => this.onKeyDown(e));
+        window.addEventListener('keyup', (e) => this.onKeyUp(e));
+        window.addEventListener('mousemove', (e) => this.onMouseMove(e));
+        window.addEventListener('mousedown', (e) => this.onMouseDown(e));
+    }
+
+    onKeyDown(e) {
+        this.keys[e.code] = true;
+        if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+            this.keyboardActive = true;
+            this.mouseActive = false;
+            this.lastMode = 'keyboard';
+        }
+    }
+
+    onKeyUp(e) {
+        this.keys[e.code] = false;
+        if (!this.isMovementKeyPressed()) {
+            this.keyboardActive = false;
+        }
+    }
+
+    onMouseMove(e) {
+        const canvas = document.getElementById('gameCanvas');
+        const rect = canvas.getBoundingClientRect();
+        this.mouseX = e.clientX - rect.left;
+        this.mouseY = e.clientY - rect.top;
+    }
+
+    onMouseDown(e) {
+        if (e.button === 0) {
+            const interactiveUISelectors = [
+                '#upgradeSpeed', '#upgradeEnergy', '#upgradeRegen',
+                '.ability-stars span',
+                '.ability-icon',
+                '#statsPanel',
+                '#areaInfo',
+                '#levelInfo',
+                '#energyBox', '#regenBox'
+            ];
+
+            const isClickOnInteractiveUI = interactiveUISelectors.some(selector => {
+                if (e.target.matches(selector)) {
+                    return true;
+                }
+                return e.target.closest(selector) !== null;
+            });
+
+            if (isClickOnInteractiveUI) {
+                return;
+            }
+
+            const canvas = document.getElementById('gameCanvas');
+            if (canvas) {
+                const rect = canvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                const mmX = CONFIG.MINIMAP.PADDING;
+                const mmY = CONFIG.MINIMAP.PADDING;
+                const mmWidth = CONFIG.MINIMAP.WIDTH;
+                const mmHeight = CONFIG.MINIMAP.HEIGHT;
+
+                if (clickX >= mmX && clickX <= mmX + mmWidth &&
+                    clickY >= mmY && clickY <= mmY + mmHeight) {
+                    return;
+                }
+            }
+
+            this.mouseActive = !this.mouseActive;
+            if (this.mouseActive) {
+                this.keyboardActive = false;
+                this.lastMode = 'mouse';
+            }
+        }
+    }
+
+    isMovementKeyPressed() {
+        return this.keys['KeyW'] || this.keys['KeyA'] || this.keys['KeyS'] || this.keys['KeyD'] ||
+               this.keys['ArrowUp'] || this.keys['ArrowDown'] || this.keys['ArrowLeft'] || this.keys['ArrowRight'];
+    }
+
+    isDown(code) {
+        return this.keys[code] === true;
+    }
+
+    getMouseDirection(playerX, playerY) {
+        if (!this.mouseActive) return { dx: 0, dy: 0, distance: 0 };
+
+        const dx = this.mouseWorldX - playerX;
+        const dy = this.mouseWorldY - playerY;
+        const distance = Math.hypot(dx, dy);
+
+        if (distance > 0) {
+            const normalizedDx = dx / distance;
+            const normalizedDy = dy / distance;
+            return { dx: normalizedDx, dy: normalizedDy, distance };
+        } else {
+            return { dx: 0, dy: 0, distance: 0 };
+        }
+    }
+
+    getMouseSpeed(distance, maxSpeed) {
+        const maxDist = this.MAX_SPEED_AT_DISTANCE;
+        const minFrac = this.MIN_SPEED_FRACTION_AT_CENTER;
+
+        let t = distance / maxDist;
+        t = Math.min(t, 1.0);
+
+        let easedT = 1 - Math.pow(1 - t, 3);
+
+        const speedFraction = minFrac + (1.0 - minFrac) * easedT;
+
+        return maxSpeed * speedFraction;
+    }
+}
+
+=== ФАЙЛ: .\js\engine\Renderer.js ===
+export class Renderer {
+    constructor(ctx, width, height) {
+        this.ctx = ctx;
+        this.width = width;
+        this.height = height;
+    }
+
+    clear() {
+        this.ctx.fillStyle = '#16213e';
+        this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+
+    // В будущем добавим сюда методы для отрисовки кругов, сетки и т.д.
+}
+
+=== ФАЙЛ: .\js\entities\Enemy.js ===
+import CONFIG from '../config.js';
+
+export class Enemy {
+    constructor(x, y, config) {
+        this.x = x;
+        this.y = y;
+        this.radius = config.radius || 15;
+        this.color = config.color || '#888888';
+        this.speed = config.speed || 1;
+        this.vx = config.vx || (Math.random() - 0.5) * this.speed;
+        this.vy = config.vy || (Math.random() - 0.5) * this.speed;
+        this.xp = config.xp || 10;
+        this.isWall = config.isWall || false;
+        this.aura = config.aura || false;
+        this.auraColor = config.auraColor || null;
+        this.type = config.type || 'unknown';
+        this.sightRadius = config.sightRadius || 0;
+    }
+
+    update(bounds, worldWidth, worldHeight, gameState = null) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        const leftBound = bounds.minX;
+        const rightBound = bounds.maxX;
+        const topBound = bounds.minY;
+        const bottomBound = bounds.maxY;
+
+        if (this.x < leftBound + this.radius) {
+            this.vx = Math.abs(this.vx);
+            this.x = leftBound + this.radius;
+        }
+        if (this.x > rightBound - this.radius) {
+            this.vx = -Math.abs(this.vx);
+            this.x = rightBound - this.radius;
+        }
+        if (this.y < topBound + this.radius) {
+            this.vy = Math.abs(this.vy);
+            this.y = topBound + this.radius;
+        }
+        if (this.y > bottomBound - this.radius) {
+            this.vy = -Math.abs(this.vy);
+            this.y = bottomBound - this.radius;
+        }
+    }
+
+    render(ctx) {
+        if (this.aura && this.auraColor) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius + 20, 0, Math.PI * 2);
+            ctx.fillStyle = this.auraColor;
+            ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+}
+
+=== ФАЙЛ: .\js\entities\Player.js ===
+import CONFIG from '../config.js';
+
+export class Player {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = CONFIG.PLAYER_BASE.RADIUS;
+        
+        this.speed = CONFIG.PLAYER_BASE.BASE_SPEED;
+        this.maxEnergy = CONFIG.PLAYER_BASE.MAX_ENERGY;
+        this.regen = CONFIG.PLAYER_BASE.ENERGY_REGEN;
+        this.energy = this.maxEnergy;
+        
+        this.level = 1;
+        this.xp = 0;
+        this.xpToNextLevel = CONFIG.STATS.XP_PER_LEVEL_BASE;
+        this.statPoints = 0;
+        
+        this.ability1Level = 1;
+        this.ability2Level = 1;
+        
+        this.downed = false;
+        this.invulnerable = false;
+        this.invulnerableTime = 0;
+        this.lastSafeZone = { x: CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2, y: 350 };
+        
+        this.width = CONFIG.WORLD.WIDTH;
+        this.height = CONFIG.WORLD.HEIGHT;
+    }
+
+    update(input, gameState, arena = null) {
+    if (this.downed) return;
+
+    // Заморозка после телепорта (не неуязвимость, просто остановка)
+    if (this.teleportFreeze > 0) {
+        this.teleportFreeze--;
+        return;
+    }
+
+    let dx = 0, dy = 0;
+
+    // Приоритет: клавиатура > мышь
+    if (input.keyboardActive || input.isMovementKeyPressed()) {
+        // Режим клавиатуры
+        if (input.isDown('KeyW') || input.isDown('ArrowUp')) dy = -1;
+        if (input.isDown('KeyS') || input.isDown('ArrowDown')) dy = 1;
+        if (input.isDown('KeyA') || input.isDown('ArrowLeft')) dx = -1;
+        if (input.isDown('KeyD') || input.isDown('ArrowRight')) dx = 1;
+
+        // Нормализация диагонали
+        if (dx !== 0 && dy !== 0) {
+            dx *= 0.707;
+            dy *= 0.707;
+        }
+
+        this.x += dx * this.speed * this.slowFactor;
+        this.y += dy * this.speed * this.slowFactor;
+    } else if (input.mouseActive) {
+        // Режим мыши
+        const direction = input.getMouseDirection(this.x, this.y);
+        const effectiveSpeed = this.speed * this.slowFactor;
+        const mouseSpeed = input.getMouseSpeed(direction.distance, effectiveSpeed);
+        if (mouseSpeed > 0) {
+            this.x += direction.dx * mouseSpeed;
+            this.y += direction.dy * mouseSpeed;
+        }
+    }
+
+    // Ограничение границами мира
+    this.x = Math.max(this.radius, Math.min(gameState.width - this.radius, this.x));
+    this.y = Math.max(this.radius, Math.min(gameState.height - this.radius, this.y));
+
+    // Обновляем lastSafeZone через арену, если она предоставлена
+    if (arena && arena.isInSafeZone(this.x, this.radius)) {
+        this.lastSafeZone = { x: this.x, y: this.y };
+    } else if (!arena) {
+        const leftSafeStart = CONFIG.PORTAL.WIDTH;
+        const leftSafeEnd = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeStart = gameState.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeEnd = gameState.width - CONFIG.PORTAL.WIDTH;
+        if ((this.x >= leftSafeStart && this.x <= leftSafeEnd) ||
+            (this.x >= rightSafeStart && this.x <= rightSafeEnd)) {
+            this.lastSafeZone = { x: this.x, y: this.y };
+        }
+    }
+
+    // Регенерация энергии
+    if (this.energy < this.maxEnergy) {
+        this.energy = Math.min(this.maxEnergy, this.energy + this.regen / 60);
+    }
+
+    // Отъём энергии от аур
+    if (this.energy > 0 && this.energyDrainRate > 0) {
+        this.energy -= this.energyDrainRate / 60;
+        if (this.energy < 0) this.energy = 0;
+    }
+
+    // Неуязвимость
+    if (this.invulnerable) {
+        this.invulnerableTime--;
+        if (this.invulnerableTime <= 0) this.invulnerable = false;
+    }
+}
+
+    addXP(amount) {
+        this.xp += amount;
+        while (this.xp >= this.xpToNextLevel && this.level < CONFIG.STATS.MAX_LEVEL) {
+            this.levelUp();
+        }
+    }
+
+    levelUp() {
+        this.xp -= this.xpToNextLevel;
+        this.level++;
+        this.xpToNextLevel = Math.floor(this.xpToNextLevel * CONFIG.STATS.XP_MULTIPLIER);
+        this.statPoints++;
+    }
+
+    upgradeStat(stat) {
+        if (this.statPoints <= 0) return false;
+        
+        switch(stat) {
+            case 'speed':
+                if (this.speed >= CONFIG.PLAYER_BASE.MAX_SPEED) return false;
+                this.speed += CONFIG.STATS.SPEED_PER_POINT;
+                break;
+            case 'energy':
+                if (this.maxEnergy >= CONFIG.PLAYER_BASE.MAX_ENERGY_CAP) return false;
+                this.maxEnergy += CONFIG.STATS.ENERGY_PER_POINT;
+                break;
+            case 'regen':
+                if (this.regen >= CONFIG.PLAYER_BASE.MAX_REGEN) return false;
+                this.regen += CONFIG.STATS.REGEN_PER_POINT;
+                break;
+            default:
+                return false;
+        }
+        this.statPoints--;
+        return true;
+    }
+
+    respawn() {
+        const leftSafeEnd = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH;
+        const rightSafeStart = this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH;
+
+        if (this.x < leftSafeEnd) {
+            this.x = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2;
+        } else if (this.x > rightSafeStart) {
+            this.x = this.width - CONFIG.PORTAL.WIDTH - CONFIG.SAFE_ZONE.WIDTH / 2;
+        } else {
+            this.x = CONFIG.PORTAL.WIDTH + CONFIG.SAFE_ZONE.WIDTH / 2;
+        }
+        
+        this.y = this.height / 2;
+        this.downed = false;
+        this.invulnerable = true;
+        this.invulnerableTime = 120;
+    }
+
+    render(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.invulnerable ? `rgba(255, 255, 255, 0.8)` : '#00d9ff';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+
+    useAbility1(input, gameState) { throw new Error("Ability1 not implemented"); }
+    useAbility2(input, gameState) { throw new Error("Ability2 not implemented"); }
+}
+
+
+=== ФАЙЛ: .\js\heroes\HeroFactory.js ===
+import { Mirage } from './Mirage.js';
+
+export class HeroFactory {
+    static createHero(heroName, x, y) {
+        switch(heroName.toLowerCase()) {
+            case 'mirage':
+                return new Mirage(x, y);
+            default:
+                throw new Error(`Unknown hero: ${heroName}`);
+        }
+    }
+}
+
+
+
+=== ФАЙЛ: .\js\heroes\Mirage.js ===
+import { Player } from '../entities/Player.js';
+import CONFIG from '../config.js';
+
+export class Mirage extends Player {
+    constructor(x, y) {
+        super(x, y);
+        
+        this.shiftCooldown = 0;
+        this.spaceCooldown = 0;
+        
+        this.updateAbilityCooldowns();
+    }
+
+    updateAbilityCooldowns() {
+        // Shift: 10/9/8/7/5 сек
+        const shiftCooldowns = [10, 9, 8, 7, 5];
+        this.maxShiftCooldown = (shiftCooldowns[this.ability1Level - 1] || 10) * 60;
+        
+        // Space: 20/18/16/14/12 сек
+        const spaceCooldowns = [20, 18, 16, 14, 12];
+        this.maxSpaceCooldown = (spaceCooldowns[this.ability2Level - 1] || 20) * 60;
+    }
+
+    update(input, gameState, arena = null) {
+        super.update(input, gameState, arena);
+        
+        if (this.downed) return;
+
+        if (this.shiftCooldown > 0) this.shiftCooldown--;
+        if (this.spaceCooldown > 0) this.spaceCooldown--;
+
+        const abilitiesAllowed = !this.abilitiesBlocked;
+
+        // Shift – способность 1
+        if (input.isDown('ShiftLeft') || input.isDown('ShiftRight')) {
+            if (abilitiesAllowed) {
+                this.useAbility1();
+            }
+            input.keys['ShiftLeft'] = false;
+            input.keys['ShiftRight'] = false;
+        }
+
+        // Space – способность 2
+        if (input.isDown('Space')) {
+            if (abilitiesAllowed) {
+                this.useAbility2(gameState);
+            }
+            input.keys['Space'] = false;
+        }
+    }
+    useAbility1() {
+        if (this.shiftCooldown > 0 || this.energy < CONFIG.ABILITIES.SHIFT_COST) return;
+        
+        this.x = this.lastSafeZone.x;
+        this.y = this.lastSafeZone.y;
+        this.energy -= CONFIG.ABILITIES.SHIFT_COST;
+        this.shiftCooldown = this.maxShiftCooldown;
+        this.downed = false;
+    }
+
+    useAbility2(gameState) {
+        if (this.spaceCooldown > 0 || this.energy < CONFIG.ABILITIES.SPACE_COST) return;
+        
+        let nearest = null;
+        let minDist = 640;
+        
+        for (let e of gameState.enemies) {
+            let d = Math.hypot(e.x - this.x, e.y - this.y);
+            if (d < minDist) {
+                minDist = d;
+                nearest = e;
+            }
+        }
+        
+        if (nearest) {
+            this.x = nearest.x;
+            this.y = nearest.y;
+            this.invulnerable = true;
+            // Неуязвимость зависит от уровня навыка 2: 2/2.5/3/3.5/4 сек
+            const invulnerabilityDurations = [2, 2.5, 3, 3.5, 4];
+            const duration = invulnerabilityDurations[this.ability2Level - 1] || 2;
+            this.invulnerableTime = Math.floor(duration * 60);
+            this.energy -= CONFIG.ABILITIES.SPACE_COST;
+            this.spaceCooldown = this.maxSpaceCooldown;
+        }
+    }
+
+    upgradeAbility(abilityNum) {
+    console.log(`upgradeAbility called: abilityNum=${abilityNum}, SP=${this.statPoints}`);
+    console.log(`Current: ability1=${this.ability1Level}, ability2=${this.ability2Level}`);
+    
+    if (this.statPoints <= 0) {
+        console.log('No SP!');
+        return false;
+    }
+    
+    if (abilityNum === 1 && this.ability1Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+        this.ability1Level++;
+        this.updateAbilityCooldowns();
+        this.statPoints--;
+        console.log(`✓ Ability 1 upgraded to ${this.ability1Level}`);
+        return true;
+    } else if (abilityNum === 2 && this.ability2Level < CONFIG.STATS.ABILITY_MAX_LEVEL) {
+        this.ability2Level++;
+        this.updateAbilityCooldowns();
+        this.statPoints--;
+        console.log(`✓ Ability 2 upgraded to ${this.ability2Level}`);
+        return true;
+    }
+    
+    console.log('✗ Cannot upgrade');
+    return false;
+}
+}
+
+=== ФАЙЛ: .\js\ui\UIManager.js ===
+// js/ui/UIManager.js
+import CONFIG from '../config.js';
+
+export class UIManager {
+    constructor() {
+        // Кешируем ссылки на элементы
+        this.levelCircle = document.getElementById('levelCircle');
+        this.xpFill = document.getElementById('xpFill');
+        this.pointsCount = document.getElementById('pointsCount');
+        this.speedValue = document.getElementById('speedValue');
+        this.energyValue = document.getElementById('energyValue');
+        this.regenValue = document.getElementById('regenValue');
+        this.areaName = document.getElementById('areaName');
+
+        this.upgradeSpeedBtn = document.getElementById('upgradeSpeed');
+        this.upgradeEnergyBtn = document.getElementById('upgradeEnergy');
+        this.upgradeRegenBtn = document.getElementById('upgradeRegen');
+
+        this.regenBox = document.getElementById('regenBox');
+        this.energyTooltip = document.getElementById('energyTooltip');
+
+        // Колбэк для клика по звезде
+        this._starClickCallback = null;
+    }
+
+    // Установить колбэк для прокачки способностей
+    setStarClickCallback(callback) {
+        this._starClickCallback = callback;
+    }
+
+    // Главное обновление UI (вызывается из движка)
+    update(player, universe, areaNumber) {
+        this.player = player; // Сохраняем ссылку для внутренних методов
+
+        // Уровень и опыт
+        if (this.levelCircle) this.levelCircle.textContent = player.level;
+        if (this.xpFill) this.xpFill.style.width = `${(player.xp / player.xpToNextLevel) * 100}%`;
+        if (this.pointsCount) this.pointsCount.textContent = player.statPoints;
+
+        // Статы
+        if (this.speedValue) this.speedValue.textContent = player.speed.toFixed(1);
+        if (this.energyValue) this.energyValue.textContent = Math.floor(player.maxEnergy);
+        if (this.regenValue) this.regenValue.textContent = player.regen.toFixed(1);
+
+        // Название области
+        if (this.areaName) this.areaName.textContent = `Area ${areaNumber}`;
+
+        // Способности
+        this.updateAbilityUI('ability1', player.shiftCooldown, player.maxShiftCooldown, player.ability1Level, player.statPoints);
+        this.updateAbilityUI('ability2', player.spaceCooldown, player.maxSpaceCooldown, player.ability2Level, player.statPoints);
+
+        // Энергия и кнопки улучшений
+        this.updateEnergyBar(player);
+        this.updateUpgradeButtons(player);
+    }
+
+    // --- Приватные методы ---
+
+    updateAbilityUI(abilityName, cooldown, maxCooldown, level, statPoints) {
+        const icon = document.getElementById(`${abilityName}Icon`);
+        const overlay = document.getElementById(`${abilityName}Overlay`);
+        const timer = document.getElementById(`${abilityName}Timer`);
+        const starsContainer = document.getElementById(`${abilityName}Stars`);
+
+        if (!icon || !overlay || !timer || !starsContainer) return;
+
+        const hasSP = statPoints > 0;
+
+        // Создаём звёзды, если их ещё нет
+        if (starsContainer.children.length === 0) {
+            for (let i = 0; i < CONFIG.STATS.ABILITY_MAX_LEVEL; i++) {
+                const star = document.createElement('span');
+                star.textContent = '★';
+                star.dataset.index = i;
+                star.dataset.ability = abilityName;
+
+                // Назначаем обработчик клика, если колбэк уже задан
+                if (this._starClickCallback) {
+                    star.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const idx = parseInt(e.currentTarget.dataset.index);
+                        const abNum = abilityName === 'ability1' ? 1 : 2;
+                        this._starClickCallback(abNum, idx);
+                    });
+                }
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Обновляем внешний вид звёзд
+        for (let i = 0; i < starsContainer.children.length; i++) {
+            const star = starsContainer.children[i];
+            star.className = '';
+            if (i < level) {
+                star.classList.add('active');           // уже прокачанные
+            } else if (i === level && hasSP) {
+                star.classList.add('blink');            // доступна для прокачки
+            } else {
+                star.classList.add('inactive');         // недоступна
+            }
+        }
+
+        // Обновление оверлея кулдауна
+        if (cooldown > 0) {
+            icon.classList.remove('ready');
+            timer.textContent = (cooldown / 60).toFixed(1);
+            overlay.style.height = `${(cooldown / maxCooldown) * 100}%`;
+            overlay.style.opacity = '1';
+        } else {
+            icon.classList.add('ready');
+            timer.textContent = '';
+            overlay.style.height = '0%';
+            overlay.style.opacity = '0';
+        }
+        // Блокировка способностей
+        if (this.player && this.player.abilitiesBlocked) {
+            icon.classList.add('blocked');
+        } else {
+            icon.classList.remove('blocked');
+        }
+    }
+
+    updateEnergyBar(player) {
+    if (!this.regenBox) return;
+    const percent = (player.energy / player.maxEnergy) * 100;
+    this.regenBox.style.background = `linear-gradient(to right, 
+        rgba(0, 217, 255, 0.4) ${percent}%, 
+        rgba(0, 80, 150, 0.3) ${percent}%)`;
+    if (this.energyTooltip) {
+        this.energyTooltip.textContent = `${Math.floor(player.energy)}/${player.maxEnergy}`;
+    }
+
+    // Пульсация, если энергия отнимается
+    if (this.player && this.player.energyDrainRate > 0) {
+        this.regenBox.classList.add('draining');
+    } else {
+        this.regenBox.classList.remove('draining');
+    }
+}
+
+    updateUpgradeButtons(player) {
+        const sp = player.statPoints;
+        this._setButton(this.upgradeSpeedBtn, player.speed >= CONFIG.PLAYER_BASE.MAX_SPEED, sp);
+        this._setButton(this.upgradeEnergyBtn, player.maxEnergy >= CONFIG.PLAYER_BASE.MAX_ENERGY_CAP, sp);
+        this._setButton(this.upgradeRegenBtn, player.regen >= CONFIG.PLAYER_BASE.MAX_REGEN, sp);
+    }
+
+    _setButton(btn, isMaxed, statPoints) {
+        if (!btn) return;
+        if (isMaxed) {
+            btn.textContent = 'MAX';
+            btn.disabled = true;
+            btn.classList.add('maxed');
+        } else {
+            btn.textContent = '+';
+            btn.disabled = statPoints <= 0;
+            btn.classList.remove('maxed');
+        }
+    }
+}
