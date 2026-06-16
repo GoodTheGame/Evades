@@ -13,8 +13,19 @@ export class Asteroid extends Enemy {
             type: 'asterdefault'
         });
         const angle = Math.random() * Math.PI * 2;
+        this.baseSpeed = this.speed;          // запоминаем базовую скорость (можно менять через enemyConfigs)
+        this._updateSpeedFromRadius();        // пересчитываем скорость под радиус
         this.vx = Math.cos(angle) * this.speed;
         this.vy = Math.sin(angle) * this.speed;
+    }
+
+    // Метод, который ставит скорость в зависимости от текущего радиуса
+    _updateSpeedFromRadius() {
+        // Формула: скорость = базоваяСкорость * (20 / радиус)
+        // Можно подкорректировать множитель (20) или степень
+        this.speed = this.baseSpeed * (20 / this.radius);
+        // Минимальная скорость 0.2, максимальная не ограничена, но радиус не меньше 1
+        if (this.speed < 0.2) this.speed = 0.2;
     }
 }
 
@@ -180,6 +191,7 @@ export class AsterSniper extends Asteroid {
         this.color = this.baseColor;
         this.type = 'astersniper';
         this.radius = 8;
+        this._updateSpeedFromRadius(); // пересчитываем скорость под новый радиус
         this.baseRadius = this.radius;
 
         this.shootCooldown = 0;
@@ -266,8 +278,9 @@ export class AsterChaser extends Asteroid {
         super(x, y);
         this.color = '#8B4513';
         this.type = 'asterchaser';
-        this.sightRadius = 1000;
+        this.sightRadius = 400;
         this.radius = 12;
+        this._updateSpeedFromRadius();
         this._wasChasing = false;
         this.speed = 2;
         const angle = Math.atan2(this.vy, this.vx);
@@ -344,7 +357,8 @@ export class AsterDash extends Asteroid {
         this.baseSpeed = 1;
         this.speed = this.baseSpeed;
         this.radius = 12;
-        this.dashSpeed = 12;
+        this._updateSpeedFromRadius();
+        this.dashSpeed = 10;
 
         this.dashCooldown = 120;
         this.warningTimer = 0;

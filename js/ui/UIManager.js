@@ -62,7 +62,14 @@ export class UIManager {
 
                 // Потом применяем или убираем эффект волны
                 if (universe.displayName) {
-                    makeWaveText(this.areaName, '#400080', '#ff66ff', 1,5);
+                    if (universe.displayName.includes('BOSS')) {
+                        makeWaveText(this.areaName, '#ffaa00', '#ff6600', 2); // золотая волна для боссов
+                    }if (universe.displayName === 'VICTORY!') {
+                        makeWaveText(this.areaName, '#FFD700', '#FFA500', 1.5);
+                    } 
+                    else {
+                        makeWaveText(this.areaName, '#400080', '#ff66ff', 1.5); // обычная сиреневая волна
+                    }
                 } else {
                     removeWaveText(this.areaName);
                 }

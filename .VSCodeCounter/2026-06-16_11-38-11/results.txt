@@ -1,0 +1,72 @@
+Date : 2026-06-16 11:38:11
+Directory : b:\ProjectVisual\Evades.io
+Total : 33 files,  5221 codes, 227 comments, 640 blanks, all 6088 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         27 |      4,191 |        178 |        523 |      4,892 |
+| PostCSS    |          2 |        703 |         47 |         85 |        835 |
+| HTML       |          2 |        197 |          2 |         29 |        228 |
+| Markdown   |          1 |        119 |          0 |          3 |        122 |
+| Python     |          1 |         11 |          0 |          0 |         11 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                       | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                          |         33 |      5,221 |        227 |        640 |      6,088 |
+| . (Files)                                                  |          4 |        327 |          2 |         32 |        361 |
+| css                                                        |          2 |        703 |         47 |         85 |        835 |
+| js                                                         |         27 |      4,191 |        178 |        523 |      4,892 |
+| js (Files)                                                 |         10 |        902 |         30 |         99 |      1,031 |
+| js\arena                                                   |          4 |      1,135 |         37 |        113 |      1,285 |
+| js\enemies                                                 |          1 |        405 |         26 |         47 |        478 |
+| js\engine                                                  |          3 |        538 |         29 |         95 |        662 |
+| js\entities                                                |          2 |        345 |         13 |         46 |        404 |
+| js\heroes                                                  |          4 |        617 |         31 |         86 |        734 |
+| js\language                                                |          2 |         68 |          6 |          8 |         82 |
+| js\ui                                                      |          1 |        181 |          6 |         29 |        216 |
++------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                   | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------+------------+------------+------------+------------+------------+
+| b:\ProjectVisual\Evades.io\CHANGELOG.md                    | Markdown   |        119 |          0 |          3 |        122 |
+| b:\ProjectVisual\Evades.io\css\menu.css                    | PostCSS    |         79 |          1 |         10 |         90 |
+| b:\ProjectVisual\Evades.io\css\style.css                   | PostCSS    |        624 |         46 |         75 |        745 |
+| b:\ProjectVisual\Evades.io\index.html                      | HTML       |         33 |          2 |          2 |         37 |
+| b:\ProjectVisual\Evades.io\js\Camera.js                    | JavaScript |         28 |          0 |          7 |         35 |
+| b:\ProjectVisual\Evades.io\js\MiniMap.js                   | JavaScript |         55 |          0 |          8 |         63 |
+| b:\ProjectVisual\Evades.io\js\Portal.js                    | JavaScript |         47 |          3 |          9 |         59 |
+| b:\ProjectVisual\Evades.io\js\XPOrb.js                     | JavaScript |         46 |          0 |          7 |         53 |
+| b:\ProjectVisual\Evades.io\js\admin.js                     | JavaScript |        253 |          6 |         26 |        285 |
+| b:\ProjectVisual\Evades.io\js\arena\Arena.js               | JavaScript |        339 |          1 |         45 |        385 |
+| b:\ProjectVisual\Evades.io\js\arena\CentralCoreUniverse.js | JavaScript |         52 |          5 |          5 |         62 |
+| b:\ProjectVisual\Evades.io\js\arena\HubArena.js            | JavaScript |        179 |          5 |         17 |        201 |
+| b:\ProjectVisual\Evades.io\js\arena\UniverseUniversal.js   | JavaScript |        565 |         26 |         46 |        637 |
+| b:\ProjectVisual\Evades.io\js\config.js                    | JavaScript |         86 |          0 |          2 |         88 |
+| b:\ProjectVisual\Evades.io\js\enemies\Asteroids.js         | JavaScript |        405 |         26 |         47 |        478 |
+| b:\ProjectVisual\Evades.io\js\engine\GameEngine.js         | JavaScript |        419 |         24 |         72 |        515 |
+| b:\ProjectVisual\Evades.io\js\engine\InputManager.js       | JavaScript |        108 |          4 |         21 |        133 |
+| b:\ProjectVisual\Evades.io\js\engine\Renderer.js           | JavaScript |         11 |          1 |          2 |         14 |
+| b:\ProjectVisual\Evades.io\js\entities\Enemy.js            | JavaScript |         87 |         11 |          8 |        106 |
+| b:\ProjectVisual\Evades.io\js\entities\Player.js           | JavaScript |        258 |          2 |         38 |        298 |
+| b:\ProjectVisual\Evades.io\js\heroes\Frozen.js             | JavaScript |        180 |         11 |         24 |        215 |
+| b:\ProjectVisual\Evades.io\js\heroes\HeroFactory.js        | JavaScript |         17 |          0 |          4 |         21 |
+| b:\ProjectVisual\Evades.io\js\heroes\Mirage.js             | JavaScript |        176 |         11 |         30 |        217 |
+| b:\ProjectVisual\Evades.io\js\heroes\Pulsar.js             | JavaScript |        244 |          9 |         28 |        281 |
+| b:\ProjectVisual\Evades.io\js\language\en.js               | JavaScript |         34 |          5 |          4 |         43 |
+| b:\ProjectVisual\Evades.io\js\language\ru.js               | JavaScript |         34 |          1 |          4 |         39 |
+| b:\ProjectVisual\Evades.io\js\localization.js              | JavaScript |         29 |          1 |          6 |         36 |
+| b:\ProjectVisual\Evades.io\js\main.js                      | JavaScript |        153 |         13 |         21 |        187 |
+| b:\ProjectVisual\Evades.io\js\ui\UIManager.js              | JavaScript |        181 |          6 |         29 |        216 |
+| b:\ProjectVisual\Evades.io\js\utils.js                     | JavaScript |         38 |          4 |          7 |         49 |
+| b:\ProjectVisual\Evades.io\js\version.js                   | JavaScript |        167 |          3 |          6 |        176 |
+| b:\ProjectVisual\Evades.io\merge.py                        | Python     |         11 |          0 |          0 |         11 |
+| b:\ProjectVisual\Evades.io\version.html                    | HTML       |        164 |          0 |         27 |        191 |
+| Total                                                      |            |      5,221 |        227 |        640 |      6,088 |
++------------------------------------------------------------+------------+------------+------------+------------+------------+
